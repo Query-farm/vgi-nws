@@ -25,7 +25,7 @@ jobs:
     name: Typecheck + unit tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: oven-sh/setup-bun@v2
       - uses: ./.github/actions/eccodes
       - run: bun install --frozen-lockfile
@@ -36,7 +36,7 @@ jobs:
     name: Format + lint (biome)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: oven-sh/setup-bun@v2
       - run: bun install --frozen-lockfile
       - run: bun x biome ci .
@@ -58,9 +58,9 @@ jobs:
       run:
         shell: bash
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: oven-sh/setup-bun@v2
-      - uses: astral-sh/setup-uv@v6
+      - uses: astral-sh/setup-uv@v7
         with:
           python-version: "3.13"
       - name: Build the worker
@@ -92,28 +92,28 @@ jobs:
     name: Metadata quality (vgi-lint)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/eccodes
       - uses: oven-sh/setup-bun@v2
       - run: bun install --frozen-lockfile --production
-      - uses: astral-sh/setup-uv@v6
+      - uses: astral-sh/setup-uv@v7
       - run: make lint-explain
 
   stock-duckdb:
     name: Stock DuckDB 2.0.0 SQL verification
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/eccodes
       - uses: oven-sh/setup-bun@v2
-      - uses: astral-sh/setup-uv@v6
+      - uses: astral-sh/setup-uv@v7
       - run: make test-stock
 
   docker:
     name: Docker image smoke test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - run: docker build -t worker:ci .
       - name: HTTP /health
         run: |
