@@ -16,6 +16,13 @@ tests over the stdio, launch and http transports, and the metadata quality check
 (vgi-lint, at the `fail_on` level in `vgi-lint.toml`). Don't hand work back until it passes. If a
 check is wrong, fix the check and say why. Never delete a test to get green.
 
+Native MRMS tests require ecCodes (`grib_ls` and `grib_get`) with PNG support.
+Install `eccodes` with Homebrew/conda or `libeccodes-tools` with apt; Docker and
+CI install and check this dependency. `NWS_ECCODES_BIN` can point to its binary
+directory. The worker stays TypeScript; do not replace ecCodes with a custom
+GRIB/PNG parser. Synthetic fixtures under `test/fixtures/grib` are regenerated
+using `scripts/generate_grib_fixtures.py` (only regeneration requires Python bindings).
+
 Faster loops while iterating: `make test-unit`, `make test-sql`, `make lint-explain`.
 
 ## Layout
@@ -25,25 +32,45 @@ src/
   worker.ts        # entry point: serves the catalog over stdio, --unix or --http
   catalog.ts       # assembles the catalog; add new functions to FUNCTIONS
   meta.ts          # catalog/schema metadata + helpers (objectTags, column)
-  greet.ts         # scalar example (overloads, const param with choices)
-  sequence.ts      # table function example (named args, streaming state)
-  fetch_items.ts   # REST API table function (pagination, retries, secrets)
+  weather.ts       # NWS weather, products, zones, and office functions
+  water.ts         # NWPS gauge, stage/flow, and flood functions
+  outlooks.ts      # SPC, WPC, and CPC product readers
+  winter.ts        # WPC winter probability bands and severity
+  precipitation.ts # RFC observed precipitation raster sampling
+  raster.ts        # shared raw pixel and footprint metadata sampling
+  land.ts          # soil moisture, rainfall anomalies, and snow analysis
+  storm_reports.ts # recent local reports and exact radius searches
+  water_extended.ts # ratings, model reaches/streamflow, and low water
+  map_catalog.ts   # service discovery and generic feature/raster access
+  image_service.ts # ImageServer catalog paging and locked pixel sampling
+  hazards_extended.ts # flash flood, winter probabilities, discussions, beach and flood outlooks
+  air_quality.ts   # particulate, ozone, smoke and dust forecast pixels
+  gis.ts           # trusted ArcGIS intersection and pagination
+  spatial.ts       # bounding boxes, tiling, and great-circle distance
+  water_discovery.ts # gauge geographic search and river connections
+  state_bounds.ts  # generated official NWS state query envelopes
+  reader.ts        # table/lateral adapter and bounded continuation state
+  http.ts          # trusted-root HTTP, cache, retry, and size bounds
+  valid_time.ts    # deterministic interval decoder
   cli.ts           # flag parsing: stdio / --unix / --http (PORT:<n>, /health)
   log.ts           # stderr logger
-bin/               # vgi-starter-worker (what DuckDB launches) and run-recipe
+bin/               # vgi-nws-worker (what DuckDB launches) and run-recipe
 tests/             # bun unit tests (worker subprocess + mock API)
 test/sql/          # sqllogictest files run through DuckDB
 test/mock_api/     # offline mock of the REST API used by tests
 examples/          # recipes: pushdown, caching, catalog tables, aggregates, COPY …
 ci/                # integration harness used by `make test-sql` and CI
-scripts/           # vgi_template.py (init / template-diff)
+scripts/           # template tooling and stock-engine verifier
 vgi-agent-tests.yaml  # private graders for the agent test tasks
 ```
 
 ## Recipe: add a function
 
-1. Create `src/<name>.ts`. Copy the closest example: `greet.ts` for a scalar,
-   `sequence.ts` for a generator, `fetch_items.ts` for an API.
+1. Add a reader specification in `src/weather.ts` or `src/water.ts`, using
+   `src/reader.ts` for pagination and column/LATERAL calls. GIS products
+   live in `src/outlooks.ts` and `src/winter.ts`; the `nws.compat` schema provides positional JSON
+   options for stock DuckDB 2.0.0 correlated calls. The standalone SDK
+   recipes in `examples/` cover other function shapes.
 2. Declare arguments: `params` + `argDocs` (scalars), or the ordered `parameters`
    list when a constant needs `choices`/`ge`/`le`. Table functions use `args`,
    `argDocs` and `argConstraints`; an argument listed in `argDefaults` becomes a
@@ -58,11 +85,11 @@ Then, for every new function:
    keywords, `doc_llm` (for agents: what it does, arguments, when to use it) and `doc_md`
    (for humans). Describe each argument, and for table functions describe the result
    columns. Add 1–2 `examples` with fully qualified, analytical SQL
-   (`starter.main.fn(...)`): project, filter or aggregate rather than `SELECT *`.
+   (`nws.main.fn(...)`): project, filter or aggregate rather than `SELECT *`.
 2. **Executable examples:** if the function is deterministic and needs no network,
    add an `executable_examples` entry with `ORDER BY` and an `expected_result`.
-3. **SQL test:** add cases to `test/sql/starter.test`, or a new `test/sql/<name>.test`
-   with the same header (`require vgi`, `require-env STARTER_WORKER`, then `ATTACH`).
+3. **SQL test:** add cases to `test/sql/nws.test`, or a new `test/sql/<name>.test`
+   with the same header (`require vgi`, `require-env NWS_WORKER`, then `ATTACH`).
    Avoid expected-error text that depends on SDK wording; use `<REGEX>:.*` for errors you
    don't control.
 4. **Unit test** for any non-trivial logic.
@@ -135,7 +162,7 @@ and `examples/writable-tx-worker.ts` in vgi-typescript are complete workers.
 - **State must be serializable.** Table-function state (`initialState`/`process`) must be a plain object of numbers, bigints, strings, booleans, arrays or nested plain objects (no `Date`, `Map` or class instances): the SDK infers an Arrow schema for it and serializes it. Over HTTP each batch can be served by a different process, so the cursor travels with the request. Keep it small, and never put secrets in it.
 - **Examples must be deterministic.** Add `ORDER BY`, and no `now()`, random values or
   network. Examples that hit a live API go in `examples`, not `executable_examples`.
-- **Credentials.** Read them from a DuckDB secret first (`CREATE SECRET (TYPE starter_api, …)`),
+- **Credentials.** Read them from a DuckDB secret first (`CREATE SECRET (TYPE nws_api, …)`),
   then from an environment variable. Never put them in logs, examples or the repo, and
   keep them out of table-function state unless the state rule above says
   the SDK encrypts it. Workers that need real credentials set `execute: false` on the metadata check.
@@ -176,6 +203,6 @@ and `examples/writable-tx-worker.ts` in vgi-typescript are complete workers.
 
 - "Add a scalar `slugify(text VARCHAR) -> VARCHAR` with full metadata and tests."
 - "Replace `fetch_items` with a table function for <API>. Map its JSON to typed columns,
-  read the token from a `starter_api` secret, and add mock-server tests."
+  read the token from a `nws_api` secret, and add mock-server tests."
 - "Add a catalog table `countries` (code, name) with a primary key, following
   `examples/catalog_tables`."

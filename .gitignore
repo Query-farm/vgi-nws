@@ -6,3 +6,5 @@ duckdb_unittest_tempdir/
 .vgi-review-cache.json
 .vgi-sim-cache.json
 .DS_Store
+
+__pycache__/

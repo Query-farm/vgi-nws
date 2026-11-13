@@ -4,6 +4,7 @@ name: Release
 # `bun build --compile` into a standalone executable per platform (linux x86-64 and
 # arm64, macOS arm64, Windows x86-64), signs each archive with cosign, attests its
 # build provenance and attaches it to the GitHub release (shared ts-release.yml).
+# MRMS sampling still requires separately installed ecCodes tools with PNG support.
 
 on:
   push:
@@ -29,6 +30,6 @@ jobs:
     uses: Query-farm/vgi-actions/.github/workflows/ts-release.yml@v1
     secrets: inherit
     with:
-      bin: vgi-starter-worker
+      bin: vgi-nws-worker
       entry: src/worker.ts
       version_check_cmd: ci/check-version.sh

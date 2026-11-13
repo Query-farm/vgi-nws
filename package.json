@@ -1,8 +1,8 @@
 {
-  "version": "0.1.0",
+  "version": "0.4.0",
   "private": true,
   "type": "module",
-  "description": "A VGI worker for DuckDB, generated from the Query.Farm VGI starter template.",
+  "description": "National Weather Service and National Water Prediction Service APIs as TypeScript VGI SQL functions.",
   "license": "0BSD",
   "scripts": {
     "typecheck": "tsc --noEmit",

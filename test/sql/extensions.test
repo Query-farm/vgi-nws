@@ -1,0 +1,844 @@
+# name: test/sql/extensions.test
+# description: Extended NWS outlooks, raster QPE and river products
+# group: [nws]
+require vgi
+
+require-env NWS_WORKER
+
+statement ok
+ATTACH 'nws' (TYPE vgi, LOCATION '{NWS_WORKER}');
+
+# extensions-fire-probabilities
+query RII
+SELECT category_code, probability_pct, issued_at = TIMESTAMPTZ '2026-01-01 19:30:00+00' FROM nws.main.fire_outlook(day := 3) ORDER BY object_id;
+----
+0.4	40	1
+0.7	70	1
+0	NULL	1
+
+# extensions-fire-3-wind_rh
+query II
+SELECT count(*), count(probability_pct) FROM nws.main.fire_outlook(day := 3, hazard := 'wind_rh', page_size := 1);
+----
+3	2
+
+# extensions-fire-3-dry_thunderstorm
+query II
+SELECT count(*), count(probability_pct) FROM nws.main.fire_outlook(day := 3, hazard := 'dry_thunderstorm', page_size := 1);
+----
+3	2
+
+# extensions-fire-4-wind_rh
+query II
+SELECT count(*), count(probability_pct) FROM nws.main.fire_outlook(day := 4, hazard := 'wind_rh', page_size := 1);
+----
+3	2
+
+# extensions-fire-4-dry_thunderstorm
+query II
+SELECT count(*), count(probability_pct) FROM nws.main.fire_outlook(day := 4, hazard := 'dry_thunderstorm', page_size := 1);
+----
+3	2
+
+# extensions-fire-5-wind_rh
+query II
+SELECT count(*), count(probability_pct) FROM nws.main.fire_outlook(day := 5, hazard := 'wind_rh', page_size := 1);
+----
+3	2
+
+# extensions-fire-5-dry_thunderstorm
+query II
+SELECT count(*), count(probability_pct) FROM nws.main.fire_outlook(day := 5, hazard := 'dry_thunderstorm', page_size := 1);
+----
+3	2
+
+# extensions-fire-6-wind_rh
+query II
+SELECT count(*), count(probability_pct) FROM nws.main.fire_outlook(day := 6, hazard := 'wind_rh', page_size := 1);
+----
+3	2
+
+# extensions-fire-6-dry_thunderstorm
+query II
+SELECT count(*), count(probability_pct) FROM nws.main.fire_outlook(day := 6, hazard := 'dry_thunderstorm', page_size := 1);
+----
+3	2
+
+# extensions-fire-7-wind_rh
+query II
+SELECT count(*), count(probability_pct) FROM nws.main.fire_outlook(day := 7, hazard := 'wind_rh', page_size := 1);
+----
+3	2
+
+# extensions-fire-7-dry_thunderstorm
+query II
+SELECT count(*), count(probability_pct) FROM nws.main.fire_outlook(day := 7, hazard := 'dry_thunderstorm', page_size := 1);
+----
+3	2
+
+# extensions-fire-8-wind_rh
+query II
+SELECT count(*), count(probability_pct) FROM nws.main.fire_outlook(day := 8, hazard := 'wind_rh', page_size := 1);
+----
+3	2
+
+# extensions-fire-8-dry_thunderstorm
+query II
+SELECT count(*), count(probability_pct) FROM nws.main.fire_outlook(day := 8, hazard := 'dry_thunderstorm', page_size := 1);
+----
+3	2
+
+# extensions-monthly-temperature
+query TITIII
+SELECT category, probability_pct, target_period, valid_from IS NULL, valid_to IS NULL, lead IS NULL FROM nws.main.climate_outlook(period := 'monthly',variable := 'temperature') ORDER BY object_id;
+----
+Above	40	Feb 2026	1	1	1
+Below	50	Feb 2026	1	1	1
+EC	33	Feb 2026	1	1	1
+
+# extensions-seasonal-temperature-1
+query III
+SELECT count(*), min(lead), bool_and(target_period = 'NDJ 2026-2027 (Lead 1)') FROM nws.main.climate_outlook(period := 'seasonal',variable := 'temperature',lead := 1);
+----
+3	1	1
+
+# extensions-seasonal-temperature-2
+query III
+SELECT count(*), min(lead), bool_and(target_period = 'NDJ 2026-2027 (Lead 2)') FROM nws.main.climate_outlook(period := 'seasonal',variable := 'temperature',lead := 2);
+----
+3	2	1
+
+# extensions-seasonal-temperature-3
+query III
+SELECT count(*), min(lead), bool_and(target_period = 'NDJ 2026-2027 (Lead 3)') FROM nws.main.climate_outlook(period := 'seasonal',variable := 'temperature',lead := 3);
+----
+3	3	1
+
+# extensions-seasonal-temperature-4
+query III
+SELECT count(*), min(lead), bool_and(target_period = 'NDJ 2026-2027 (Lead 4)') FROM nws.main.climate_outlook(period := 'seasonal',variable := 'temperature',lead := 4);
+----
+3	4	1
+
+# extensions-seasonal-temperature-5
+query III
+SELECT count(*), min(lead), bool_and(target_period = 'NDJ 2026-2027 (Lead 5)') FROM nws.main.climate_outlook(period := 'seasonal',variable := 'temperature',lead := 5);
+----
+3	5	1
+
+# extensions-seasonal-temperature-6
+query III
+SELECT count(*), min(lead), bool_and(target_period = 'NDJ 2026-2027 (Lead 6)') FROM nws.main.climate_outlook(period := 'seasonal',variable := 'temperature',lead := 6);
+----
+3	6	1
+
+# extensions-seasonal-temperature-7
+query III
+SELECT count(*), min(lead), bool_and(target_period = 'NDJ 2026-2027 (Lead 7)') FROM nws.main.climate_outlook(period := 'seasonal',variable := 'temperature',lead := 7);
+----
+3	7	1
+
+# extensions-seasonal-temperature-8
+query III
+SELECT count(*), min(lead), bool_and(target_period = 'NDJ 2026-2027 (Lead 8)') FROM nws.main.climate_outlook(period := 'seasonal',variable := 'temperature',lead := 8);
+----
+3	8	1
+
+# extensions-seasonal-temperature-9
+query III
+SELECT count(*), min(lead), bool_and(target_period = 'NDJ 2026-2027 (Lead 9)') FROM nws.main.climate_outlook(period := 'seasonal',variable := 'temperature',lead := 9);
+----
+3	9	1
+
+# extensions-seasonal-temperature-10
+query III
+SELECT count(*), min(lead), bool_and(target_period = 'NDJ 2026-2027 (Lead 10)') FROM nws.main.climate_outlook(period := 'seasonal',variable := 'temperature',lead := 10);
+----
+3	10	1
+
+# extensions-seasonal-temperature-11
+query III
+SELECT count(*), min(lead), bool_and(target_period = 'NDJ 2026-2027 (Lead 11)') FROM nws.main.climate_outlook(period := 'seasonal',variable := 'temperature',lead := 11);
+----
+3	11	1
+
+# extensions-seasonal-temperature-12
+query III
+SELECT count(*), min(lead), bool_and(target_period = 'NDJ 2026-2027 (Lead 12)') FROM nws.main.climate_outlook(period := 'seasonal',variable := 'temperature',lead := 12);
+----
+3	12	1
+
+# extensions-seasonal-temperature-13
+query III
+SELECT count(*), min(lead), bool_and(target_period = 'NDJ 2026-2027 (Lead 13)') FROM nws.main.climate_outlook(period := 'seasonal',variable := 'temperature',lead := 13);
+----
+3	13	1
+
+# extensions-monthly-precipitation
+query TITIII
+SELECT category, probability_pct, target_period, valid_from IS NULL, valid_to IS NULL, lead IS NULL FROM nws.main.climate_outlook(period := 'monthly',variable := 'precipitation') ORDER BY object_id;
+----
+Above	40	Feb 2026	1	1	1
+Below	50	Feb 2026	1	1	1
+EC	33	Feb 2026	1	1	1
+
+# extensions-seasonal-precipitation-1
+query III
+SELECT count(*), min(lead), bool_and(target_period = 'NDJ 2026-2027 (Lead 1)') FROM nws.main.climate_outlook(period := 'seasonal',variable := 'precipitation',lead := 1);
+----
+3	1	1
+
+# extensions-seasonal-precipitation-2
+query III
+SELECT count(*), min(lead), bool_and(target_period = 'NDJ 2026-2027 (Lead 2)') FROM nws.main.climate_outlook(period := 'seasonal',variable := 'precipitation',lead := 2);
+----
+3	2	1
+
+# extensions-seasonal-precipitation-3
+query III
+SELECT count(*), min(lead), bool_and(target_period = 'NDJ 2026-2027 (Lead 3)') FROM nws.main.climate_outlook(period := 'seasonal',variable := 'precipitation',lead := 3);
+----
+3	3	1
+
+# extensions-seasonal-precipitation-4
+query III
+SELECT count(*), min(lead), bool_and(target_period = 'NDJ 2026-2027 (Lead 4)') FROM nws.main.climate_outlook(period := 'seasonal',variable := 'precipitation',lead := 4);
+----
+3	4	1
+
+# extensions-seasonal-precipitation-5
+query III
+SELECT count(*), min(lead), bool_and(target_period = 'NDJ 2026-2027 (Lead 5)') FROM nws.main.climate_outlook(period := 'seasonal',variable := 'precipitation',lead := 5);
+----
+3	5	1
+
+# extensions-seasonal-precipitation-6
+query III
+SELECT count(*), min(lead), bool_and(target_period = 'NDJ 2026-2027 (Lead 6)') FROM nws.main.climate_outlook(period := 'seasonal',variable := 'precipitation',lead := 6);
+----
+3	6	1
+
+# extensions-seasonal-precipitation-7
+query III
+SELECT count(*), min(lead), bool_and(target_period = 'NDJ 2026-2027 (Lead 7)') FROM nws.main.climate_outlook(period := 'seasonal',variable := 'precipitation',lead := 7);
+----
+3	7	1
+
+# extensions-seasonal-precipitation-8
+query III
+SELECT count(*), min(lead), bool_and(target_period = 'NDJ 2026-2027 (Lead 8)') FROM nws.main.climate_outlook(period := 'seasonal',variable := 'precipitation',lead := 8);
+----
+3	8	1
+
+# extensions-seasonal-precipitation-9
+query III
+SELECT count(*), min(lead), bool_and(target_period = 'NDJ 2026-2027 (Lead 9)') FROM nws.main.climate_outlook(period := 'seasonal',variable := 'precipitation',lead := 9);
+----
+3	9	1
+
+# extensions-seasonal-precipitation-10
+query III
+SELECT count(*), min(lead), bool_and(target_period = 'NDJ 2026-2027 (Lead 10)') FROM nws.main.climate_outlook(period := 'seasonal',variable := 'precipitation',lead := 10);
+----
+3	10	1
+
+# extensions-seasonal-precipitation-11
+query III
+SELECT count(*), min(lead), bool_and(target_period = 'NDJ 2026-2027 (Lead 11)') FROM nws.main.climate_outlook(period := 'seasonal',variable := 'precipitation',lead := 11);
+----
+3	11	1
+
+# extensions-seasonal-precipitation-12
+query III
+SELECT count(*), min(lead), bool_and(target_period = 'NDJ 2026-2027 (Lead 12)') FROM nws.main.climate_outlook(period := 'seasonal',variable := 'precipitation',lead := 12);
+----
+3	12	1
+
+# extensions-seasonal-precipitation-13
+query III
+SELECT count(*), min(lead), bool_and(target_period = 'NDJ 2026-2027 (Lead 13)') FROM nws.main.climate_outlook(period := 'seasonal',variable := 'precipitation',lead := 13);
+----
+3	13	1
+
+# extensions-winter-1-snow-4
+query IIII
+SELECT probability_min_pct, probability_max_pct, threshold_inches, category_code FROM nws.main.winter_precipitation(day := 1,hazard := 'snow',threshold_inches := 4) ORDER BY object_id;
+----
+10	39	4	1
+40	69	4	2
+70	100	4	3
+
+# extensions-winter-1-snow-8
+query IIII
+SELECT probability_min_pct, probability_max_pct, threshold_inches, category_code FROM nws.main.winter_precipitation(day := 1,hazard := 'snow',threshold_inches := 8) ORDER BY object_id;
+----
+10	39	8	1
+40	69	8	2
+70	100	8	3
+
+# extensions-winter-1-snow-12
+query IIII
+SELECT probability_min_pct, probability_max_pct, threshold_inches, category_code FROM nws.main.winter_precipitation(day := 1,hazard := 'snow',threshold_inches := 12) ORDER BY object_id;
+----
+10	39	12	1
+40	69	12	2
+70	100	12	3
+
+# extensions-winter-1-ice-0.25
+query IIRI
+SELECT probability_min_pct, probability_max_pct, threshold_inches, category_code FROM nws.main.winter_precipitation(day := 1,hazard := 'ice',threshold_inches := 0.25) ORDER BY object_id;
+----
+10	39	0.25	1
+40	69	0.25	2
+70	100	0.25	3
+
+# extensions-winter-2-snow-4
+query IIII
+SELECT probability_min_pct, probability_max_pct, threshold_inches, category_code FROM nws.main.winter_precipitation(day := 2,hazard := 'snow',threshold_inches := 4) ORDER BY object_id;
+----
+10	39	4	1
+40	69	4	2
+70	100	4	3
+
+# extensions-winter-2-snow-8
+query IIII
+SELECT probability_min_pct, probability_max_pct, threshold_inches, category_code FROM nws.main.winter_precipitation(day := 2,hazard := 'snow',threshold_inches := 8) ORDER BY object_id;
+----
+10	39	8	1
+40	69	8	2
+70	100	8	3
+
+# extensions-winter-2-snow-12
+query IIII
+SELECT probability_min_pct, probability_max_pct, threshold_inches, category_code FROM nws.main.winter_precipitation(day := 2,hazard := 'snow',threshold_inches := 12) ORDER BY object_id;
+----
+10	39	12	1
+40	69	12	2
+70	100	12	3
+
+# extensions-winter-2-ice-0.25
+query IIRI
+SELECT probability_min_pct, probability_max_pct, threshold_inches, category_code FROM nws.main.winter_precipitation(day := 2,hazard := 'ice',threshold_inches := 0.25) ORDER BY object_id;
+----
+10	39	0.25	1
+40	69	0.25	2
+70	100	0.25	3
+
+# extensions-winter-3-snow-4
+query IIII
+SELECT probability_min_pct, probability_max_pct, threshold_inches, category_code FROM nws.main.winter_precipitation(day := 3,hazard := 'snow',threshold_inches := 4) ORDER BY object_id;
+----
+10	39	4	1
+40	69	4	2
+70	100	4	3
+
+# extensions-winter-3-snow-8
+query IIII
+SELECT probability_min_pct, probability_max_pct, threshold_inches, category_code FROM nws.main.winter_precipitation(day := 3,hazard := 'snow',threshold_inches := 8) ORDER BY object_id;
+----
+10	39	8	1
+40	69	8	2
+70	100	8	3
+
+# extensions-winter-3-snow-12
+query IIII
+SELECT probability_min_pct, probability_max_pct, threshold_inches, category_code FROM nws.main.winter_precipitation(day := 3,hazard := 'snow',threshold_inches := 12) ORDER BY object_id;
+----
+10	39	12	1
+40	69	12	2
+70	100	12	3
+
+# extensions-winter-3-ice-0.25
+query IIRI
+SELECT probability_min_pct, probability_max_pct, threshold_inches, category_code FROM nws.main.winter_precipitation(day := 3,hazard := 'ice',threshold_inches := 0.25) ORDER BY object_id;
+----
+10	39	0.25	1
+40	69	0.25	2
+70	100	0.25	3
+
+# extensions-wssi-day1-overall
+query II
+SELECT count(*), bool_and(issued_at = TIMESTAMPTZ '2025-12-31 23:16:00Z' AND valid_from = TIMESTAMPTZ '2026-01-01 00:00:00Z' AND valid_to = TIMESTAMPTZ '2026-01-04 00:00:00Z') FROM nws.main.winter_storm_severity(period := 'day1',component := 'overall');
+----
+3	1
+
+# extensions-wssi-day1-snow_amount
+query II
+SELECT count(*), bool_and(issued_at = TIMESTAMPTZ '2025-12-31 23:16:00Z' AND valid_from = TIMESTAMPTZ '2026-01-01 00:00:00Z' AND valid_to = TIMESTAMPTZ '2026-01-04 00:00:00Z') FROM nws.main.winter_storm_severity(period := 'day1',component := 'snow_amount');
+----
+3	1
+
+# extensions-wssi-day1-snow_load
+query II
+SELECT count(*), bool_and(issued_at = TIMESTAMPTZ '2025-12-31 23:16:00Z' AND valid_from = TIMESTAMPTZ '2026-01-01 00:00:00Z' AND valid_to = TIMESTAMPTZ '2026-01-04 00:00:00Z') FROM nws.main.winter_storm_severity(period := 'day1',component := 'snow_load');
+----
+3	1
+
+# extensions-wssi-day1-ice
+query II
+SELECT count(*), bool_and(issued_at = TIMESTAMPTZ '2025-12-31 23:16:00Z' AND valid_from = TIMESTAMPTZ '2026-01-01 00:00:00Z' AND valid_to = TIMESTAMPTZ '2026-01-04 00:00:00Z') FROM nws.main.winter_storm_severity(period := 'day1',component := 'ice');
+----
+3	1
+
+# extensions-wssi-day1-blowing_snow
+query II
+SELECT count(*), bool_and(issued_at = TIMESTAMPTZ '2025-12-31 23:16:00Z' AND valid_from = TIMESTAMPTZ '2026-01-01 00:00:00Z' AND valid_to = TIMESTAMPTZ '2026-01-04 00:00:00Z') FROM nws.main.winter_storm_severity(period := 'day1',component := 'blowing_snow');
+----
+3	1
+
+# extensions-wssi-day2-overall
+query II
+SELECT count(*), bool_and(issued_at = TIMESTAMPTZ '2025-12-31 23:16:00Z' AND valid_from = TIMESTAMPTZ '2026-01-01 00:00:00Z' AND valid_to = TIMESTAMPTZ '2026-01-04 00:00:00Z') FROM nws.main.winter_storm_severity(period := 'day2',component := 'overall');
+----
+3	1
+
+# extensions-wssi-day2-snow_amount
+query II
+SELECT count(*), bool_and(issued_at = TIMESTAMPTZ '2025-12-31 23:16:00Z' AND valid_from = TIMESTAMPTZ '2026-01-01 00:00:00Z' AND valid_to = TIMESTAMPTZ '2026-01-04 00:00:00Z') FROM nws.main.winter_storm_severity(period := 'day2',component := 'snow_amount');
+----
+3	1
+
+# extensions-wssi-day2-snow_load
+query II
+SELECT count(*), bool_and(issued_at = TIMESTAMPTZ '2025-12-31 23:16:00Z' AND valid_from = TIMESTAMPTZ '2026-01-01 00:00:00Z' AND valid_to = TIMESTAMPTZ '2026-01-04 00:00:00Z') FROM nws.main.winter_storm_severity(period := 'day2',component := 'snow_load');
+----
+3	1
+
+# extensions-wssi-day2-ice
+query II
+SELECT count(*), bool_and(issued_at = TIMESTAMPTZ '2025-12-31 23:16:00Z' AND valid_from = TIMESTAMPTZ '2026-01-01 00:00:00Z' AND valid_to = TIMESTAMPTZ '2026-01-04 00:00:00Z') FROM nws.main.winter_storm_severity(period := 'day2',component := 'ice');
+----
+3	1
+
+# extensions-wssi-day2-blowing_snow
+query II
+SELECT count(*), bool_and(issued_at = TIMESTAMPTZ '2025-12-31 23:16:00Z' AND valid_from = TIMESTAMPTZ '2026-01-01 00:00:00Z' AND valid_to = TIMESTAMPTZ '2026-01-04 00:00:00Z') FROM nws.main.winter_storm_severity(period := 'day2',component := 'blowing_snow');
+----
+3	1
+
+# extensions-wssi-day3-overall
+query II
+SELECT count(*), bool_and(issued_at = TIMESTAMPTZ '2025-12-31 23:16:00Z' AND valid_from = TIMESTAMPTZ '2026-01-01 00:00:00Z' AND valid_to = TIMESTAMPTZ '2026-01-04 00:00:00Z') FROM nws.main.winter_storm_severity(period := 'day3',component := 'overall');
+----
+3	1
+
+# extensions-wssi-day3-snow_amount
+query II
+SELECT count(*), bool_and(issued_at = TIMESTAMPTZ '2025-12-31 23:16:00Z' AND valid_from = TIMESTAMPTZ '2026-01-01 00:00:00Z' AND valid_to = TIMESTAMPTZ '2026-01-04 00:00:00Z') FROM nws.main.winter_storm_severity(period := 'day3',component := 'snow_amount');
+----
+3	1
+
+# extensions-wssi-day3-snow_load
+query II
+SELECT count(*), bool_and(issued_at = TIMESTAMPTZ '2025-12-31 23:16:00Z' AND valid_from = TIMESTAMPTZ '2026-01-01 00:00:00Z' AND valid_to = TIMESTAMPTZ '2026-01-04 00:00:00Z') FROM nws.main.winter_storm_severity(period := 'day3',component := 'snow_load');
+----
+3	1
+
+# extensions-wssi-day3-ice
+query II
+SELECT count(*), bool_and(issued_at = TIMESTAMPTZ '2025-12-31 23:16:00Z' AND valid_from = TIMESTAMPTZ '2026-01-01 00:00:00Z' AND valid_to = TIMESTAMPTZ '2026-01-04 00:00:00Z') FROM nws.main.winter_storm_severity(period := 'day3',component := 'ice');
+----
+3	1
+
+# extensions-wssi-day3-blowing_snow
+query II
+SELECT count(*), bool_and(issued_at = TIMESTAMPTZ '2025-12-31 23:16:00Z' AND valid_from = TIMESTAMPTZ '2026-01-01 00:00:00Z' AND valid_to = TIMESTAMPTZ '2026-01-04 00:00:00Z') FROM nws.main.winter_storm_severity(period := 'day3',component := 'blowing_snow');
+----
+3	1
+
+# extensions-wssi-day1_3-overall
+query II
+SELECT count(*), bool_and(issued_at = TIMESTAMPTZ '2025-12-31 23:16:00Z' AND valid_from = TIMESTAMPTZ '2026-01-01 00:00:00Z' AND valid_to = TIMESTAMPTZ '2026-01-04 00:00:00Z') FROM nws.main.winter_storm_severity(period := 'day1_3',component := 'overall');
+----
+3	1
+
+# extensions-wssi-day1_3-snow_amount
+query II
+SELECT count(*), bool_and(issued_at = TIMESTAMPTZ '2025-12-31 23:16:00Z' AND valid_from = TIMESTAMPTZ '2026-01-01 00:00:00Z' AND valid_to = TIMESTAMPTZ '2026-01-04 00:00:00Z') FROM nws.main.winter_storm_severity(period := 'day1_3',component := 'snow_amount');
+----
+3	1
+
+# extensions-wssi-day1_3-snow_load
+query II
+SELECT count(*), bool_and(issued_at = TIMESTAMPTZ '2025-12-31 23:16:00Z' AND valid_from = TIMESTAMPTZ '2026-01-01 00:00:00Z' AND valid_to = TIMESTAMPTZ '2026-01-04 00:00:00Z') FROM nws.main.winter_storm_severity(period := 'day1_3',component := 'snow_load');
+----
+3	1
+
+# extensions-wssi-day1_3-ice
+query II
+SELECT count(*), bool_and(issued_at = TIMESTAMPTZ '2025-12-31 23:16:00Z' AND valid_from = TIMESTAMPTZ '2026-01-01 00:00:00Z' AND valid_to = TIMESTAMPTZ '2026-01-04 00:00:00Z') FROM nws.main.winter_storm_severity(period := 'day1_3',component := 'ice');
+----
+3	1
+
+# extensions-wssi-day1_3-blowing_snow
+query II
+SELECT count(*), bool_and(issued_at = TIMESTAMPTZ '2025-12-31 23:16:00Z' AND valid_from = TIMESTAMPTZ '2026-01-01 00:00:00Z' AND valid_to = TIMESTAMPTZ '2026-01-04 00:00:00Z') FROM nws.main.winter_storm_severity(period := 'day1_3',component := 'blowing_snow');
+----
+3	1
+
+# extensions-winter-point
+query TI
+SELECT category, geometry_json IS NOT NULL FROM nws.main.winter_precipitation_at(38,-78, include_geometry := true,page_size := 1) ORDER BY object_id;
+----
+Slight (10-39%)	1
+Moderate (40-69%)	1
+
+# extensions-wssi-point
+query T
+SELECT impact FROM nws.main.winter_storm_severity_at(38,-78) ORDER BY object_id;
+----
+WINTER WEATHER AREA
+MINOR
+
+# extensions-winter-dateline
+query II
+SELECT count(*), min(object_id) FROM nws.main.winter_precipitation(bbox := '179,9,-179,11',page_size := 1);
+----
+1	3
+
+# extensions-qpe-value
+query RTII
+SELECT precipitation, unit, issued_at = TIMESTAMPTZ '2026-01-02 12:00:00Z', source_url LIKE 'https://mapservices.weather.noaa.gov/raster/%' FROM nws.main.precipitation_observed_at(38,-78);
+----
+1.25	inches	1	1
+
+# extensions-qpe-nodata-zero
+query II
+SELECT s.lat::DOUBLE, q.precipitation FROM (VALUES (40.0),(41.0)) s(lat), LATERAL nws.main.precipitation_observed_at(s.lat,-78) q ORDER BY s.lat;
+----
+40	NULL
+41	0
+
+# extensions-ratings
+query RITTI
+SELECT stage, flow, stage_unit, flow_unit, possibly_truncated FROM nws.main.rating_curve('RMDV2') ORDER BY stage;
+----
+-0.5	0	ft	cfs	0
+0.01	2	ft	cfs	0
+0.1	5	ft	cfs	0
+
+# extensions-ratings-options
+query RII
+SELECT stage, flow, possibly_truncated FROM nws.main.rating_curve('RMDV2',sort := 'DESC',row_limit := 1,only_tenths := true);
+----
+0.1	5	1
+
+# extensions-ratings-tenths
+query II
+SELECT count(*), bool_and(NOT possibly_truncated) FROM nws.main.rating_curve('RMDV2',only_tenths := true);
+----
+2	1
+
+# extensions-reach
+query TTII
+SELECT reach_id, name, upstream_json LIKE '%23021906%', downstream_json LIKE '%23022058%' FROM nws.main.reach('23021904');
+----
+23021904	Deep Creek	1	1
+
+# extensions-streamflow-analysis_assimilation
+query IIIII
+SELECT count(*), count(DISTINCT member), count(flow), min(flow), bool_and(flow_unit = 'ft³/s' AND reference_at = TIMESTAMPTZ '2026-01-02 12:00:00Z') FROM nws.main.reach_streamflow('23021904',series := 'analysis_assimilation');
+----
+2	1	1	100	1
+
+# extensions-streamflow-short_range
+query IIIII
+SELECT count(*), count(DISTINCT member), count(flow), min(flow), bool_and(flow_unit = 'ft³/s' AND reference_at = TIMESTAMPTZ '2026-01-02 12:00:00Z') FROM nws.main.reach_streamflow('23021904',series := 'short_range');
+----
+2	1	1	100	1
+
+# extensions-streamflow-medium_range
+query IIIII
+SELECT count(*), count(DISTINCT member), count(flow), min(flow), bool_and(flow_unit = 'ft³/s' AND reference_at = TIMESTAMPTZ '2026-01-02 12:00:00Z') FROM nws.main.reach_streamflow('23021904',series := 'medium_range');
+----
+2	1	1	100	1
+
+# extensions-streamflow-long_range
+query IIIII
+SELECT count(*), count(DISTINCT member), count(flow), min(flow), bool_and(flow_unit = 'ft³/s' AND reference_at = TIMESTAMPTZ '2026-01-02 12:00:00Z') FROM nws.main.reach_streamflow('23021904',series := 'long_range');
+----
+6	3	3	100	1
+
+# extensions-streamflow-medium_range_blend
+query IIIII
+SELECT count(*), count(DISTINCT member), count(flow), min(flow), bool_and(flow_unit = 'ft³/s' AND reference_at = TIMESTAMPTZ '2026-01-02 12:00:00Z') FROM nws.main.reach_streamflow('23021904',series := 'medium_range_blend');
+----
+2	1	1	100	1
+
+# extensions-low-threshold
+query IT
+SELECT threshold, unit FROM nws.main.low_water_threshold('RMDV2');
+----
+-1	ft
+
+# extensions-low-impacts
+query TT
+SELECT value_text, statement FROM nws.main.low_water_impacts('RMDV2') ORDER BY value_text;
+----
+Below -1 ft	Intake exposure
+Unknown	Original text retained
+
+# extensions-low-history
+query IRITT
+SELECT occurred_at IS NULL, stage, flow, stage_unit, flow_unit FROM nws.main.historic_low_water('RMDV2') ORDER BY occurred_at NULLS LAST;
+----
+0	-0.5	12	ft	cfs
+1	NULL	NULL	ft	cfs
+
+# extensions-empty-winter_precipitation_at
+query I
+SELECT count(*) FROM nws.main.winter_precipitation_at(0,0);
+----
+0
+
+# extensions-empty-winter_storm_severity_at
+query I
+SELECT count(*) FROM nws.main.winter_storm_severity_at(0,0);
+----
+0
+
+# extensions-empty-precipitation_observed_at
+query I
+SELECT count(*) FROM nws.main.precipitation_observed_at(0,0);
+----
+0
+
+# extensions-empty-rating_curve
+query I
+SELECT count(*) FROM nws.main.rating_curve('EMPTY');
+----
+0
+
+# extensions-empty-reach_streamflow
+query I
+SELECT count(*) FROM nws.main.reach_streamflow('999');
+----
+0
+
+# extensions-empty-low_water_threshold
+query I
+SELECT count(*) FROM nws.main.low_water_threshold('EMPTY');
+----
+0
+
+# extensions-empty-low_water_impacts
+query I
+SELECT count(*) FROM nws.main.low_water_impacts('EMPTY');
+----
+0
+
+# extensions-empty-historic_low_water
+query I
+SELECT count(*) FROM nws.main.historic_low_water('EMPTY');
+----
+0
+
+# extensions-null-winter_precipitation_at
+query I
+SELECT count(*) FROM nws.main.winter_precipitation_at(NULL,-78);
+----
+0
+
+# extensions-null-winter_storm_severity_at
+query I
+SELECT count(*) FROM nws.main.winter_storm_severity_at(38,NULL);
+----
+0
+
+# extensions-null-precipitation_observed_at
+query I
+SELECT count(*) FROM nws.main.precipitation_observed_at(NULL,-78);
+----
+0
+
+# extensions-null-rating_curve
+query I
+SELECT count(*) FROM nws.main.rating_curve(NULL);
+----
+0
+
+# extensions-null-reach
+query I
+SELECT count(*) FROM nws.main.reach(NULL);
+----
+0
+
+# extensions-null-reach_streamflow
+query I
+SELECT count(*) FROM nws.main.reach_streamflow(NULL);
+----
+0
+
+# extensions-null-low_water_threshold
+query I
+SELECT count(*) FROM nws.main.low_water_threshold(NULL);
+----
+0
+
+# extensions-null-low_water_impacts
+query I
+SELECT count(*) FROM nws.main.low_water_impacts(NULL);
+----
+0
+
+# extensions-null-historic_low_water
+query I
+SELECT count(*) FROM nws.main.historic_low_water(NULL);
+----
+0
+
+# extensions-compat-winter_precipitation_at
+query II
+SELECT s.i, count(o.object_id) FROM (VALUES(1,38.0),(2,38.0),(3,NULL)) s(i,lat) LEFT JOIN LATERAL nws.compat.winter_precipitation_at(s.lat,-78,'{"hazard":"ice","threshold_inches":0.25,"page_size":1}') o ON true GROUP BY s.i ORDER BY s.i;
+----
+1	2
+2	2
+3	0
+
+# extensions-compat-winter_storm_severity_at
+query II
+SELECT s.i, count(o.object_id) FROM (VALUES(1,38.0),(2,38.0),(3,NULL)) s(i,lat) LEFT JOIN LATERAL nws.compat.winter_storm_severity_at(s.lat,-78,'{"period":"day2","component":"ice","page_size":1}') o ON true GROUP BY s.i ORDER BY s.i;
+----
+1	2
+2	2
+3	0
+
+# extensions-compat-climate_outlook_at
+query II
+SELECT s.i, count(o.object_id) FROM (VALUES(1,38.0),(2,38.0),(3,NULL)) s(i,lat) LEFT JOIN LATERAL nws.compat.climate_outlook_at(s.lat,-78,'{"period":"seasonal","lead":13}') o ON true GROUP BY s.i ORDER BY s.i;
+----
+1	2
+2	2
+3	0
+
+# extensions-compat-fire_outlook_at
+query II
+SELECT s.i, count(o.object_id) FROM (VALUES(1,38.0),(2,38.0),(3,NULL)) s(i,lat) LEFT JOIN LATERAL nws.compat.fire_outlook_at(s.lat,-78,'{"day":8,"hazard":"dry_thunderstorm"}') o ON true GROUP BY s.i ORDER BY s.i;
+----
+1	2
+2	2
+3	0
+
+# extensions-compat-qpe
+query IR
+SELECT count(*), sum(o.precipitation) FROM (VALUES(38.0),(38.0),(NULL)) s(lat), LATERAL nws.compat.precipitation_observed_at(s.lat,-78,'{"period":"day7"}') o;
+----
+2	2.5
+
+# extensions-compat-rating
+query II
+SELECT count(*), bool_and(possibly_truncated) FROM (VALUES('RMDV2'),('RMDV2'),(NULL)) s(id), LATERAL nws.compat.rating_curve(s.id,'{"row_limit":1,"sort":"DESC"}') r;
+----
+2	1
+
+# extensions-compat-streamflow
+query II
+SELECT count(*), count(DISTINCT member) FROM (VALUES('23021904'),('23021904'),(NULL)) s(id), LATERAL nws.compat.reach_streamflow(s.id,'{"series":"long_range"}') r;
+----
+12	3
+
+# extensions-batch-winter
+query I
+SELECT count(*) FROM range(40) t(i), LATERAL nws.compat.winter_precipitation_at(38+i*0.001,-78,'{"page_size":1}') o;
+----
+80
+
+# extensions-batch-qpe
+query III
+SELECT count(*), sum(o.precipitation), count(DISTINCT o.latitude) FROM range(40) t(i), LATERAL nws.main.precipitation_observed_at(38+i*0.001,-78) o;
+----
+40	50	40
+
+# extensions-batch-model
+query I
+SELECT count(*) FROM (SELECT CASE WHEN i%2=0 THEN '23021904' ELSE NULL END AS reach_id FROM range(40) t(i)) s, LATERAL nws.main.reach_streamflow(s.reach_id) o;
+----
+40
+
+statement error
+SELECT * FROM nws.main.fire_outlook(day := 9);
+----
+<REGEX>:.*
+
+statement error
+SELECT * FROM nws.main.fire_outlook(day := 3.5);
+----
+<REGEX>:.*
+
+statement error
+SELECT * FROM nws.main.climate_outlook(period := 'monthly',lead := 2);
+----
+<REGEX>:.*
+
+statement error
+SELECT * FROM nws.main.climate_outlook(period := 'seasonal',lead := 1.5);
+----
+<REGEX>:.*
+
+statement error
+SELECT * FROM nws.main.winter_precipitation(hazard := 'ice');
+----
+<REGEX>:.*
+
+statement error
+SELECT * FROM nws.main.winter_precipitation(threshold_inches := 6);
+----
+<REGEX>:.*
+
+statement error
+SELECT * FROM nws.main.winter_storm_severity(component := 'bogus');
+----
+<REGEX>:.*
+
+statement error
+SELECT * FROM nws.main.precipitation_observed_at(91,0);
+----
+<REGEX>:.*
+
+statement error
+SELECT * FROM nws.main.precipitation_observed_at(10,-78);
+----
+<REGEX>:.*
+
+statement error
+SELECT * FROM nws.main.precipitation_observed_at(42,-78);
+----
+<REGEX>:.*
+
+statement error
+SELECT * FROM nws.main.rating_curve('RMDV2',row_limit := 1.5);
+----
+<REGEX>:.*
+
+statement error
+SELECT * FROM nws.main.reach('a/b');
+----
+<REGEX>:.*
+
+statement error
+SELECT * FROM nws.main.reach_streamflow('23021904',series := 'bogus');
+----
+<REGEX>:.*
+
+statement error
+SELECT * FROM nws.compat.winter_precipitation_at(38,-78,'{"hazard":"ice"}');
+----
+<REGEX>:.*
+
+statement error
+SELECT * FROM nws.compat.climate_outlook_at(38,-78,'{"period":"monthly","lead":2}');
+----
+<REGEX>:.*
+
+statement error
+SELECT * FROM nws.compat.rating_curve('RMDV2','{"row_limit":1.5}');
+----
+<REGEX>:.*
+
+statement error
+SELECT * FROM nws.compat.precipitation_observed_at(38,-78,'{"period":"nonsense"}');
+----
+<REGEX>:.*
+
+statement ok
+DETACH nws;

@@ -1,0 +1,1514 @@
+{
+  "status": "passed",
+  "engine": "duckdb",
+  "engine_version": "2.0.0",
+  "worker": [
+    "../../bin/vgi-nws-worker"
+  ],
+  "attach_sql": "ATTACH 'nws' AS \"nws\" (TYPE vgi, LOCATION '../../bin/vgi-nws-worker');",
+  "checks": [
+    {
+      "name": "point",
+      "sql": "SELECT count(*) > 0 AS valid FROM nws.main.point(38.0293,-78.4767)",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "valid"
+      ]
+    },
+    {
+      "name": "alerts",
+      "sql": "SELECT count(*) >= 0 AS valid FROM nws.main.alerts(area := 'VA')",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "valid"
+      ]
+    },
+    {
+      "name": "alerts_at",
+      "sql": "SELECT count(*) >= 0 AS valid FROM nws.main.alerts_at(38.0293,-78.4767)",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "valid"
+      ]
+    },
+    {
+      "name": "alert_types",
+      "sql": "SELECT count(*) > 0 AS valid FROM nws.main.alert_types()",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "valid"
+      ]
+    },
+    {
+      "name": "stations_at",
+      "sql": "SELECT count(*) > 0 AS valid FROM nws.main.stations_at(38.0293,-78.4767)",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "valid"
+      ]
+    },
+    {
+      "name": "station",
+      "sql": "SELECT count(*) > 0 AS valid FROM nws.main.station('KCHO')",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "valid"
+      ]
+    },
+    {
+      "name": "observations",
+      "sql": "SELECT count(*) > 0 AS valid FROM nws.main.observations('KCHO')",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "valid"
+      ]
+    },
+    {
+      "name": "latest_observation",
+      "sql": "SELECT count(*) > 0 AS valid FROM nws.main.latest_observation('KCHO')",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "valid"
+      ]
+    },
+    {
+      "name": "forecast",
+      "sql": "SELECT count(*) > 0 AS valid FROM nws.main.forecast(38.0293,-78.4767)",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "valid"
+      ]
+    },
+    {
+      "name": "forecast_hourly",
+      "sql": "SELECT count(*) > 0 AS valid FROM nws.main.forecast_hourly(38.0293,-78.4767)",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "valid"
+      ]
+    },
+    {
+      "name": "grid_series",
+      "sql": "SELECT count(*) > 0 AS valid FROM nws.main.grid_series(38.0293,-78.4767, variable := 'minTemperature')",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "valid"
+      ]
+    },
+    {
+      "name": "products",
+      "sql": "SELECT count(*) > 0 AS valid FROM nws.main.products('AFD','LWX')",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "valid"
+      ]
+    },
+    {
+      "name": "latest_product",
+      "sql": "SELECT count(*) > 0 AS valid FROM nws.main.latest_product('AFD','LWX')",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "valid"
+      ]
+    },
+    {
+      "name": "product_types",
+      "sql": "SELECT count(*) > 0 AS valid FROM nws.main.product_types()",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "valid"
+      ]
+    },
+    {
+      "name": "product_locations",
+      "sql": "SELECT count(*) > 0 AS valid FROM nws.main.product_locations('AFD')",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "valid"
+      ]
+    },
+    {
+      "name": "zone",
+      "sql": "SELECT count(*) > 0 AS valid FROM nws.main.zone('forecast','VAZ037')",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "valid"
+      ]
+    },
+    {
+      "name": "zones",
+      "sql": "SELECT count(*) > 0 AS valid FROM nws.main.zones('fire', state := 'VA')",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "valid"
+      ]
+    },
+    {
+      "name": "office",
+      "sql": "SELECT count(*) > 0 AS valid FROM nws.main.office('LWX')",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "valid"
+      ]
+    },
+    {
+      "name": "briefing",
+      "sql": "SELECT count(*) >= 0 AS valid FROM nws.main.briefing('LWX')",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "valid"
+      ]
+    },
+    {
+      "name": "weather_stories",
+      "sql": "SELECT count(*) >= 0 AS valid FROM nws.main.weather_stories('LWX')",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "valid"
+      ]
+    },
+    {
+      "name": "glossary",
+      "sql": "SELECT count(*) > 0 AS valid FROM nws.main.glossary()",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "valid"
+      ]
+    },
+    {
+      "name": "gauge",
+      "sql": "SELECT count(*) > 0 AS valid FROM nws.main.gauge('RMDV2')",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "valid"
+      ]
+    },
+    {
+      "name": "stageflow",
+      "sql": "SELECT count(*) > 0 AS valid FROM nws.main.stageflow('RMDV2')",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "valid"
+      ]
+    },
+    {
+      "name": "flood_thresholds",
+      "sql": "SELECT count(*) > 0 AS valid FROM nws.main.flood_thresholds('RMDV2')",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "valid"
+      ]
+    },
+    {
+      "name": "flood_impacts",
+      "sql": "SELECT count(*) > 0 AS valid FROM nws.main.flood_impacts('RMDV2')",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "valid"
+      ]
+    },
+    {
+      "name": "historic_crests",
+      "sql": "SELECT count(*) > 0 AS valid FROM nws.main.historic_crests('RMDV2')",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "valid"
+      ]
+    },
+    {
+      "name": "product",
+      "sql": "SELECT count(d.product_text) > 0 FROM (SELECT id FROM nws.main.products('AFD','LWX') LIMIT 1) p, LATERAL nws.main.product(p.id) d",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "(count(d.product_text) > 0)"
+      ]
+    },
+    {
+      "name": "alert",
+      "sql": "SELECT count(*) >= 0 FROM (SELECT id FROM nws.main.alerts(area := 'VA') LIMIT 1) a, LATERAL nws.main.alert(a.id) d",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "(count_star() >= 0)"
+      ]
+    },
+    {
+      "name": "zone-state-filter",
+      "sql": "SELECT bool_and(state = 'VA') FROM nws.main.zones('fire', state := 'VA')",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "bool_and((state = 'VA'))"
+      ]
+    },
+    {
+      "name": "observation-schema",
+      "sql": "SELECT typeof(observed_at), typeof(temperature_c), source_url LIKE 'https://api.weather.gov/%' FROM nws.main.latest_observation('KCHO')",
+      "status": "passed",
+      "rows": [
+        [
+          "TIMESTAMP WITH TIME ZONE",
+          "DOUBLE",
+          true
+        ]
+      ],
+      "columns": [
+        "typeof(observed_at)",
+        "typeof(temperature_c)",
+        "(source_url ~~ 'https://api.weather.gov/%')"
+      ]
+    },
+    {
+      "name": "phase2-severe_outlook",
+      "sql": "SELECT count(*) >= 0 FROM nws.main.severe_outlook()",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "(count_star() >= 0)"
+      ]
+    },
+    {
+      "name": "phase2-severe_outlook_at",
+      "sql": "SELECT count(*) >= 0 FROM nws.main.severe_outlook_at(38.0293,-78.4767)",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "(count_star() >= 0)"
+      ]
+    },
+    {
+      "name": "phase2-fire_outlook",
+      "sql": "SELECT count(*) >= 0 FROM nws.main.fire_outlook()",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "(count_star() >= 0)"
+      ]
+    },
+    {
+      "name": "phase2-fire_outlook_at",
+      "sql": "SELECT count(*) >= 0 FROM nws.main.fire_outlook_at(38.0293,-78.4767)",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "(count_star() >= 0)"
+      ]
+    },
+    {
+      "name": "phase2-rainfall_outlook",
+      "sql": "SELECT count(*) >= 0 FROM nws.main.rainfall_outlook()",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "(count_star() >= 0)"
+      ]
+    },
+    {
+      "name": "phase2-rainfall_outlook_at",
+      "sql": "SELECT count(*) >= 0 FROM nws.main.rainfall_outlook_at(38.0293,-78.4767)",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "(count_star() >= 0)"
+      ]
+    },
+    {
+      "name": "phase2-precipitation_forecast",
+      "sql": "SELECT count(*) > 0 FROM nws.main.precipitation_forecast()",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "(count_star() > 0)"
+      ]
+    },
+    {
+      "name": "phase2-precipitation_forecast_at",
+      "sql": "SELECT count(*) >= 0 FROM nws.main.precipitation_forecast_at(38.0293,-78.4767)",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "(count_star() >= 0)"
+      ]
+    },
+    {
+      "name": "phase2-climate_outlook",
+      "sql": "SELECT count(*) > 0 FROM nws.main.climate_outlook()",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "(count_star() > 0)"
+      ]
+    },
+    {
+      "name": "phase2-climate_outlook_at",
+      "sql": "SELECT count(*) > 0 FROM nws.main.climate_outlook_at(38.0293,-78.4767)",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "(count_star() > 0)"
+      ]
+    },
+    {
+      "name": "phase2-drought_outlook",
+      "sql": "SELECT count(*) > 0 FROM nws.main.drought_outlook()",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "(count_star() > 0)"
+      ]
+    },
+    {
+      "name": "phase2-drought_outlook_at",
+      "sql": "SELECT count(*) > 0 FROM nws.main.drought_outlook_at(38.0293,-78.4767)",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "(count_star() > 0)"
+      ]
+    },
+    {
+      "name": "phase2-gauges",
+      "sql": "SELECT count(*) > 0 FROM nws.main.gauges(state := 'VA')",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "(count_star() > 0)"
+      ]
+    },
+    {
+      "name": "phase2-gauges_near",
+      "sql": "SELECT count(*) > 0 FROM nws.main.gauges_near(37.5407,-77.4360)",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "(count_star() > 0)"
+      ]
+    },
+    {
+      "name": "phase2-river_network",
+      "sql": "SELECT count(*) > 0 FROM nws.main.river_network('RMDV2')",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "(count_star() > 0)"
+      ]
+    },
+    {
+      "name": "phase2-climate-values",
+      "sql": "SELECT count(*) > 0 AND bool_and(probability_pct BETWEEN 0 AND 100 AND forecast_date IS NOT NULL AND valid_from <= valid_to AND geometry_json IS NOT NULL) FROM nws.main.climate_outlook_at(38.0293,-78.4767,include_geometry := true)",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() > 0) AND bool_and(((probability_pct BETWEEN 0 AND 100) AND (forecast_date IS NOT NULL) AND (valid_from <= valid_to) AND (geometry_json IS NOT NULL))))"
+      ]
+    },
+    {
+      "name": "phase2-gauges-state",
+      "sql": "SELECT count(*) > 0 AND bool_and(state = 'VA') AND count(*) = count(DISTINCT gauge_id) FROM nws.main.gauges(state := 'VA')",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() > 0) AND bool_and((state = 'VA')) AND (count_star() = count(DISTINCT gauge_id)))"
+      ]
+    },
+    {
+      "name": "phase2-gauges-radius",
+      "sql": "SELECT count(*) > 0 AND bool_and(distance_km <= 50 AND distance_km >= 0) FROM nws.main.gauges_near(37.5407,-77.4360,radius_km := 50)",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() > 0) AND bool_and(((distance_km <= 50) AND (distance_km >= 0))))"
+      ]
+    },
+    {
+      "name": "phase2-alternate-layers",
+      "sql": "SELECT (SELECT count(*) >= 0 FROM nws.main.severe_outlook(day := 8,hazard := 'severe')) AND (SELECT count(*) >= 0 FROM nws.main.fire_outlook(day := 2,hazard := 'dry_thunderstorm')) AND (SELECT count(*) > 0 FROM nws.main.climate_outlook(period := '6_10_day',variable := 'precipitation')) AND (SELECT count(*) > 0 FROM nws.main.drought_outlook(period := 'seasonal'))",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((SELECT (count_star() >= 0) FROM nws.main.severe_outlook(\"day\" := 8, hazard := 'severe')) AND (SELECT (count_star() >= 0) FROM nws.main.fire_outlook(\"day\" := 2, hazard := 'dry_thunderstorm')) AND (SELECT (count_star() > 0) FROM nws.main.climate_outlook(period := '6_10_day', \"variable\" := 'precipitation')) AND (SELECT (count_star() > 0) FROM nws.main.drought_outlook(period := 'seasonal')))"
+      ]
+    },
+    {
+      "name": "phase2-qpf-period",
+      "sql": "SELECT count(*) > 0 AND bool_and(unit IS NOT NULL AND valid_from < valid_to) FROM nws.main.precipitation_forecast(period := 'day1_7')",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() > 0) AND bool_and(((unit IS NOT NULL) AND (valid_from < valid_to))))"
+      ]
+    },
+    {
+      "name": "phase2-stock-options-lateral",
+      "sql": "SELECT count(*) > 0 AND count(DISTINCT s.id) = 2 FROM (VALUES(1,38.0293),(2,38.0293),(3,NULL)) s(id,lat), LATERAL nws.compat.climate_outlook_at(s.lat,-78.4767,'{\"period\":\"6_10_day\",\"variable\":\"precipitation\"}') o",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() > 0) AND (count(DISTINCT s.id) = 2))"
+      ]
+    },
+    {
+      "name": "extensions-fire-3-wind_rh",
+      "sql": "SELECT count(*) >= 0 AND coalesce(bool_and(day = 3 AND (probability_pct IS NULL OR probability_pct BETWEEN 0 AND 100)),true) FROM nws.main.fire_outlook(day := 3,hazard := 'wind_rh')",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() >= 0) AND COALESCE(bool_and(((\"day\" = 3) AND ((probability_pct IS NULL) OR (probability_pct BETWEEN 0 AND 100)))), true))"
+      ]
+    },
+    {
+      "name": "extensions-fire-3-dry_thunderstorm",
+      "sql": "SELECT count(*) >= 0 AND coalesce(bool_and(day = 3 AND (probability_pct IS NULL OR probability_pct BETWEEN 0 AND 100)),true) FROM nws.main.fire_outlook(day := 3,hazard := 'dry_thunderstorm')",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() >= 0) AND COALESCE(bool_and(((\"day\" = 3) AND ((probability_pct IS NULL) OR (probability_pct BETWEEN 0 AND 100)))), true))"
+      ]
+    },
+    {
+      "name": "extensions-fire-8-wind_rh",
+      "sql": "SELECT count(*) >= 0 AND coalesce(bool_and(day = 8 AND (probability_pct IS NULL OR probability_pct BETWEEN 0 AND 100)),true) FROM nws.main.fire_outlook(day := 8,hazard := 'wind_rh')",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() >= 0) AND COALESCE(bool_and(((\"day\" = 8) AND ((probability_pct IS NULL) OR (probability_pct BETWEEN 0 AND 100)))), true))"
+      ]
+    },
+    {
+      "name": "extensions-fire-8-dry_thunderstorm",
+      "sql": "SELECT count(*) >= 0 AND coalesce(bool_and(day = 8 AND (probability_pct IS NULL OR probability_pct BETWEEN 0 AND 100)),true) FROM nws.main.fire_outlook(day := 8,hazard := 'dry_thunderstorm')",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() >= 0) AND COALESCE(bool_and(((\"day\" = 8) AND ((probability_pct IS NULL) OR (probability_pct BETWEEN 0 AND 100)))), true))"
+      ]
+    },
+    {
+      "name": "extensions-climate-monthly-temperature-1",
+      "sql": "SELECT count(*) > 0 AND bool_and(target_period IS NOT NULL AND forecast_date IS NOT NULL AND probability_pct BETWEEN 0 AND 100 AND valid_from IS NULL AND valid_to IS NULL) FROM nws.main.climate_outlook(period := 'monthly',variable := 'temperature',lead := 1)",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() > 0) AND bool_and(((target_period IS NOT NULL) AND (forecast_date IS NOT NULL) AND (probability_pct BETWEEN 0 AND 100) AND (valid_from IS NULL) AND (valid_to IS NULL))))"
+      ]
+    },
+    {
+      "name": "extensions-climate-seasonal-temperature-1",
+      "sql": "SELECT count(*) > 0 AND bool_and(target_period IS NOT NULL AND forecast_date IS NOT NULL AND probability_pct BETWEEN 0 AND 100 AND valid_from IS NULL AND valid_to IS NULL) FROM nws.main.climate_outlook(period := 'seasonal',variable := 'temperature',lead := 1)",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() > 0) AND bool_and(((target_period IS NOT NULL) AND (forecast_date IS NOT NULL) AND (probability_pct BETWEEN 0 AND 100) AND (valid_from IS NULL) AND (valid_to IS NULL))))"
+      ]
+    },
+    {
+      "name": "extensions-climate-seasonal-temperature-13",
+      "sql": "SELECT count(*) > 0 AND bool_and(target_period IS NOT NULL AND forecast_date IS NOT NULL AND probability_pct BETWEEN 0 AND 100 AND valid_from IS NULL AND valid_to IS NULL) FROM nws.main.climate_outlook(period := 'seasonal',variable := 'temperature',lead := 13)",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() > 0) AND bool_and(((target_period IS NOT NULL) AND (forecast_date IS NOT NULL) AND (probability_pct BETWEEN 0 AND 100) AND (valid_from IS NULL) AND (valid_to IS NULL))))"
+      ]
+    },
+    {
+      "name": "extensions-climate-monthly-precipitation-1",
+      "sql": "SELECT count(*) > 0 AND bool_and(target_period IS NOT NULL AND forecast_date IS NOT NULL AND probability_pct BETWEEN 0 AND 100 AND valid_from IS NULL AND valid_to IS NULL) FROM nws.main.climate_outlook(period := 'monthly',variable := 'precipitation',lead := 1)",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() > 0) AND bool_and(((target_period IS NOT NULL) AND (forecast_date IS NOT NULL) AND (probability_pct BETWEEN 0 AND 100) AND (valid_from IS NULL) AND (valid_to IS NULL))))"
+      ]
+    },
+    {
+      "name": "extensions-climate-seasonal-precipitation-1",
+      "sql": "SELECT count(*) > 0 AND bool_and(target_period IS NOT NULL AND forecast_date IS NOT NULL AND probability_pct BETWEEN 0 AND 100 AND valid_from IS NULL AND valid_to IS NULL) FROM nws.main.climate_outlook(period := 'seasonal',variable := 'precipitation',lead := 1)",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() > 0) AND bool_and(((target_period IS NOT NULL) AND (forecast_date IS NOT NULL) AND (probability_pct BETWEEN 0 AND 100) AND (valid_from IS NULL) AND (valid_to IS NULL))))"
+      ]
+    },
+    {
+      "name": "extensions-climate-seasonal-precipitation-13",
+      "sql": "SELECT count(*) > 0 AND bool_and(target_period IS NOT NULL AND forecast_date IS NOT NULL AND probability_pct BETWEEN 0 AND 100 AND valid_from IS NULL AND valid_to IS NULL) FROM nws.main.climate_outlook(period := 'seasonal',variable := 'precipitation',lead := 13)",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() > 0) AND bool_and(((target_period IS NOT NULL) AND (forecast_date IS NOT NULL) AND (probability_pct BETWEEN 0 AND 100) AND (valid_from IS NULL) AND (valid_to IS NULL))))"
+      ]
+    },
+    {
+      "name": "extensions-winter-1-snow-4",
+      "sql": "SELECT count(*) >= 0 AND coalesce(bool_and(probability_min_pct BETWEEN 0 AND 100 AND probability_max_pct >= probability_min_pct AND issued_at IS NOT NULL AND valid_from < valid_to),true) FROM nws.main.winter_precipitation(day := 1,hazard := 'snow',threshold_inches := 4)",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() >= 0) AND COALESCE(bool_and(((probability_min_pct BETWEEN 0 AND 100) AND (probability_max_pct >= probability_min_pct) AND (issued_at IS NOT NULL) AND (valid_from < valid_to))), true))"
+      ]
+    },
+    {
+      "name": "extensions-winter-1-snow-12",
+      "sql": "SELECT count(*) >= 0 AND coalesce(bool_and(probability_min_pct BETWEEN 0 AND 100 AND probability_max_pct >= probability_min_pct AND issued_at IS NOT NULL AND valid_from < valid_to),true) FROM nws.main.winter_precipitation(day := 1,hazard := 'snow',threshold_inches := 12)",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() >= 0) AND COALESCE(bool_and(((probability_min_pct BETWEEN 0 AND 100) AND (probability_max_pct >= probability_min_pct) AND (issued_at IS NOT NULL) AND (valid_from < valid_to))), true))"
+      ]
+    },
+    {
+      "name": "extensions-winter-1-ice-0.25",
+      "sql": "SELECT count(*) >= 0 AND coalesce(bool_and(probability_min_pct BETWEEN 0 AND 100 AND probability_max_pct >= probability_min_pct AND issued_at IS NOT NULL AND valid_from < valid_to),true) FROM nws.main.winter_precipitation(day := 1,hazard := 'ice',threshold_inches := 0.25)",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() >= 0) AND COALESCE(bool_and(((probability_min_pct BETWEEN 0 AND 100) AND (probability_max_pct >= probability_min_pct) AND (issued_at IS NOT NULL) AND (valid_from < valid_to))), true))"
+      ]
+    },
+    {
+      "name": "extensions-winter-3-snow-4",
+      "sql": "SELECT count(*) >= 0 AND coalesce(bool_and(probability_min_pct BETWEEN 0 AND 100 AND probability_max_pct >= probability_min_pct AND issued_at IS NOT NULL AND valid_from < valid_to),true) FROM nws.main.winter_precipitation(day := 3,hazard := 'snow',threshold_inches := 4)",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() >= 0) AND COALESCE(bool_and(((probability_min_pct BETWEEN 0 AND 100) AND (probability_max_pct >= probability_min_pct) AND (issued_at IS NOT NULL) AND (valid_from < valid_to))), true))"
+      ]
+    },
+    {
+      "name": "extensions-winter-3-snow-12",
+      "sql": "SELECT count(*) >= 0 AND coalesce(bool_and(probability_min_pct BETWEEN 0 AND 100 AND probability_max_pct >= probability_min_pct AND issued_at IS NOT NULL AND valid_from < valid_to),true) FROM nws.main.winter_precipitation(day := 3,hazard := 'snow',threshold_inches := 12)",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() >= 0) AND COALESCE(bool_and(((probability_min_pct BETWEEN 0 AND 100) AND (probability_max_pct >= probability_min_pct) AND (issued_at IS NOT NULL) AND (valid_from < valid_to))), true))"
+      ]
+    },
+    {
+      "name": "extensions-winter-3-ice-0.25",
+      "sql": "SELECT count(*) >= 0 AND coalesce(bool_and(probability_min_pct BETWEEN 0 AND 100 AND probability_max_pct >= probability_min_pct AND issued_at IS NOT NULL AND valid_from < valid_to),true) FROM nws.main.winter_precipitation(day := 3,hazard := 'ice',threshold_inches := 0.25)",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() >= 0) AND COALESCE(bool_and(((probability_min_pct BETWEEN 0 AND 100) AND (probability_max_pct >= probability_min_pct) AND (issued_at IS NOT NULL) AND (valid_from < valid_to))), true))"
+      ]
+    },
+    {
+      "name": "extensions-winter-point",
+      "sql": "SELECT count(*) >= 0 FROM nws.main.winter_precipitation_at(40,-105)",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "(count_star() >= 0)"
+      ]
+    },
+    {
+      "name": "extensions-wssi-overall",
+      "sql": "SELECT count(*) >= 0 AND coalesce(bool_and(impact IS NOT NULL AND issued_at IS NOT NULL AND valid_from < valid_to),true) FROM nws.main.winter_storm_severity(component := 'overall')",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() >= 0) AND COALESCE(bool_and(((impact IS NOT NULL) AND (issued_at IS NOT NULL) AND (valid_from < valid_to))), true))"
+      ]
+    },
+    {
+      "name": "extensions-wssi-snow_amount",
+      "sql": "SELECT count(*) >= 0 AND coalesce(bool_and(impact IS NOT NULL AND issued_at IS NOT NULL AND valid_from < valid_to),true) FROM nws.main.winter_storm_severity(component := 'snow_amount')",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() >= 0) AND COALESCE(bool_and(((impact IS NOT NULL) AND (issued_at IS NOT NULL) AND (valid_from < valid_to))), true))"
+      ]
+    },
+    {
+      "name": "extensions-wssi-snow_load",
+      "sql": "SELECT count(*) >= 0 AND coalesce(bool_and(impact IS NOT NULL AND issued_at IS NOT NULL AND valid_from < valid_to),true) FROM nws.main.winter_storm_severity(component := 'snow_load')",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() >= 0) AND COALESCE(bool_and(((impact IS NOT NULL) AND (issued_at IS NOT NULL) AND (valid_from < valid_to))), true))"
+      ]
+    },
+    {
+      "name": "extensions-wssi-ice",
+      "sql": "SELECT count(*) >= 0 AND coalesce(bool_and(impact IS NOT NULL AND issued_at IS NOT NULL AND valid_from < valid_to),true) FROM nws.main.winter_storm_severity(component := 'ice')",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() >= 0) AND COALESCE(bool_and(((impact IS NOT NULL) AND (issued_at IS NOT NULL) AND (valid_from < valid_to))), true))"
+      ]
+    },
+    {
+      "name": "extensions-wssi-blowing_snow",
+      "sql": "SELECT count(*) >= 0 AND coalesce(bool_and(impact IS NOT NULL AND issued_at IS NOT NULL AND valid_from < valid_to),true) FROM nws.main.winter_storm_severity(component := 'blowing_snow')",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() >= 0) AND COALESCE(bool_and(((impact IS NOT NULL) AND (issued_at IS NOT NULL) AND (valid_from < valid_to))), true))"
+      ]
+    },
+    {
+      "name": "extensions-wssi-point",
+      "sql": "SELECT count(*) >= 0 FROM nws.main.winter_storm_severity_at(40,-105,period := 'day1')",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "(count_star() >= 0)"
+      ]
+    },
+    {
+      "name": "extensions-qpe-hour24",
+      "sql": "SELECT count(*) > 0 AND bool_and(unit = 'inches' AND issued_at IS NOT NULL AND raster_name IS NOT NULL AND (precipitation IS NULL OR precipitation >= 0)) FROM nws.main.precipitation_observed_at(38.0293,-78.4767,period := 'hour24')",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() > 0) AND bool_and(((unit = 'inches') AND (issued_at IS NOT NULL) AND (raster_name IS NOT NULL) AND ((precipitation IS NULL) OR (precipitation >= 0)))))"
+      ]
+    },
+    {
+      "name": "extensions-qpe-day7",
+      "sql": "SELECT count(*) > 0 AND bool_and(unit = 'inches' AND issued_at IS NOT NULL AND raster_name IS NOT NULL AND (precipitation IS NULL OR precipitation >= 0)) FROM nws.main.precipitation_observed_at(38.0293,-78.4767,period := 'day7')",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() > 0) AND bool_and(((unit = 'inches') AND (issued_at IS NOT NULL) AND (raster_name IS NOT NULL) AND ((precipitation IS NULL) OR (precipitation >= 0)))))"
+      ]
+    },
+    {
+      "name": "extensions-qpe-month_to_date",
+      "sql": "SELECT count(*) > 0 AND bool_and(unit = 'inches' AND issued_at IS NOT NULL AND raster_name IS NOT NULL AND (precipitation IS NULL OR precipitation >= 0)) FROM nws.main.precipitation_observed_at(38.0293,-78.4767,period := 'month_to_date')",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() > 0) AND bool_and(((unit = 'inches') AND (issued_at IS NOT NULL) AND (raster_name IS NOT NULL) AND ((precipitation IS NULL) OR (precipitation >= 0)))))"
+      ]
+    },
+    {
+      "name": "extensions-ratings",
+      "sql": "SELECT count(*) > 0 AND bool_and(stage_unit IS NOT NULL AND flow_unit IS NOT NULL) FROM nws.main.rating_curve('RMDV2')",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() > 0) AND bool_and(((stage_unit IS NOT NULL) AND (flow_unit IS NOT NULL))))"
+      ]
+    },
+    {
+      "name": "extensions-ratings-options",
+      "sql": "SELECT count(*) = 2 AND bool_and(possibly_truncated) FROM nws.main.rating_curve('RMDV2',row_limit := 2,sort := 'DESC',only_tenths := true)",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() = 2) AND bool_and(possibly_truncated))"
+      ]
+    },
+    {
+      "name": "extensions-reach",
+      "sql": "SELECT count(*) = 1 AND bool_and(reach_id = '23021904' AND name IS NOT NULL AND available_series_json IS NOT NULL) FROM nws.main.reach('23021904')",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() = 1) AND bool_and(((reach_id = '23021904') AND (\"name\" IS NOT NULL) AND (available_series_json IS NOT NULL))))"
+      ]
+    },
+    {
+      "name": "extensions-streamflow-analysis_assimilation",
+      "sql": "SELECT count(*) >= 0 AND coalesce(bool_and(member IS NOT NULL AND flow_unit IS NOT NULL AND reference_at IS NOT NULL AND valid_at IS NOT NULL),true) FROM nws.main.reach_streamflow('23021904',series := 'analysis_assimilation')",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() >= 0) AND COALESCE(bool_and(((member IS NOT NULL) AND (flow_unit IS NOT NULL) AND (reference_at IS NOT NULL) AND (valid_at IS NOT NULL))), true))"
+      ]
+    },
+    {
+      "name": "extensions-streamflow-short_range",
+      "sql": "SELECT count(*) > 0 AND coalesce(bool_and(member IS NOT NULL AND flow_unit IS NOT NULL AND reference_at IS NOT NULL AND valid_at IS NOT NULL),true) FROM nws.main.reach_streamflow('23021904',series := 'short_range')",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() > 0) AND COALESCE(bool_and(((member IS NOT NULL) AND (flow_unit IS NOT NULL) AND (reference_at IS NOT NULL) AND (valid_at IS NOT NULL))), true))"
+      ]
+    },
+    {
+      "name": "extensions-streamflow-medium_range",
+      "sql": "SELECT count(*) >= 0 AND coalesce(bool_and(member IS NOT NULL AND flow_unit IS NOT NULL AND reference_at IS NOT NULL AND valid_at IS NOT NULL),true) FROM nws.main.reach_streamflow('23021904',series := 'medium_range')",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() >= 0) AND COALESCE(bool_and(((member IS NOT NULL) AND (flow_unit IS NOT NULL) AND (reference_at IS NOT NULL) AND (valid_at IS NOT NULL))), true))"
+      ]
+    },
+    {
+      "name": "extensions-streamflow-long_range",
+      "sql": "SELECT count(*) >= 0 AND coalesce(bool_and(member IS NOT NULL AND flow_unit IS NOT NULL AND reference_at IS NOT NULL AND valid_at IS NOT NULL),true) FROM nws.main.reach_streamflow('23021904',series := 'long_range')",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() >= 0) AND COALESCE(bool_and(((member IS NOT NULL) AND (flow_unit IS NOT NULL) AND (reference_at IS NOT NULL) AND (valid_at IS NOT NULL))), true))"
+      ]
+    },
+    {
+      "name": "extensions-streamflow-medium_range_blend",
+      "sql": "SELECT count(*) >= 0 AND coalesce(bool_and(member IS NOT NULL AND flow_unit IS NOT NULL AND reference_at IS NOT NULL AND valid_at IS NOT NULL),true) FROM nws.main.reach_streamflow('23021904',series := 'medium_range_blend')",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() >= 0) AND COALESCE(bool_and(((member IS NOT NULL) AND (flow_unit IS NOT NULL) AND (reference_at IS NOT NULL) AND (valid_at IS NOT NULL))), true))"
+      ]
+    },
+    {
+      "name": "extensions-low_water_threshold",
+      "sql": "SELECT count(*) >= 0 FROM nws.main.low_water_threshold('MEMT1')",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "(count_star() >= 0)"
+      ]
+    },
+    {
+      "name": "extensions-low_water_impacts",
+      "sql": "SELECT count(*) >= 0 FROM nws.main.low_water_impacts('MEMT1')",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "(count_star() >= 0)"
+      ]
+    },
+    {
+      "name": "extensions-historic_low_water",
+      "sql": "SELECT count(*) >= 0 FROM nws.main.historic_low_water('MEMT1')",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "(count_star() >= 0)"
+      ]
+    },
+    {
+      "name": "extensions-live-gauge-to-model",
+      "sql": "SELECT count(*) > 0 AND bool_and(flow_unit IS NOT NULL) FROM nws.main.gauge('RMDV2') g, LATERAL nws.main.reach_streamflow(g.reach_id) m",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() > 0) AND bool_and((flow_unit IS NOT NULL)))"
+      ]
+    },
+    {
+      "name": "extensions-compat-qpe",
+      "sql": "SELECT count(*) = 2 FROM (VALUES(38.0293),(38.0293),(NULL)) s(lat), LATERAL nws.compat.precipitation_observed_at(s.lat,-78.4767,'{\"period\":\"hour24\"}') q",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "(count_star() = 2)"
+      ]
+    },
+    {
+      "name": "extensions-compat-rating",
+      "sql": "SELECT count(*) = 4 FROM (VALUES('RMDV2'),('RMDV2'),(NULL)) s(id), LATERAL nws.compat.rating_curve(s.id,'{\"row_limit\":2}') r",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "(count_star() = 4)"
+      ]
+    },
+    {
+      "name": "extensions-compat-model",
+      "sql": "SELECT count(*) > 0 AND count(DISTINCT s.n) = 2 FROM (VALUES(1,'23021904'),(2,'23021904'),(3,NULL)) s(n,id), LATERAL nws.compat.reach_streamflow(s.id,'{\"series\":\"short_range\"}') r",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() > 0) AND (count(DISTINCT s.n) = 2))"
+      ]
+    },
+    {
+      "name": "extensions-compat-winter_precipitation_at",
+      "sql": "SELECT count(*) >= 0 FROM (VALUES(40.0),(NULL)) s(lat), LATERAL nws.compat.winter_precipitation_at(s.lat,-105,'{\"hazard\":\"ice\",\"threshold_inches\":0.25}') r",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "(count_star() >= 0)"
+      ]
+    },
+    {
+      "name": "extensions-compat-winter_storm_severity_at",
+      "sql": "SELECT count(*) >= 0 FROM (VALUES(40.0),(NULL)) s(lat), LATERAL nws.compat.winter_storm_severity_at(s.lat,-105,'{\"period\":\"day1\"}') r",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "(count_star() >= 0)"
+      ]
+    },
+    {
+      "name": "land-soil-conus",
+      "sql": "SELECT count(*) > 0 AND bool_and(region = 'conus' AND raw_unit = 'fraction' AND soil_depth_cm = 40 AND valid_at IS NOT NULL AND issued_at IS NOT NULL AND saturation_pct BETWEEN 0 AND 100 AND abs(saturation_pct-raw_value*100)<1e-8) FROM nws.main.soil_moisture_at(38.0293,-78.4767)",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() > 0) AND bool_and(((region = 'conus') AND (raw_unit = 'fraction') AND (soil_depth_cm = 40) AND (valid_at IS NOT NULL) AND (issued_at IS NOT NULL) AND (saturation_pct BETWEEN 0 AND 100) AND (abs((saturation_pct - (raw_value * 100))) < 1e-8))))"
+      ]
+    },
+    {
+      "name": "land-soil-alaska",
+      "sql": "SELECT count(*) > 0 AND bool_and(region = 'alaska' AND raw_unit = 'fraction' AND soil_depth_cm = 40 AND valid_at IS NOT NULL AND issued_at IS NOT NULL AND saturation_pct BETWEEN 0 AND 100 AND abs(saturation_pct-raw_value*100)<1e-8) FROM nws.main.soil_moisture_at(61.2,-149.9)",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() > 0) AND bool_and(((region = 'alaska') AND (raw_unit = 'fraction') AND (soil_depth_cm = 40) AND (valid_at IS NOT NULL) AND (issued_at IS NOT NULL) AND (saturation_pct BETWEEN 0 AND 100) AND (abs((saturation_pct - (raw_value * 100))) < 1e-8))))"
+      ]
+    },
+    {
+      "name": "land-soil-hawaii",
+      "sql": "SELECT count(*) > 0 AND bool_and(region = 'hawaii' AND raw_unit = 'fraction' AND soil_depth_cm = 40 AND valid_at IS NOT NULL AND issued_at IS NOT NULL AND saturation_pct BETWEEN 0 AND 100 AND abs(saturation_pct-raw_value*100)<1e-8) FROM nws.main.soil_moisture_at(20.8,-156.3)",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() > 0) AND bool_and(((region = 'hawaii') AND (raw_unit = 'fraction') AND (soil_depth_cm = 40) AND (valid_at IS NOT NULL) AND (issued_at IS NOT NULL) AND (saturation_pct BETWEEN 0 AND 100) AND (abs((saturation_pct - (raw_value * 100))) < 1e-8))))"
+      ]
+    },
+    {
+      "name": "land-soil-puerto_rico",
+      "sql": "SELECT count(*) > 0 AND bool_and(region = 'puerto_rico' AND raw_unit = 'fraction' AND soil_depth_cm = 40 AND valid_at IS NOT NULL AND issued_at IS NOT NULL AND saturation_pct BETWEEN 0 AND 100 AND abs(saturation_pct-raw_value*100)<1e-8) FROM nws.main.soil_moisture_at(18.2,-66.5)",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() > 0) AND bool_and(((region = 'puerto_rico') AND (raw_unit = 'fraction') AND (soil_depth_cm = 40) AND (valid_at IS NOT NULL) AND (issued_at IS NOT NULL) AND (saturation_pct BETWEEN 0 AND 100) AND (abs((saturation_pct - (raw_value * 100))) < 1e-8))))"
+      ]
+    },
+    {
+      "name": "land-anomaly-today",
+      "sql": "SELECT count(*) >= 3 AND count(DISTINCT metric) = 3 AND bool_and(issued_at IS NOT NULL AND ((metric = 'percent_of_normal' AND unit = 'percent') OR (metric <> 'percent_of_normal' AND unit = 'inches'))) FROM nws.main.precipitation_anomaly_at(38.0293,-78.4767,period := 'today')",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() >= 3) AND (count(DISTINCT metric) = 3) AND bool_and(((issued_at IS NOT NULL) AND (((metric = 'percent_of_normal') AND (unit = 'percent')) OR ((metric != 'percent_of_normal') AND (unit = 'inches'))))))"
+      ]
+    },
+    {
+      "name": "land-anomaly-day7",
+      "sql": "SELECT count(*) >= 3 AND count(DISTINCT metric) = 3 AND bool_and(issued_at IS NOT NULL AND ((metric = 'percent_of_normal' AND unit = 'percent') OR (metric <> 'percent_of_normal' AND unit = 'inches'))) FROM nws.main.precipitation_anomaly_at(38.0293,-78.4767,period := 'day7')",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() >= 3) AND (count(DISTINCT metric) = 3) AND bool_and(((issued_at IS NOT NULL) AND (((metric = 'percent_of_normal') AND (unit = 'percent')) OR ((metric != 'percent_of_normal') AND (unit = 'inches'))))))"
+      ]
+    },
+    {
+      "name": "land-anomaly-day30",
+      "sql": "SELECT count(*) >= 3 AND count(DISTINCT metric) = 3 AND bool_and(issued_at IS NOT NULL AND ((metric = 'percent_of_normal' AND unit = 'percent') OR (metric <> 'percent_of_normal' AND unit = 'inches'))) FROM nws.main.precipitation_anomaly_at(38.0293,-78.4767,period := 'day30')",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() >= 3) AND (count(DISTINCT metric) = 3) AND bool_and(((issued_at IS NOT NULL) AND (((metric = 'percent_of_normal') AND (unit = 'percent')) OR ((metric != 'percent_of_normal') AND (unit = 'inches'))))))"
+      ]
+    },
+    {
+      "name": "land-anomaly-water_year_to_date",
+      "sql": "SELECT count(*) >= 3 AND count(DISTINCT metric) = 3 AND bool_and(issued_at IS NOT NULL AND ((metric = 'percent_of_normal' AND unit = 'percent') OR (metric <> 'percent_of_normal' AND unit = 'inches'))) FROM nws.main.precipitation_anomaly_at(38.0293,-78.4767,period := 'water_year_to_date')",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() >= 3) AND (count(DISTINCT metric) = 3) AND bool_and(((issued_at IS NOT NULL) AND (((metric = 'percent_of_normal') AND (unit = 'percent')) OR ((metric != 'percent_of_normal') AND (unit = 'inches'))))))"
+      ]
+    },
+    {
+      "name": "land-snow",
+      "sql": "SELECT count(*) >= 2 AND count(DISTINCT variable) = 2 AND bool_and(valid_at IS NOT NULL AND issued_at IS NOT NULL AND ((variable = 'depth' AND raw_unit = 'm' AND abs(value_mm-raw_value*1000)<1e-8) OR (variable = 'water_equivalent' AND raw_unit = 'kg m-2' AND value_mm=raw_value))) FROM nws.main.snow_analysis_at(46.85,-121.76)",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() >= 2) AND (count(DISTINCT \"variable\") = 2) AND bool_and(((valid_at IS NOT NULL) AND (issued_at IS NOT NULL) AND (((\"variable\" = 'depth') AND (raw_unit = 'm') AND (abs((value_mm - (raw_value * 1000))) < 1e-8)) OR ((\"variable\" = 'water_equivalent') AND (raw_unit = 'kg m-2') AND (value_mm = raw_value))))))"
+      ]
+    },
+    {
+      "name": "land-null-soil_moisture_at",
+      "sql": "SELECT count(*) = 0 FROM nws.main.soil_moisture_at(NULL,-78)",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "(count_star() = 0)"
+      ]
+    },
+    {
+      "name": "land-null-precipitation_anomaly_at",
+      "sql": "SELECT count(*) = 0 FROM nws.main.precipitation_anomaly_at(NULL,-78)",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "(count_star() = 0)"
+      ]
+    },
+    {
+      "name": "land-null-snow_analysis_at",
+      "sql": "SELECT count(*) = 0 FROM nws.main.snow_analysis_at(NULL,-78)",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "(count_star() = 0)"
+      ]
+    },
+    {
+      "name": "land-null-storm_reports_near",
+      "sql": "SELECT count(*) = 0 FROM nws.main.storm_reports_near(NULL,-78)",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "(count_star() = 0)"
+      ]
+    },
+    {
+      "name": "land-storm-24",
+      "sql": "SELECT count(*) >= 0 AND coalesce(bool_and(lookback_hours = 24 AND reported_at IS NOT NULL AND latitude BETWEEN -90 AND 90 AND longitude BETWEEN -180 AND 180 AND attributes_json IS NOT NULL),true) FROM nws.main.storm_reports(lookback_hours := 24)",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() >= 0) AND COALESCE(bool_and(((lookback_hours = 24) AND (reported_at IS NOT NULL) AND (latitude BETWEEN -90 AND 90) AND (longitude BETWEEN -180 AND 180) AND (attributes_json IS NOT NULL))), true))"
+      ]
+    },
+    {
+      "name": "land-storm-48",
+      "sql": "SELECT count(*) >= 0 AND coalesce(bool_and(lookback_hours = 48 AND reported_at IS NOT NULL AND latitude BETWEEN -90 AND 90 AND longitude BETWEEN -180 AND 180 AND attributes_json IS NOT NULL),true) FROM nws.main.storm_reports(lookback_hours := 48)",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() >= 0) AND COALESCE(bool_and(((lookback_hours = 48) AND (reported_at IS NOT NULL) AND (latitude BETWEEN -90 AND 90) AND (longitude BETWEEN -180 AND 180) AND (attributes_json IS NOT NULL))), true))"
+      ]
+    },
+    {
+      "name": "land-storm-72",
+      "sql": "SELECT count(*) >= 0 AND coalesce(bool_and(lookback_hours = 72 AND reported_at IS NOT NULL AND latitude BETWEEN -90 AND 90 AND longitude BETWEEN -180 AND 180 AND attributes_json IS NOT NULL),true) FROM nws.main.storm_reports(lookback_hours := 72)",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() >= 0) AND COALESCE(bool_and(((lookback_hours = 72) AND (reported_at IS NOT NULL) AND (latitude BETWEEN -90 AND 90) AND (longitude BETWEEN -180 AND 180) AND (attributes_json IS NOT NULL))), true))"
+      ]
+    },
+    {
+      "name": "land-storm-near",
+      "sql": "SELECT count(*) >= 0 AND coalesce(bool_and(distance_km BETWEEN 0 AND 50),true) FROM nws.main.storm_reports_near(38.0293,-78.4767)",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() >= 0) AND COALESCE(bool_and((distance_km BETWEEN 0 AND 50)), true))"
+      ]
+    },
+    {
+      "name": "land-compat-soil_moisture_at",
+      "sql": "SELECT count(*) >= 2 AND count(DISTINCT s.id) = 2 FROM (VALUES(1,38.0293),(2,38.0293),(3,NULL)) s(id,lat), LATERAL nws.compat.soil_moisture_at(s.lat,-78.4767,'{\"region\":\"conus\"}') r",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() >= 2) AND (count(DISTINCT s.id) = 2))"
+      ]
+    },
+    {
+      "name": "land-compat-precipitation_anomaly_at",
+      "sql": "SELECT count(*) >= 2 AND count(DISTINCT s.id) = 2 FROM (VALUES(1,38.0293),(2,38.0293),(3,NULL)) s(id,lat), LATERAL nws.compat.precipitation_anomaly_at(s.lat,-78.4767,'{\"period\":\"day7\",\"metric\":\"departure\"}') r",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() >= 2) AND (count(DISTINCT s.id) = 2))"
+      ]
+    },
+    {
+      "name": "land-compat-snow_analysis_at",
+      "sql": "SELECT count(*) >= 2 AND count(DISTINCT s.id) = 2 FROM (VALUES(1,38.0293),(2,38.0293),(3,NULL)) s(id,lat), LATERAL nws.compat.snow_analysis_at(s.lat,-78.4767,'{\"variable\":\"depth\"}') r",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() >= 2) AND (count(DISTINCT s.id) = 2))"
+      ]
+    },
+    {
+      "name": "land-compat-storm",
+      "sql": "SELECT count(*) >= 0 AND coalesce(bool_and(distance_km BETWEEN 0 AND 100),true) FROM (VALUES(38.0293),(NULL)) s(lat), LATERAL nws.compat.storm_reports_near(s.lat,-78.4767,'{\"radius_km\":100}') r",
+      "status": "passed",
+      "rows": [
+        [
+          true
+        ]
+      ],
+      "columns": [
+        "((count_star() >= 0) AND COALESCE(bool_and((distance_km BETWEEN 0 AND 100)), true))"
+      ]
+    }
+  ],
+  "extension_version": "e75482339d",
+  "extension_repository": "query_farm",
+  "platform": "osx_arm64",
+  "elapsed_seconds": 78.095
+}

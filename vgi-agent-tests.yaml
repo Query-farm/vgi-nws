@@ -1,16 +1,260 @@
-# Private graders for the public vgi.agent_test_tasks in the worker's catalog metadata.
-# `vgi-lint lint --ai` runs an agent on each prompt and grades it with check_sql.
-# See https://github.com/Query-farm/vgi-lint-check (VGI920).
+# Optional L3 tasks, one per function path; upstream data can change.
 tasks:
-  - name: formal_greeting
-    reference_sql: SELECT starter.main.greet('Grace', 'formal') AS greeting
-  - name: sum_of_squares
-    reference_sql: SELECT sum(squared) AS total FROM starter.main.sequence_table(10)
-  - name: stepped_sequence
-    reference_sql: SELECT n FROM starter.main.sequence_table(4, step := 5) ORDER BY n
-  # Reads the public demo API (https://vgi-starter-api.query-farm.services/v1).
-  - name: items_per_category
-    check_sql: >-
-      SELECT count(*) = 3 AND sum(items) = 25
-      FROM (SELECT category, count(*) AS items
-            FROM starter.main.fetch_items('https://vgi-starter-api.query-farm.services/v1') GROUP BY category)
+  - name: point
+    reference_sql: "SELECT office_id, forecast_zone, grid_x, grid_y FROM nws.main.point(38.0293, -78.4767)"
+  - name: alerts
+    reference_sql: "SELECT event, severity, headline, expires FROM nws.main.alerts(area := 'VA') ORDER BY sent DESC"
+  - name: alerts_at
+    reference_sql: "SELECT event, headline FROM nws.main.alerts_at(38.0293, -78.4767)"
+  - name: alert
+    reference_sql: "SELECT d.event, d.headline, d.description FROM nws.main.alerts(area := 'VA') a, LATERAL nws.main.alert(a.id) d LIMIT 5"
+  - name: alert_types
+    reference_sql: "SELECT event FROM nws.main.alert_types() WHERE event ILIKE '%freeze%' ORDER BY event"
+  - name: stations_at
+    reference_sql: "SELECT station_id, name, elevation_m FROM nws.main.stations_at(38.0293, -78.4767) ORDER BY station_id"
+  - name: station
+    reference_sql: "SELECT station_id, name, elevation_m FROM nws.main.station('KCHO')"
+  - name: observations
+    reference_sql: "SELECT min(temperature_c) AS minimum_c, max(temperature_c) AS maximum_c FROM nws.main.observations('KCHO')"
+  - name: latest_observation
+    reference_sql: "SELECT observed_at, temperature_c, wind_speed_m_s FROM nws.main.latest_observation('KCHO')"
+  - name: forecast
+    reference_sql: "SELECT start_time, temperature_c, short_forecast FROM nws.main.forecast(38.0293, -78.4767) ORDER BY start_time"
+  - name: forecast_hourly
+    reference_sql: "SELECT start_time, temperature_c, short_forecast FROM nws.main.forecast_hourly(38.0293, -78.4767) ORDER BY start_time"
+  - name: grid_series
+    reference_sql: "SELECT valid_from, valid_to, value, unit FROM nws.main.grid_series(38.0293, -78.4767, variable := 'minTemperature') ORDER BY valid_from"
+  - name: products
+    reference_sql: "SELECT id, issued_at FROM nws.main.products('AFD', 'LWX') ORDER BY issued_at DESC"
+  - name: latest_product
+    reference_sql: "SELECT issued_at, product_text FROM nws.main.latest_product('AFD', 'LWX')"
+  - name: product
+    reference_sql: "SELECT d.product_text FROM nws.main.products('HWO', 'LWX') p, LATERAL nws.main.product(p.id) d LIMIT 1"
+  - name: product_types
+    reference_sql: "SELECT code, name FROM nws.main.product_types() WHERE name ILIKE '%fire%' ORDER BY code"
+  - name: product_locations
+    reference_sql: "SELECT office_id, name FROM nws.main.product_locations('AFD') ORDER BY office_id"
+  - name: zone
+    reference_sql: "SELECT name, geometry_json FROM nws.main.zone('forecast', 'VAZ037')"
+  - name: zones
+    reference_sql: "SELECT zone_id, name FROM nws.main.zones('fire', state := 'VA') ORDER BY zone_id"
+  - name: office
+    reference_sql: "SELECT name, website FROM nws.main.office('LWX')"
+  - name: briefing
+    reference_sql: "SELECT title, download_url FROM nws.main.briefing('LWX')"
+  - name: weather_stories
+    reference_sql: "SELECT title, download_url FROM nws.main.weather_stories('LWX')"
+  - name: glossary
+    reference_sql: "SELECT term, definition FROM nws.main.glossary() WHERE term ILIKE '%frost%'"
+  - name: gauge
+    reference_sql: "SELECT name, state, status_json FROM nws.main.gauge('RMDV2')"
+  - name: stageflow
+    reference_sql: "SELECT product, max(primary_value) AS peak, primary_unit FROM nws.main.stageflow('RMDV2') GROUP BY product, primary_unit ORDER BY product"
+  - name: flood_thresholds
+    reference_sql: "SELECT category, stage, stage_unit FROM nws.main.flood_thresholds('RMDV2') ORDER BY stage"
+  - name: flood_impacts
+    reference_sql: "SELECT stage, stage_unit, statement FROM nws.main.flood_impacts('RMDV2') ORDER BY stage"
+  - name: historic_crests
+    reference_sql: "SELECT occurred_at, stage, stage_unit, old_datum FROM nws.main.historic_crests('RMDV2') ORDER BY stage DESC LIMIT 5"
+  - name: severe_outlook
+    reference_sql: "SELECT day, hazard, category, probability_pct, valid_from, valid_to FROM nws.main.severe_outlook(day := 1) ORDER BY object_id"
+  - name: severe_outlook_at
+    reference_sql: "SELECT day, hazard, category, probability_pct, valid_from, valid_to FROM nws.main.severe_outlook_at(38.0293, -78.4767, day := 1) ORDER BY object_id"
+  - name: compat_severe_outlook_at
+    reference_sql: "SELECT day FROM nws.compat.severe_outlook_at(38.0293, -78.4767, '{\"day\":1}') ORDER BY day"
+  - name: fire_outlook
+    reference_sql: "SELECT day, hazard, category, valid_from, valid_to FROM nws.main.fire_outlook(day := 1) ORDER BY object_id"
+  - name: fire_outlook_at
+    reference_sql: "SELECT day, hazard, category, valid_from, valid_to FROM nws.main.fire_outlook_at(38.0293, -78.4767, day := 1) ORDER BY object_id"
+  - name: compat_fire_outlook_at
+    reference_sql: "SELECT day FROM nws.compat.fire_outlook_at(38.0293, -78.4767, '{\"day\":1}') ORDER BY day"
+  - name: rainfall_outlook
+    reference_sql: "SELECT day, category, risk_description, valid_from, valid_to FROM nws.main.rainfall_outlook(day := 1) ORDER BY object_id"
+  - name: rainfall_outlook_at
+    reference_sql: "SELECT day, category, risk_description, valid_from, valid_to FROM nws.main.rainfall_outlook_at(38.0293, -78.4767, day := 1) ORDER BY object_id"
+  - name: compat_rainfall_outlook_at
+    reference_sql: "SELECT day FROM nws.compat.rainfall_outlook_at(38.0293, -78.4767, '{\"day\":1}') ORDER BY day"
+  - name: precipitation_forecast
+    reference_sql: "SELECT period, contour_value, unit, valid_from, valid_to FROM nws.main.precipitation_forecast(period := 'day1') ORDER BY object_id"
+  - name: precipitation_forecast_at
+    reference_sql: "SELECT period, contour_value, unit, valid_from, valid_to FROM nws.main.precipitation_forecast_at(38.0293, -78.4767, period := 'day1') ORDER BY object_id"
+  - name: compat_precipitation_forecast_at
+    reference_sql: "SELECT period FROM nws.compat.precipitation_forecast_at(38.0293, -78.4767, '{\"period\":\"day1\"}') ORDER BY period"
+  - name: climate_outlook
+    reference_sql: "SELECT variable, category, probability_pct, valid_from, valid_to FROM nws.main.climate_outlook(period := '8_14_day') ORDER BY object_id"
+  - name: climate_outlook_at
+    reference_sql: "SELECT variable, category, probability_pct, valid_from, valid_to FROM nws.main.climate_outlook_at(38.0293, -78.4767, period := '8_14_day') ORDER BY object_id"
+  - name: compat_climate_outlook_at
+    reference_sql: "SELECT period FROM nws.compat.climate_outlook_at(38.0293, -78.4767, '{\"period\":\"8_14_day\"}') ORDER BY period"
+  - name: drought_outlook
+    reference_sql: "SELECT period, category, forecast_date, target_period FROM nws.main.drought_outlook(period := 'monthly') ORDER BY object_id"
+  - name: drought_outlook_at
+    reference_sql: "SELECT period, category, forecast_date, target_period FROM nws.main.drought_outlook_at(38.0293, -78.4767, period := 'monthly') ORDER BY object_id"
+  - name: compat_drought_outlook_at
+    reference_sql: "SELECT period FROM nws.compat.drought_outlook_at(38.0293, -78.4767, '{\"period\":\"monthly\"}') ORDER BY period"
+  - name: gauges
+    reference_sql: "SELECT gauge_id, name, state, observed_category FROM nws.main.gauges(state := 'VA') ORDER BY gauge_id"
+  - name: gauges_near
+    reference_sql: "SELECT gauge_id, name, distance_km FROM nws.main.gauges_near(37.5407, -77.4360, radius_km := 50) ORDER BY distance_km, gauge_id"
+  - name: compat_gauges_near
+    reference_sql: "SELECT gauge_id FROM nws.compat.gauges_near(37.5407, -77.4360, '{\"radius_km\":50}') ORDER BY gauge_id"
+  - name: river_network
+    reference_sql: "SELECT direction, gauge_id, name FROM nws.main.river_network('RMDV2') ORDER BY direction, sequence_number"
+  - name: compat_river_network
+    reference_sql: "SELECT origin_gauge_id FROM nws.compat.river_network('RMDV2', '{\"direction\":\"both\"}') ORDER BY origin_gauge_id"
+  - name: parse_valid_time
+    reference_sql: "SELECT valid_from, valid_to, duration_hours FROM nws.main.parse_valid_time('2026-01-02T12:00:00Z/PT2H') ORDER BY valid_from"
+  - name: precipitation_observed_at
+    reference_sql: "SELECT period, precipitation, unit, issued_at FROM nws.main.precipitation_observed_at(38.0293, -78.4767) ORDER BY raster_id"
+  - name: compat_precipitation_observed_at
+    reference_sql: "SELECT latitude FROM nws.compat.precipitation_observed_at(38.0293, -78.4767, '{\"period\":\"hour24\"}') ORDER BY latitude"
+  - name: rating_curve
+    reference_sql: "SELECT stage, stage_unit, flow, flow_unit, possibly_truncated FROM nws.main.rating_curve('RMDV2') ORDER BY stage"
+  - name: compat_rating_curve
+    reference_sql: "SELECT gauge_id FROM nws.compat.rating_curve('RMDV2', '{\"row_limit\":10000}') ORDER BY gauge_id"
+  - name: reach
+    reference_sql: "SELECT reach_id, name, available_series_json, upstream_json FROM nws.main.reach('23021904')"
+  - name: reach_streamflow
+    reference_sql: "SELECT member, max(flow) AS peak, flow_unit FROM nws.main.reach_streamflow('23021904') GROUP BY member, flow_unit ORDER BY member"
+  - name: compat_reach_streamflow
+    reference_sql: "SELECT reach_id FROM nws.compat.reach_streamflow('23021904', '{\"series\":\"short_range\"}') ORDER BY reach_id"
+  - name: low_water_threshold
+    reference_sql: "SELECT gauge_id, threshold, unit FROM nws.main.low_water_threshold('RMDV2') ORDER BY gauge_id"
+  - name: low_water_impacts
+    reference_sql: "SELECT value_text, statement FROM nws.main.low_water_impacts('RMDV2') ORDER BY value_text"
+  - name: historic_low_water
+    reference_sql: "SELECT occurred_at, stage, stage_unit, flow, flow_unit, statement FROM nws.main.historic_low_water('RMDV2') ORDER BY occurred_at"
+  - name: winter_precipitation
+    reference_sql: "SELECT hazard, threshold_inches, category, probability_min_pct, probability_max_pct, valid_from FROM nws.main.winter_precipitation(day := 1) ORDER BY object_id"
+  - name: winter_precipitation_at
+    reference_sql: "SELECT hazard, threshold_inches, category, probability_min_pct, probability_max_pct, valid_from FROM nws.main.winter_precipitation_at(38.0293, -78.4767, day := 1) ORDER BY object_id"
+  - name: compat_winter_precipitation_at
+    reference_sql: "SELECT day FROM nws.compat.winter_precipitation_at(38.0293, -78.4767, '{\"day\":1}') ORDER BY day"
+  - name: winter_storm_severity
+    reference_sql: "SELECT period, component, impact, valid_from, valid_to FROM nws.main.winter_storm_severity(period := 'day1_3') ORDER BY object_id"
+  - name: winter_storm_severity_at
+    reference_sql: "SELECT period, component, impact, valid_from, valid_to FROM nws.main.winter_storm_severity_at(38.0293, -78.4767, period := 'day1_3') ORDER BY object_id"
+  - name: compat_winter_storm_severity_at
+    reference_sql: "SELECT period FROM nws.compat.winter_storm_severity_at(38.0293, -78.4767, '{\"period\":\"day1_3\"}') ORDER BY period"
+  - name: soil_moisture_at
+    reference_sql: "SELECT region, saturation_pct, valid_at FROM nws.main.soil_moisture_at(38.0293,-78.4767) ORDER BY region, raster_id"
+  - name: precipitation_anomaly_at
+    reference_sql: "SELECT metric, value, unit FROM nws.main.precipitation_anomaly_at(38.0293,-78.4767) ORDER BY metric, raster_id"
+  - name: snow_analysis_at
+    reference_sql: "SELECT variable, value_mm, valid_at FROM nws.main.snow_analysis_at(40,-105) ORDER BY variable, raster_id"
+  - name: storm_reports
+    reference_sql: "SELECT event, count(*) AS reports FROM nws.main.storm_reports(lookback_hours := 72) GROUP BY event ORDER BY event"
+  - name: storm_reports_near
+    reference_sql: "SELECT event, magnitude_text, unit, distance_km FROM nws.main.storm_reports_near(38.0293,-78.4767) ORDER BY distance_km, object_id"
+  - name: compat_soil_moisture_at
+    reference_sql: "SELECT region FROM nws.compat.soil_moisture_at(38.0293,-78.4767,'{\"region\":\"conus\"}') ORDER BY region"
+  - name: compat_precipitation_anomaly_at
+    reference_sql: "SELECT period FROM nws.compat.precipitation_anomaly_at(38.0293,-78.4767,'{\"period\":\"day7\"}') ORDER BY period"
+  - name: compat_snow_analysis_at
+    reference_sql: "SELECT variable FROM nws.compat.snow_analysis_at(38.0293,-78.4767,'{\"variable\":\"depth\"}') ORDER BY variable"
+  - name: compat_storm_reports_near
+    reference_sql: "SELECT event FROM nws.compat.storm_reports_near(38.0293,-78.4767,'{\"radius_km\":50}') ORDER BY event"
+  - name: map_products
+    reference_sql: "SELECT product_id, service_type FROM nws.main.map_products(server := 'vector', folder := 'outlooks') ORDER BY product_id"
+  - name: map_layers
+    reference_sql: "SELECT layer_id, layer_name, reader FROM nws.main.map_layers('vector:outlooks/spc_mesoscale_discussion/MapServer') ORDER BY layer_id"
+  - name: compat_map_layers
+    reference_sql: "SELECT product_id FROM nws.compat.map_layers('vector:outlooks/spc_mesoscale_discussion/MapServer', '{\"max_pages\":100}') ORDER BY product_id"
+  - name: map_fields
+    reference_sql: "SELECT field_name, alias, field_type FROM nws.main.map_fields('vector:outlooks/spc_mesoscale_discussion/MapServer') ORDER BY field_name"
+  - name: compat_map_fields
+    reference_sql: "SELECT product_id FROM nws.compat.map_fields('vector:outlooks/spc_mesoscale_discussion/MapServer', '{\"layer_id\":0}') ORDER BY product_id"
+  - name: map_features
+    reference_sql: "SELECT object_id, attributes_json FROM nws.main.map_features('vector:outlooks/spc_mesoscale_discussion/MapServer',0) ORDER BY object_id"
+  - name: compat_map_features
+    reference_sql: "SELECT product_id FROM nws.compat.map_features('vector:outlooks/spc_mesoscale_discussion/MapServer', 0, '{\"page_size\":100}') ORDER BY product_id"
+  - name: map_features_at
+    reference_sql: "SELECT object_id, attributes_json FROM nws.main.map_features_at('vector:outlooks/spc_mesoscale_discussion/MapServer',0,38.0293,-78.4767) ORDER BY object_id"
+  - name: compat_map_features_at
+    reference_sql: "SELECT product_id FROM nws.compat.map_features_at('vector:outlooks/spc_mesoscale_discussion/MapServer', 0, 38.0293, -78.4767, '{\"page_size\":100}') ORDER BY product_id"
+  - name: map_raster_at
+    reference_sql: "SELECT r.raw_value, r.raster_name, r.valid_at FROM (SELECT min(layer_id) AS layer_id FROM nws.main.map_layers('raster:precip/rfc_gridded_ffg/MapServer') WHERE layer_type = 'Mosaic Layer') l, LATERAL nws.main.map_raster_at('raster:precip/rfc_gridded_ffg/MapServer',l.layer_id,38.0293,-78.4767) r ORDER BY r.raster_id"
+  - name: compat_map_raster_at
+    reference_sql: "SELECT product_id FROM nws.compat.map_raster_at('raster:precip/rfc_gridded_ffg/MapServer', (SELECT min(layer_id) FROM nws.main.map_layers('raster:precip/rfc_gridded_ffg/MapServer') WHERE layer_type = 'Mosaic Layer'), 38.0293, -78.4767, '{\"max_pages\":100}') ORDER BY product_id"
+  - name: map_image_at
+    reference_sql: "SELECT valid_from, raw_value, band_index FROM nws.main.map_image_at('raster:air_quality/ndgd_apm25_hr01/ImageServer',38.0293,-78.4767) ORDER BY valid_from, raster_id, band_index"
+  - name: compat_map_image_at
+    reference_sql: "SELECT product_id FROM nws.compat.map_image_at('raster:air_quality/ndgd_apm25_hr01/ImageServer', 38.0293, -78.4767, '{\"start_time\":\"\"}') ORDER BY product_id"
+  - name: flash_flood_guidance_at
+    reference_sql: "SELECT hours, threshold_mm, threshold_inches, valid_at FROM nws.main.flash_flood_guidance_at(38.0293,-78.4767) ORDER BY raster_id"
+  - name: compat_flash_flood_guidance_at
+    reference_sql: "SELECT hours FROM nws.compat.flash_flood_guidance_at(38.0293, -78.4767, '{\"hours\":3}') ORDER BY hours"
+  - name: mesoscale_discussions
+    reference_sql: "SELECT discussion_number, discussion_info, discussion_html FROM nws.main.mesoscale_discussions() ORDER BY object_id"
+  - name: mesoscale_discussions_at
+    reference_sql: "SELECT discussion_number, discussion_info, discussion_html FROM nws.main.mesoscale_discussions_at(38.0293, -78.4767) ORDER BY object_id"
+  - name: compat_mesoscale_discussions_at
+    reference_sql: "SELECT discussion_number FROM nws.compat.mesoscale_discussions_at(38.0293, -78.4767, '{\"page_size\":100}') ORDER BY discussion_number"
+  - name: weather_hazards
+    reference_sql: "SELECT period, hazard_group, hazard, valid_from, valid_to FROM nws.main.weather_hazards() ORDER BY object_id"
+  - name: weather_hazards_at
+    reference_sql: "SELECT period, hazard_group, hazard, valid_from, valid_to FROM nws.main.weather_hazards_at(38.0293, -78.4767) ORDER BY object_id"
+  - name: compat_weather_hazards_at
+    reference_sql: "SELECT period FROM nws.compat.weather_hazards_at(38.0293, -78.4767, '{\"period\":\"3_7_day\"}') ORDER BY period"
+  - name: winter_storm_probability
+    reference_sql: "SELECT forecast_hour, component, impact, probability_pct, valid_from, valid_to FROM nws.main.winter_storm_probability() ORDER BY object_id"
+  - name: winter_storm_probability_at
+    reference_sql: "SELECT forecast_hour, component, impact, probability_pct, valid_from, valid_to FROM nws.main.winter_storm_probability_at(38.0293, -78.4767) ORDER BY object_id"
+  - name: compat_winter_storm_probability_at
+    reference_sql: "SELECT forecast_hour FROM nws.compat.winter_storm_probability_at(38.0293, -78.4767, '{\"forecast_hour\":24}') ORDER BY forecast_hour"
+  - name: river_flood_outlook
+    reference_sql: "SELECT outlook, product, valid_from, valid_to FROM nws.main.river_flood_outlook() ORDER BY object_id"
+  - name: river_flood_outlook_at
+    reference_sql: "SELECT outlook, product, valid_from, valid_to FROM nws.main.river_flood_outlook_at(38.0293, -78.4767) ORDER BY object_id"
+  - name: compat_river_flood_outlook_at
+    reference_sql: "SELECT outlook FROM nws.compat.river_flood_outlook_at(38.0293, -78.4767, '{\"page_size\":100}') ORDER BY outlook"
+  - name: beach_forecast
+    reference_sql: "SELECT office_id, beach_name, has_forecast, rip_current_risk, surf_text, water_temperature_text FROM nws.main.beach_forecast() ORDER BY object_id"
+  - name: beach_forecast_at
+    reference_sql: "SELECT office_id, beach_name, has_forecast, rip_current_risk, surf_text, water_temperature_text FROM nws.main.beach_forecast_at(38.0293, -78.4767) ORDER BY object_id"
+  - name: compat_beach_forecast_at
+    reference_sql: "SELECT day FROM nws.compat.beach_forecast_at(38.0293, -78.4767, '{\"day\":1}') ORDER BY day"
+  - name: long_range_flood_outlook
+    reference_sql: "SELECT gauge_id, flood_category, probability_text, target_period FROM nws.main.long_range_flood_outlook(state := 'VA') ORDER BY gauge_id, flood_category"
+  - name: air_quality_at
+    reference_sql: "SELECT pollutant, value, unit, valid_from, issued_at FROM nws.main.air_quality_at(38.0293,-78.4767) ORDER BY valid_from, raster_id"
+  - name: compat_air_quality_at
+    reference_sql: "SELECT product FROM nws.compat.air_quality_at(38.0293, -78.4767, '{\"product\":\"pm25_1h\"}') ORDER BY product"
+  - name: river_at_a_glance
+    reference_sql: "SELECT gauge_id, name, flood_statements_json FROM nws.main.river_at_a_glance('RMDV2') ORDER BY gauge_id"
+  - name: compat_river_at_a_glance
+    reference_sql: "SELECT gauge_id FROM nws.compat.river_at_a_glance('RMDV2', '{\"max_pages\":100}') ORDER BY gauge_id"
+  - name: api_endpoints
+    reference_sql: "SELECT operation_id, description, parameters_json FROM nws.main.api_endpoints(service := 'aviation') WHERE NOT deprecated ORDER BY operation_id"
+  - name: api_rows
+    reference_sql: "SELECT record_id, record_json FROM nws.main.api_rows('aviation','metar','{\"ids\":\"KCHO\"}') ORDER BY row_index"
+  - name: compat_api_rows
+    reference_sql: "SELECT service FROM nws.compat.api_rows('aviation', 'metar', '{\"ids\":\"KCHO\"}', '{\"max_pages\":100}') ORDER BY service"
+  - name: buoy_stations
+    reference_sql: "SELECT station_id, name, latitude, longitude FROM nws.main.buoy_stations() WHERE meteorology ORDER BY station_id"
+  - name: buoy_products
+    reference_sql: "SELECT product, supported, data_url FROM nws.main.buoy_products('44014') ORDER BY product"
+  - name: compat_buoy_products
+    reference_sql: "SELECT station_id FROM nws.compat.buoy_products('44014', '{\"max_pages\":100}') ORDER BY station_id"
+  - name: buoy_measurements
+    reference_sql: "SELECT observed_at, variable, value, unit FROM nws.main.buoy_measurements('44014', variable := 'WVHT') ORDER BY observed_at DESC"
+  - name: compat_buoy_measurements
+    reference_sql: "SELECT station_id FROM nws.compat.buoy_measurements('44014', '{\"product\":\"txt\"}') ORDER BY station_id"
+  - name: space_weather_products
+    reference_sql: "SELECT product_id, kind FROM nws.main.space_weather_products(folder := 'json/goes/primary') ORDER BY product_id"
+  - name: space_weather_rows
+    reference_sql: "SELECT record_key, record_json FROM nws.main.space_weather_rows('products/noaa-scales.json') ORDER BY record_key"
+  - name: compat_space_weather_rows
+    reference_sql: "SELECT product_id FROM nws.compat.space_weather_rows('products/noaa-scales.json', '{\"page_size\":500}') ORDER BY product_id"
+  - name: tropical_features
+    reference_sql: "SELECT storm_name, advisory_number, valid_time_text, attributes_json FROM nws.main.tropical_features() ORDER BY object_id"
+  - name: tropical_features_at
+    reference_sql: "SELECT product, storm_name, attributes_json FROM nws.main.tropical_features_at(25.76,-80.19) ORDER BY object_id"
+  - name: compat_tropical_features_at
+    reference_sql: "SELECT product FROM nws.compat.tropical_features_at(38.0293, -78.4767, '{\"product\":\"forecast_cone\"}') ORDER BY product"
+  - name: mrms_products
+    reference_sql: "SELECT product_id, unit, description FROM nws.main.mrms_products() WHERE kind = 'directory' ORDER BY product_id"
+  - name: mrms_at
+    reference_sql: "SELECT valid_at, value, unit, value_status, grid_latitude, grid_longitude FROM nws.main.mrms_at('2D/PrecipRate',38.0293,-78.4767) ORDER BY valid_at"
+  - name: compat_mrms_at
+    reference_sql: "SELECT product_id FROM nws.compat.mrms_at('2D/PrecipRate', 38.0293, -78.4767, '{\"level\":-1}') ORDER BY product_id"

@@ -4,13 +4,10 @@
 # contract with `vgi-lint spec`.
 
 # The worker to attach, relative to this directory. Build it first with `make build`.
-location = "bin/vgi-starter-worker"
+location = "bin/vgi-nws-worker"
 
-# template-only:start
-fail_on = "info"
-# template-only:end
 # Fail on warnings while you build. Raise this to "info" before you publish the worker.
-# fork-only: fail_on = "warning"
+fail_on = "warning"
 
 # Waive a finding only with a kind and a reason, so the waiver can be audited:
 #   domain-exemption  permanent and legitimate for this worker
@@ -18,7 +15,7 @@ fail_on = "info"
 #   timing            slow or flaky because of the environment, not the metadata
 #   tooling-bug       the linter is wrong; report it upstream
 ignore = [
-  # { code = "VGI146", kind = "domain-exemption", reason = "every entry point needs a key" },
+  { code = "VGI117", kind = "domain-exemption", reason = "Keep the established nws.main public namespace for this focused NWS/NWPS catalog. Its 92 functions intentionally exceed the default 50-object guidance; all have categories, typed arguments, result columns, examples and agent tasks. Moving related extensions to new schemas would fragment the existing SQL interface." },
 ]
 
 # Adopting the gate on a worker that already has findings? Record them once with

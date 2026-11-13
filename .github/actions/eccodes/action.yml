@@ -1,0 +1,27 @@
+name: ecCodes runtime
+description: Install native ecCodes and verify real PNG decoding
+runs:
+  using: composite
+  steps:
+    - if: runner.os == 'Linux'
+      shell: bash
+      run: sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends libeccodes-tools
+    - if: runner.os == 'macOS'
+      shell: bash
+      run: brew install eccodes
+    - if: runner.os == 'Windows'
+      uses: conda-incubator/setup-miniconda@v3
+      with:
+        miniforge-version: latest
+        activate-environment: nws-eccodes
+        environment-file: ci/eccodes.yml
+    - if: runner.os == 'Windows'
+      shell: bash -el {0}
+      run: |
+        cygpath -m "$CONDA_PREFIX/Library/bin" >> "$GITHUB_PATH"
+        echo "ECCODES_DEFINITION_PATH=$(cygpath -m "$CONDA_PREFIX/Library/share/eccodes/definitions")" >> "$GITHUB_ENV"
+        echo "ECCODES_SAMPLES_PATH=$(cygpath -m "$CONDA_PREFIX/Library/share/eccodes/samples")" >> "$GITHUB_ENV"
+    - shell: bash
+      run: |
+        codes_info -v
+        test "$(grib_get -F %.17g -p bitmapPresent -i 330 test/fixtures/grib/png.grib2 | xargs)" = "0 2.5"

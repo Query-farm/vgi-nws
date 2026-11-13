@@ -1,0 +1,307 @@
+# name: test/sql/feeds.test
+# description: Schema-driven APIs, marine observations and space weather
+# group: [nws]
+require vgi
+
+require-env NWS_WORKER
+
+statement ok
+ATTACH 'nws' (TYPE vgi, LOCATION '{NWS_WORKER}');
+
+# feeds-api-discovery
+query I
+SELECT count(*)=4 AND count(*) FILTER(WHERE deprecated)=1 FROM nws.main.api_endpoints(service:='aviation');
+----
+1
+
+# feeds-api-metars
+query I
+SELECT count(*)=1 AND min(record_id)='KCHO' AND bool_and(record_json LIKE '%"temp":0%' AND record_json LIKE '%"wspd":null%') FROM nws.main.api_rows('aviation','metar','{"ids":"KCHO"}');
+----
+1
+
+# feeds-api-204
+query I
+SELECT count(*)=0 FROM nws.main.api_rows('aviation','metar','{"ids":"NONE"}');
+----
+1
+
+# feeds-api-text
+query I
+SELECT count(*)=1 AND min(text) LIKE '%Cold high pressure%' AND count(record_json)=0 FROM nws.main.api_rows('aviation','fcstdisc','{"ids":"LWX"}');
+----
+1
+
+# feeds-api-radio
+query I
+SELECT count(*)=1 AND min(text)='<speak><p>Cold weather forecast.</p></speak>' FROM nws.main.api_rows('weather','area_radio','{"callSign":"KHB36"}');
+----
+1
+
+# feeds-api-zone
+query I
+SELECT count(*)=1 AND min(properties_json) LIKE '%Sunny%' FROM nws.main.api_rows('weather','zone_forecast','{"type":"forecast","zoneId":"VAZ037"}');
+----
+1
+
+# feeds-api-water
+query I
+SELECT count(*)=1 AND min(record_json) LIKE '%"primaryUnits":"ft"%' FROM nws.main.api_rows('water','Products_GetStageFlow','{"identifier":"RMDV2","pedts":"HGIRG"}');
+----
+1
+
+# feeds-api-pages
+query I
+SELECT count(*)=3 FROM nws.main.api_rows('weather','alerts_query','{"area":["VA"]}');
+----
+1
+
+# feeds-river-glance
+query I
+SELECT count(*)=2 AND min(gauge_id)='OTHER' AND bool_and(flood_statements_json LIKE '%Flooding possible%' AND record_json LIKE '%"units":"ft"%') FROM nws.main.river_at_a_glance('rmdv2,RMDV2,OTHER');
+----
+1
+
+# feeds-river-empty
+query I
+SELECT count(*)=0 FROM nws.main.river_at_a_glance('NONE');
+----
+1
+
+# feeds-buoy-stations
+query I
+SELECT count(*)=2 AND count(*) FILTER(WHERE meteorology)=1 AND min(elevation_m)=0 AND count(elevation_m)=1 AND count(*) FILTER(WHERE name='Virginia & offshore')=1 FROM nws.main.buoy_stations();
+----
+1
+
+# feeds-buoy-products
+query I
+SELECT count(*)=16 AND count(*) FILTER(WHERE supported)=15 FROM nws.main.buoy_products('44014');
+----
+1
+
+# feeds-buoy-native
+query I
+SELECT count(*)=9 AND count(value)=8 AND count(*) FILTER(WHERE value=0 AND NOT is_missing)=1 AND count(*) FILTER(WHERE is_missing AND value_text='MM')=1 FROM nws.main.buoy_measurements('44014',page_size:=1);
+----
+1
+
+# feeds-buoy-timefilter
+query I
+SELECT count(*)=1 AND count(value)=0 AND min(unit)='m' AND min(observed_at)=TIMESTAMPTZ '2026-01-02 11:00:00+00' FROM nws.main.buoy_measurements('44014',variable:='WVHT',page_size:=1,start_time:='2026-01-02T11:00:00Z',end_time:='2026-01-02T12:00:00Z');
+----
+1
+
+# feeds-buoy-category
+query I
+SELECT value IS NULL AND NOT is_missing AND value_text='VERY_STEEP' FROM nws.main.buoy_measurements('44014',product:='spec',variable:='STEEPNESS');
+----
+1
+
+# feeds-buoy-seconds
+query I
+SELECT count(*)=2 AND min(observed_at)=TIMESTAMPTZ '2026-01-02 12:00:30+00' AND max(value)=4718.202 FROM nws.main.buoy_measurements('21415',product:='dart');
+----
+1
+
+# feeds-buoy-drift
+query I
+SELECT min(observed_at)=TIMESTAMPTZ '2026-01-02 12:05:00+00' AND count(*)=3 FROM nws.main.buoy_measurements('44014',product:='drift');
+----
+1
+
+# feeds-spectra-data_spec
+query I
+SELECT count(*)=4 AND count(frequency_hz)=3 AND count(value)=2 AND min(value)=0 AND max(value)=0.25 FROM nws.main.buoy_measurements('44014',product:='data_spec');
+----
+1
+
+# feeds-spectra-swdir
+query I
+SELECT count(*)=3 AND count(frequency_hz)=3 AND count(value)=2 AND min(value)=0 AND max(value)=0.25 FROM nws.main.buoy_measurements('44014',product:='swdir');
+----
+1
+
+# feeds-spectra-swdir2
+query I
+SELECT count(*)=3 AND count(frequency_hz)=3 AND count(value)=2 AND min(value)=0 AND max(value)=0.25 FROM nws.main.buoy_measurements('44014',product:='swdir2');
+----
+1
+
+# feeds-spectra-swr1
+query I
+SELECT count(*)=3 AND count(frequency_hz)=3 AND count(value)=2 AND min(value)=0 AND max(value)=0.25 FROM nws.main.buoy_measurements('44014',product:='swr1');
+----
+1
+
+# feeds-spectra-swr2
+query I
+SELECT count(*)=3 AND count(frequency_hz)=3 AND count(value)=2 AND min(value)=0 AND max(value)=0.25 FROM nws.main.buoy_measurements('44014',product:='swr2');
+----
+1
+
+# feeds-buoy-ocean
+query I
+SELECT count(*)=3 AND count(observed_at)=3 FROM nws.main.buoy_measurements('44014',product:='ocean');
+----
+1
+
+# feeds-buoy-supl
+query I
+SELECT count(*)=5 AND count(observed_at)=5 FROM nws.main.buoy_measurements('44014',product:='supl');
+----
+1
+
+# feeds-buoy-adcp
+query I
+SELECT count(*)=6 AND count(observed_at)=6 FROM nws.main.buoy_measurements('44014',product:='adcp');
+----
+1
+
+# feeds-buoy-rain
+query I
+SELECT count(*)=1 AND count(observed_at)=1 FROM nws.main.buoy_measurements('44014',product:='rain');
+----
+1
+
+# feeds-buoy-srad
+query I
+SELECT count(*)=3 AND count(observed_at)=3 FROM nws.main.buoy_measurements('44014',product:='srad');
+----
+1
+
+# feeds-buoy-cwind
+query I
+SELECT count(*)=5 AND count(observed_at)=5 FROM nws.main.buoy_measurements('44014',product:='cwind');
+----
+1
+
+# feeds-buoy-adcp-unit
+query I
+SELECT count(*)=2 AND count(value)=1 AND min(unit)='cm/s' FROM nws.main.buoy_measurements('44014',product:='adcp') WHERE variable LIKE 'SPD%';
+----
+1
+
+# feeds-buoy-cwind-missing
+query I
+SELECT count(*) FILTER(WHERE is_missing)=3 AND count(*) FILTER(WHERE value=0)=2 FROM nws.main.buoy_measurements('44014',product:='cwind');
+----
+1
+
+# feeds-space-discovery
+query I
+SELECT count(*)=10 AND count(*) FILTER(WHERE product_id='json/goes/primary/xrays-6-hour.json')=1 AND count(*) FILTER(WHERE product_id LIKE '%animations%')=0 FROM nws.main.space_weather_products(recursive:=true);
+----
+1
+
+# feeds-space-scale
+query I
+SELECT count(*)=3 AND count(DISTINCT record_key)=3 AND count(record_json)=3 AND count(text)=0 FROM nws.main.space_weather_rows('products/noaa-scales.json',page_size:=1);
+----
+1
+
+# feeds-space-table
+query I
+SELECT count(*)=3 AND count(observed_at)=3 AND count(*) FILTER(WHERE record_json LIKE '%"density":"0"%')=1 AND count(*) FILTER(WHERE record_json LIKE '%"density":null%')=1 FROM nws.main.space_weather_rows('products/table.json',page_size:=1);
+----
+1
+
+# feeds-space-aurora
+query I
+SELECT count(*)=3 AND min(observed_at)=TIMESTAMPTZ '2026-01-02 12:00:00+00' AND min(forecast_at)=TIMESTAMPTZ '2026-01-02 12:30:00+00' AND bool_and(context_json LIKE '%Longitude%') FROM nws.main.space_weather_rows('json/ovation_aurora_latest.json',page_size:=1);
+----
+1
+
+# feeds-space-xray
+query I
+SELECT count(*)=2 AND count(*) FILTER(WHERE record_json LIKE '%"flux":0%')=1 AND count(*) FILTER(WHERE record_json LIKE '%"flux":null%')=1 FROM nws.main.space_weather_rows('json/goes/primary/xrays-6-hour.json');
+----
+1
+
+# feeds-space-text
+query I
+SELECT count(*)=1 AND min(text) LIKE '%No significant activity%' FROM nws.main.space_weather_rows('text/3-day-forecast.txt');
+----
+1
+
+# feeds-compat_river_at_a_glance
+query I
+SELECT count(*)>0 FROM (SELECT gauge_id FROM nws.compat.river_at_a_glance('RMDV2', '{"max_pages":100}') ORDER BY gauge_id) q;
+----
+1
+
+# feeds-compat_api_rows
+query I
+SELECT count(*)>0 FROM (SELECT service FROM nws.compat.api_rows('aviation', 'metar', '{"ids":"KCHO"}', '{"max_pages":100}') ORDER BY service) q;
+----
+1
+
+# feeds-compat_buoy_products
+query I
+SELECT count(*)>0 FROM (SELECT station_id FROM nws.compat.buoy_products('44014', '{"max_pages":100}') ORDER BY station_id) q;
+----
+1
+
+# feeds-compat_buoy_measurements
+query I
+SELECT count(*)>0 FROM (SELECT station_id FROM nws.compat.buoy_measurements('44014', '{"product":"txt"}') ORDER BY station_id) q;
+----
+1
+
+# feeds-compat_space_weather_rows
+query I
+SELECT count(*)>0 FROM (SELECT product_id FROM nws.compat.space_weather_rows('products/noaa-scales.json', '{"page_size":500}') ORDER BY product_id) q;
+----
+1
+
+# feeds-correlated-buoy
+query I
+SELECT count(*)=6 AND count(*) FILTER(WHERE b.value IS NULL)=2 FROM (VALUES('44014'),('44014'),(NULL)) s(id), LATERAL nws.compat.buoy_measurements(s.id,'{"variable":"WVHT","page_size":1}') b;
+----
+1
+
+statement error
+SELECT * FROM nws.main.api_rows('aviation','metar','{"ids":"CAP"}');
+----
+<REGEX>:.*
+
+statement error
+SELECT * FROM nws.main.api_rows('aviation','metar','{"ids":"KCHO","format":"raw"}');
+----
+<REGEX>:.*
+
+statement error
+SELECT * FROM nws.main.api_rows('weather','zone_forecast','{"type":"forecast"}');
+----
+<REGEX>:.*
+
+statement error
+SELECT * FROM nws.main.api_rows('weather','nonexistent','{}');
+----
+<REGEX>:.*
+
+statement error
+SELECT * FROM nws.main.api_rows('weather','alerts_query','{"area":["VA"]}',max_pages:=1);
+----
+<REGEX>:.*
+
+statement error
+SELECT * FROM nws.main.buoy_measurements('../secret');
+----
+<REGEX>:.*
+
+statement error
+SELECT * FROM nws.main.buoy_measurements('44014',max_pages:=1,page_size:=1);
+----
+<REGEX>:.*
+
+statement error
+SELECT * FROM nws.main.space_weather_rows('https://example.com/x.json');
+----
+<REGEX>:.*
+
+statement error
+SELECT * FROM nws.main.space_weather_rows('products/table.json',page_size:=1,max_pages:=1);
+----
+<REGEX>:.*
+

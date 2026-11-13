@@ -1,0 +1,6 @@
+name: nws-eccodes
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - eccodes>=2.28,<3

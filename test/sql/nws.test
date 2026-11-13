@@ -1,0 +1,292 @@
+# name: test/sql/nws.test
+# description: NWS and NWPS deterministic fixtures over the real VGI extension
+# group: [nws]
+require vgi
+
+require-env NWS_WORKER
+
+statement ok
+ATTACH 'nws' (TYPE vgi, LOCATION '{NWS_WORKER}');
+
+query TTII
+SELECT office_id, forecast_zone, grid_x::INTEGER, grid_y::INTEGER FROM nws.main.point(38.0293, -78.4767);
+----
+LWX	VAZ037	51	26
+
+# Batched lateral: duplicates preserve the outer rows and NULL produces no match.
+query IT
+SELECT s.id, p.office_id FROM (VALUES (1,38.0), (2,38.0), (3,NULL), (4,39.0)) s(id,lat) LEFT JOIN LATERAL nws.main.point(s.lat, -78.0) p ON true ORDER BY s.id;
+----
+1	LWX
+2	LWX
+3	NULL
+4	LWX
+
+query I
+SELECT count(*) FROM nws.main.point(NULL, -78.0);
+----
+0
+
+statement error
+SELECT * FROM nws.main.point(91, 0);
+----
+<REGEX>:.*
+
+# The third alert is in a second HTTP page; geometry NULL is a valid zone alert.
+query III
+SELECT count(*), count(geometry_json), count(affected_zones_json) FROM nws.main.alerts(area := 'VA');
+----
+3	0	3
+
+query I
+SELECT onset = TIMESTAMPTZ '2026-01-03 05:00:00+00' FROM nws.main.alerts(area := 'VA') LIMIT 1;
+----
+1
+
+query I
+SELECT count(*) FROM nws.main.alerts(area := 'ZZ');
+----
+0
+
+query II
+SELECT s.id, count(a.id) FROM (VALUES (1,38.0), (2,38.0), (3,NULL), (4,39.0)) s(id,lat) LEFT JOIN LATERAL nws.main.alerts_at(s.lat, -78.0) a ON true GROUP BY s.id ORDER BY s.id;
+----
+1	3
+2	3
+3	0
+4	3
+
+# More than inputRowsPerCall; continuation spans inputs and pages.
+query I
+SELECT count(*) FROM range(40) s(i), LATERAL nws.main.alerts_at(38.0 + i * 0.001, -78.0) a;
+----
+120
+
+query I
+SELECT count(*) FROM nws.main.alerts_at(38,-78, active := false, start_time := '2026-01-01T00:00:00Z');
+----
+3
+
+statement error
+SELECT * FROM nws.main.alerts(area := 'VA', zone := 'VAZ037');
+----
+Use area or zone
+
+statement error
+SELECT * FROM nws.main.alerts(start_time := '2026-01-01T00:00:00Z');
+----
+Time filters require
+
+statement error
+SELECT * FROM nws.main.alerts(max_pages := 1);
+----
+max_pages
+
+statement error
+SELECT * FROM nws.main.alerts_at(38,-78, max_pages := 1);
+----
+max_pages
+
+query T
+SELECT event FROM nws.main.alert('urn:oid:test-1');
+----
+Freeze Warning
+
+query I
+SELECT count(*) FROM nws.main.alert_types();
+----
+2
+
+query T
+SELECT station_id FROM nws.main.stations_at(38,-78);
+----
+KCHO
+
+query II
+SELECT elevation_m::INTEGER, latitude IS NOT NULL FROM nws.main.station('KCHO');
+----
+195	1
+
+query III
+SELECT count(*), sum(temperature_c)::INTEGER, count(wind_gust_m_s) FROM nws.main.observations('KCHO', page_size := 2);
+----
+3	24	0
+
+query III
+SELECT wind_speed_m_s::INTEGER, precipitation_1h_mm IS NULL, measurements_json LIKE '%qualityControl%' FROM nws.main.latest_observation('KCHO');
+----
+5	1	1
+
+query II
+SELECT s.id, count(o.observed_at) FROM (VALUES (1,'KCHO'), (2,'KCHO'), (3,NULL)) s(id,station) LEFT JOIN LATERAL nws.main.observations(s.station) o ON true GROUP BY s.id ORDER BY s.id;
+----
+1	3
+2	3
+3	0
+
+statement error
+SELECT * FROM nws.main.latest_observation('MISSING');
+----
+HTTP 404
+
+statement error
+SELECT * FROM nws.main.observations('KCHO', page_size := 501);
+----
+page_size
+
+query IIT
+SELECT temperature_c::INTEGER, precipitation_probability_pct IS NULL, wind_speed FROM nws.main.forecast(38,-78);
+----
+0	1	5 to 10 mph
+
+query I
+SELECT count(*) FROM nws.main.forecast_hourly(38,-78);
+----
+1
+
+query III
+SELECT count(*), count(value), sum(date_diff('hour',valid_from,valid_to)) FROM nws.main.grid_series(38,-78, variable := 'temperature');
+----
+2	1	3
+
+query II
+SELECT value IS NULL, value_json LIKE '%snow%' FROM nws.main.grid_series(38,-78, variable := 'weather');
+----
+1	1
+
+statement error
+SELECT * FROM nws.main.grid_series(38,-78, variable := 'notAVariable');
+----
+Unknown grid variable
+
+query IT
+SELECT count(*), min(id) FROM nws.main.products('AFD','LWX');
+----
+1	test-product
+
+query I
+SELECT product_text LIKE '%Cold high pressure.%' FROM nws.main.latest_product('AFD','LWX');
+----
+1
+
+query I
+SELECT length(d.product_text) > 30 FROM nws.main.products('AFD','LWX') p, LATERAL nws.main.product(p.id) d;
+----
+1
+
+query T
+SELECT code FROM nws.main.product_types() ORDER BY code;
+----
+AFD
+FWF
+
+query I
+SELECT count(*) FROM nws.main.product_locations('AFD');
+----
+2
+
+query TI
+SELECT name, geometry_json LIKE '%Polygon%' FROM nws.main.zone('forecast','VAZ037');
+----
+Albemarle	1
+
+query I
+SELECT count(*) FROM nws.main.zones('fire', state := 'VA');
+----
+1
+
+query T
+SELECT name FROM nws.main.office('LWX');
+----
+Sterling
+
+query T
+SELECT title FROM nws.main.briefing('LWX');
+----
+Cold weather briefing
+
+query I
+SELECT count(*) FROM nws.main.briefing('ZZZ');
+----
+0
+
+query I
+SELECT count(*) FROM nws.main.weather_stories('LWX');
+----
+1
+
+query T
+SELECT term FROM nws.main.glossary();
+----
+Frost
+
+query TT
+SELECT usgs_id, state FROM nws.main.gauge('RMDV2');
+----
+02037500	VA
+
+query TIT
+SELECT product, primary_value::INTEGER, secondary_unit FROM nws.main.stageflow('RMDV2') ORDER BY product;
+----
+forecast	8	kcfs
+observed	6	kcfs
+
+query I
+SELECT secondary_value IS NULL FROM nws.main.stageflow('RMDV2', product := 'forecast');
+----
+1
+
+query TIT
+SELECT category, stage::INTEGER, flow_unit FROM nws.main.flood_thresholds('RMDV2') ORDER BY stage;
+----
+action	9	cfs
+minor	12	cfs
+moderate	15	cfs
+major	22	cfs
+
+query T
+SELECT statement FROM nws.main.flood_impacts('RMDV2');
+----
+River stage sensor operating limit
+
+query IT
+SELECT old_datum, preliminary FROM nws.main.historic_crests('RMDV2');
+----
+1	R
+
+statement error
+SELECT * FROM nws.main.stageflow('RMDV2', product := 'fake');
+----
+<REGEX>:.*
+
+query I
+SELECT duration_hours::INTEGER FROM nws.main.parse_valid_time('2026-01-02T12:00:00Z/PT2H');
+----
+2
+
+query II
+SELECT t.id, p.duration_hours::INTEGER FROM (VALUES (1, '2026-01-02T12:00:00Z/PT2H'), (2,NULL), (3, '2026-01-02T12:00:00Z/P1D')) t(id, valid_time) LEFT JOIN LATERAL nws.main.parse_valid_time(t.valid_time) p ON true ORDER BY t.id;
+----
+1	2
+2	NULL
+3	24
+
+statement error
+SELECT * FROM nws.main.alerts(area := 'CY');
+----
+pagination cycle
+
+statement error
+SELECT * FROM nws.main.alerts(area := 'XF');
+----
+outside the configured API root
+
+statement error
+SELECT * FROM nws.main.point('NaN'::DOUBLE, -78);
+----
+Invalid non-finite
+
+statement error
+SELECT * FROM nws.main.parse_valid_time('2026-01-02T12:00:00/PT2H');
+----
+interval start must have a timezone

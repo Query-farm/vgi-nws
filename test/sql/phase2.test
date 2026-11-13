@@ -1,0 +1,299 @@
+# name: test/sql/phase2.test
+# description: Spatial outlooks and river discovery over real VGI transports
+# group: [nws]
+require vgi
+
+require-env NWS_WORKER
+
+statement ok
+ATTACH 'nws' (TYPE vgi, LOCATION '{NWS_WORKER}');
+
+# Layer names resolve to fixture IDs that differ from live service IDs.
+# Three rows span multiple pages even when page_size exceeds the service cap.
+query II
+SELECT count(*), count(probability_pct) FROM nws.main.severe_outlook(page_size := 500);
+----
+3	0
+
+query IT
+SELECT object_id::INTEGER, category FROM nws.main.severe_outlook_at(38,-78, page_size := 1) ORDER BY object_id;
+----
+1	General Thunderstorms Risk
+2	Marginal Risk
+
+query I
+SELECT probability_pct::INTEGER FROM nws.main.severe_outlook(day := 2, hazard := 'tornado') ORDER BY object_id;
+----
+5
+10
+15
+
+query I
+SELECT count(*) FROM nws.main.severe_outlook(day := 8, hazard := 'severe');
+----
+3
+
+query II
+SELECT geometry_json IS NULL, attributes_json LIKE '%idp_filedate%' FROM nws.main.severe_outlook() ORDER BY object_id LIMIT 1;
+----
+1	1
+
+query I
+SELECT geometry_json LIKE '%MultiPolygon%' FROM nws.main.severe_outlook(bbox := '-80,36,-79.5,36.5', include_geometry := true);
+----
+1
+
+# Both halves of this bbox intersect the same multipolygon; emit once.
+query II
+SELECT count(*), min(object_id)::INTEGER FROM nws.main.severe_outlook(bbox := '179,9,-179,11', page_size := 1);
+----
+1	3
+
+query I
+SELECT count(*) FROM nws.main.severe_outlook_at(0,0);
+----
+0
+
+query II
+SELECT s.id, count(o.object_id) FROM (VALUES (1,38.0),(2,38.0),(3,NULL),(4,0.0)) s(id,lat) LEFT JOIN LATERAL nws.main.severe_outlook_at(s.lat, -78, page_size := 1) o ON true GROUP BY s.id ORDER BY s.id;
+----
+1	2
+2	2
+3	0
+4	0
+
+query I
+SELECT count(*) FROM range(40) t(i), LATERAL nws.main.climate_outlook_at(38+i*0.001,-78,page_size := 1) o;
+----
+80
+
+query T
+SELECT category FROM nws.main.fire_outlook(day := 2, hazard := 'dry_thunderstorm') ORDER BY object_id;
+----
+Isolated Dry Thunderstorm
+Scattered Dry Thunderstorm
+No delineated area
+
+query TI
+SELECT category, issued_at IS NULL FROM nws.main.fire_outlook_at(38,-78) ORDER BY object_id;
+----
+Elevated	1
+Critical	1
+
+query T
+SELECT category FROM nws.main.rainfall_outlook(day := 5) ORDER BY object_id;
+----
+Marginal
+Slight
+Moderate
+
+query II
+SELECT count(*), bool_and(issued_at = TIMESTAMPTZ '2026-01-02 11:00:00+00') FROM nws.main.rainfall_outlook_at(38,-78);
+----
+2	1
+
+query TI
+SELECT unit, count(*) FROM nws.main.precipitation_forecast(period := 'day1_7') GROUP BY unit;
+----
+Inches	3
+
+query II
+SELECT object_id::INTEGER, contour_value = 0.1 FROM nws.main.precipitation_forecast_at(38,-78,include_geometry := true) ORDER BY object_id;
+----
+1	1
+2	0
+
+query TTI
+SELECT variable, category, probability_pct::INTEGER FROM nws.main.climate_outlook(period := '6_10_day', variable := 'precipitation') ORDER BY object_id;
+----
+precipitation	Above	40
+precipitation	Below	50
+precipitation	Normal	36
+
+query I
+SELECT count(*) FROM nws.main.climate_outlook_at(38,-78, period := '8_14_day');
+----
+2
+
+query TT
+SELECT category, target_period FROM nws.main.drought_outlook(period := 'seasonal') ORDER BY object_id;
+----
+Improvement	March 31
+Persistence	March 31
+Development	March 31
+
+query I
+SELECT count(*) FROM nws.main.drought_outlook_at(38,-78);
+----
+2
+
+# State filtering happens after geographic selection; tile edge ownership prevents duplicates.
+query TT
+SELECT gauge_id, state FROM nws.main.gauges(state := 'VA') ORDER BY gauge_id;
+----
+CORNV2	VA
+EDGEV2	VA
+NEARV2	VA
+RMDV2	VA
+
+query I
+SELECT count(*) FROM nws.main.gauges(bbox := '-78,37,-77,38');
+----
+3
+
+query T
+SELECT gauge_id FROM nws.main.gauges_near(37.5407,-77.436,radius_km := 50, state := 'VA') ORDER BY distance_km,gauge_id;
+----
+RMDV2
+NEARV2
+
+query III
+SELECT count(*), count(distance_km), count(forecast_at) FROM nws.main.gauges_near(37.5407,-77.436);
+----
+3	3	0
+
+query T
+SELECT gauge_id FROM nws.main.gauges_near(10,179.9,radius_km := 50) ORDER BY gauge_id;
+----
+DATE
+DATW
+
+query T
+SELECT gauge_id FROM nws.main.gauges_near(90,0,radius_km := 50);
+----
+POLAR
+
+query II
+SELECT s.id, count(g.gauge_id) FROM (VALUES(1,37.5407),(2,37.5407),(3,NULL)) s(id,lat) LEFT JOIN LATERAL nws.main.gauges_near(s.lat,-77.436, state := 'VA') g ON true GROUP BY s.id ORDER BY s.id;
+----
+1	2
+2	2
+3	0
+
+query TTI
+SELECT direction, gauge_id, sequence_number::INTEGER FROM nws.main.river_network('RMDV2') ORDER BY direction,sequence_number;
+----
+downstream	RICV2	1
+upstream	SVEV2	1
+upstream	CARV2	2
+
+query T
+SELECT gauge_id FROM nws.main.river_network('RMDV2',direction := 'downstream');
+----
+RICV2
+
+query I
+SELECT count(*) FROM nws.main.river_network(NULL);
+----
+0
+
+statement error
+SELECT * FROM nws.main.severe_outlook(day := 3, hazard := 'tornado');
+----
+Unsupported SPC day/hazard combination
+
+statement error
+SELECT * FROM nws.main.severe_outlook(page_size := 1, max_pages := 1);
+----
+max_pages
+
+statement error
+SELECT * FROM nws.main.climate_outlook_at(38,-78,variable := 'humidity');
+----
+<REGEX>:.*
+
+statement error
+SELECT * FROM nws.main.rainfall_outlook(bbox := '1,2,3');
+----
+bbox must be
+
+statement error
+SELECT * FROM nws.main.severe_outlook(bbox := '10,10,11,11');
+----
+GIS error 498
+
+statement error
+SELECT * FROM nws.main.severe_outlook(bbox := '20,10,21,11', page_size := 1);
+----
+did not advance
+
+statement error
+SELECT * FROM nws.main.severe_outlook(bbox := '30,10,31,11');
+----
+empty truncated
+
+statement error
+SELECT * FROM nws.main.severe_outlook(bbox := '40,10,41,11',page_size := 1);
+----
+publication changed
+
+statement error
+SELECT * FROM nws.main.gauges();
+----
+requires state or bbox
+
+statement error
+SELECT * FROM nws.main.gauges(state := 'VA', bbox := '-125,24,-66,50', max_pages := 1);
+----
+max_pages
+
+statement error
+SELECT * FROM nws.main.gauges_near(38,-78,radius_km := 0);
+----
+<REGEX>:.*
+
+statement error
+SELECT * FROM nws.main.gauges(state := 'ZZ');
+----
+supported uppercase
+
+statement error
+SELECT * FROM nws.main.gauges_near('NaN'::DOUBLE,-78);
+----
+Invalid non-finite
+
+# Positional JSON options also work on stock DuckDB 2.0.0 (duckdb#27833 workaround).
+query II
+SELECT s.id, count(o.object_id) FROM (VALUES (1,38.0),(2,38.0),(3,NULL),(4,0.0)) s(id,lat) LEFT JOIN LATERAL nws.compat.severe_outlook_at(s.lat,-78,'{"page_size":1}') o ON true GROUP BY s.id ORDER BY s.id;
+----
+1	2
+2	2
+3	0
+4	0
+
+query II
+SELECT s.id, count(g.gauge_id) FROM (VALUES(1,37.5407),(2,37.5407),(3,NULL)) s(id,lat) LEFT JOIN LATERAL nws.compat.gauges_near(s.lat,-77.436,'{"state":"VA","radius_km":50}') g ON true GROUP BY s.id ORDER BY s.id;
+----
+1	2
+2	2
+3	0
+
+query T
+SELECT n.gauge_id FROM (VALUES('RMDV2')) g(id), LATERAL nws.compat.river_network(g.id,'{"direction":"downstream"}') n;
+----
+RICV2
+
+query I
+SELECT count(*) FROM nws.main.gauges(bbox := '-100,30,-60,50',state := 'VA');
+----
+4
+
+statement error
+SELECT * FROM nws.compat.severe_outlook_at(38,-78,'{"unknown":1}');
+----
+Unknown options_json key
+
+statement error
+SELECT * FROM nws.compat.severe_outlook_at(38,-78,'{"include_geometry":"false"}');
+----
+Invalid options_json value
+
+statement error
+SELECT * FROM nws.compat.severe_outlook_at(38,-78,'{"page_size":1,"max_pages":1}');
+----
+max_pages
+
+statement error
+SELECT * FROM nws.compat.climate_outlook_at(38,-78,'{"variable":"humidity"}');
+----
+Invalid options_json choice

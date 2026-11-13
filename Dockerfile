@@ -6,15 +6,20 @@ FROM oven/bun:1.3-slim
 
 ARG VERSION=0.0.0
 ARG GIT_COMMIT=unknown
-LABEL org.opencontainers.image.title="vgi-starter-worker" \
-      org.opencontainers.image.description="A VGI worker for DuckDB" \
-      org.opencontainers.image.source="https://github.com/Query-farm/vgi-starter-typescript" \
+LABEL org.opencontainers.image.title="vgi-nws-worker" \
+      org.opencontainers.image.description="NWS weather and NWPS river data for DuckDB" \
       org.opencontainers.image.version="${VERSION}" \
       org.opencontainers.image.revision="${GIT_COMMIT}" \
       org.opencontainers.image.licenses="0BSD"
 
 ENV NODE_ENV=production PORT=8000
 WORKDIR /app
+
+RUN apt-get update && apt-get install -y --no-install-recommends libeccodes-tools \
+    && rm -rf /var/lib/apt/lists/*
+COPY test/fixtures/grib/png.grib2 /tmp/nws-png-check.grib2
+RUN test "$(grib_get -F %.17g -p bitmapPresent -i 330 /tmp/nws-png-check.grib2 | xargs)" = "0 2.5" \
+    && rm /tmp/nws-png-check.grib2
 
 COPY package.json bun.lock ./
 RUN bun install --frozen-lockfile --production

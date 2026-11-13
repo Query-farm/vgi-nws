@@ -2,7 +2,7 @@
   "template": "vgi-starter-typescript",
   "lang": "typescript",
   "template_version": "1.3.0",
-  "template_commit": "0000000000000000000000000000000000000000",
+  "template_commit": "145aedcb87ed8fadde6dfb8a26197d0d68112369",
   "post_init": [
     "bun install",
     "bun x biome format --write ."
@@ -13,5 +13,8 @@
   "optional_files": [
     ".github/workflows/nightly.yml",
     ".github/dependabot.yml"
-  ]
+  ],
+  "name": "nws",
+  "repo": "vgi-nws",
+  "initialized": "2026-11-13"
 }

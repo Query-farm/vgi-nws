@@ -1,0 +1,79 @@
+{
+  "checked_at": "2026-11-13T23:15:30.220984+00:00",
+  "engine": "v2.0.0",
+  "eccodes": "2.50.1",
+  "attach": "ATTACH 'nws' (TYPE vgi, LOCATION '/Users/rusty/Development/vgi-nws/bin/vgi-nws-worker')",
+  "queries": [
+    {
+      "sql": "SELECT product_id,unit FROM nws.main.mrms_products() WHERE product_id='2D/RadarOnly_QPE_72H'",
+      "columns": [
+        "product_id",
+        "unit"
+      ],
+      "rows": [
+        [
+          "2D/RadarOnly_QPE_72H",
+          "mm"
+        ]
+      ]
+    },
+    {
+      "sql": "SELECT filename, value, unit, value_status, raw_value, reference_at, valid_at, grid_latitude, grid_longitude, packing_template, source_url FROM nws.main.mrms_at('2D/RadarOnly_QPE_72H',47.6,-122.3)",
+      "columns": [
+        "filename",
+        "value",
+        "unit",
+        "value_status",
+        "raw_value",
+        "reference_at",
+        "valid_at",
+        "grid_latitude",
+        "grid_longitude",
+        "packing_template",
+        "source_url"
+      ],
+      "rows": [
+        [
+          "MRMS_RadarOnly_QPE_72H_00.00_20261113-230000.grib2.gz",
+          12.200000000000001,
+          "mm",
+          "valid",
+          12.200000000000001,
+          "2026-11-13 18:00:00-05:00",
+          "2026-11-13 18:00:00-05:00",
+          47.605,
+          -122.29499999999996,
+          41.0,
+          "https://mrms.ncep.noaa.gov/2D/RadarOnly_QPE_72H/MRMS_RadarOnly_QPE_72H_00.00_20261113-230000.grib2.gz"
+        ]
+      ]
+    },
+    {
+      "sql": "SELECT value,unit,value_status FROM nws.main.mrms_at('2D/PrecipRate',38.0293,-78.4767)",
+      "columns": [
+        "value",
+        "unit",
+        "value_status"
+      ],
+      "rows": [
+        [
+          0.0,
+          "mm/hr",
+          "valid"
+        ]
+      ]
+    },
+    {
+      "sql": "SELECT count(*) FROM nws.main.mrms_at('2D/PrecipRate',0,0)",
+      "columns": [
+        "count_star()"
+      ],
+      "rows": [
+        [
+          0
+        ]
+      ]
+    }
+  ],
+  "passed": true
+}

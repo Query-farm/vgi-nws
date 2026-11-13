@@ -1,0 +1,444 @@
+{
+  "objective": "Expose all available and useful public NWS product families through the TypeScript VGI worker, with discovery, usable data readers, documented semantics, fixtures and real SQL verification.",
+  "inventory_date": "2026-11-13",
+  "completion_requires": [
+    "Preserve existing 60 main and 17 compatibility functions",
+    "Implement all named additions proposed in the conversation",
+    "Cover additional useful public products discovered during the service inventory",
+    "Provide real data access, not just links, for geographic, image, aviation, tropical and radar products",
+    "Add fixture/unit/SQL/metadata coverage and live checks for new capabilities",
+    "Pass make check and audit every family against implementation and current verification evidence"
+  ],
+  "families": [
+    {
+      "name": "GIS service/layer/field discovery and general feature access",
+      "status": "pending"
+    },
+    {
+      "name": "Flash flood guidance",
+      "status": "pending"
+    },
+    {
+      "name": "Air quality, ozone, smoke and dust forecast series",
+      "status": "pending"
+    },
+    {
+      "name": "SPC mesoscale discussions",
+      "status": "pending"
+    },
+    {
+      "name": "Probabilistic winter storm severity",
+      "status": "pending"
+    },
+    {
+      "name": "CPC/WPC weather hazards",
+      "status": "pending"
+    },
+    {
+      "name": "Significant and long-range river flood outlooks",
+      "status": "pending"
+    },
+    {
+      "name": "Marine/beach forecasts",
+      "status": "pending"
+    },
+    {
+      "name": "Tropical cyclones, tracks, cones, wind and surge products",
+      "status": "pending"
+    },
+    {
+      "name": "Radar reflectivity and MRMS precipitation",
+      "status": "pending"
+    },
+    {
+      "name": "Additional GIS ice, river breakup, spot forecasts, surface analysis and climate products",
+      "status": "pending"
+    },
+    {
+      "name": "AWC aviation observations, forecasts, advisories and aircraft reports",
+      "status": "pending"
+    },
+    {
+      "name": "Remaining useful weather.gov APIs: zone forecasts, station discovery, office headlines, radio and radar status",
+      "status": "pending"
+    },
+    {
+      "name": "Remaining NWPS products and gauge discovery views",
+      "status": "pending"
+    },
+    {
+      "name": "NDBC buoy observations and marine measurements",
+      "status": "pending"
+    },
+    {
+      "name": "SWPC space weather products",
+      "status": "pending"
+    }
+  ],
+  "gis_inventory": [
+    [
+      "vector",
+      "aviation/awc_aviation_weather",
+      "MapServer"
+    ],
+    [
+      "vector",
+      "fire_weather/nws_fire_weather_spot",
+      "MapServer"
+    ],
+    [
+      "vector",
+      "fire_weather/SPC_firewx",
+      "MapServer"
+    ],
+    [
+      "vector",
+      "hazards/cpc_weather_hazards",
+      "MapServer"
+    ],
+    [
+      "vector",
+      "hazards/wpc_precip_hazards",
+      "MapServer"
+    ],
+    [
+      "vector",
+      "hazards/WR_all_Hazards",
+      "MapServer"
+    ],
+    [
+      "vector",
+      "obs/aprfc_RiverBreakupStatus",
+      "MapServer"
+    ],
+    [
+      "vector",
+      "obs/asip_ice_chart",
+      "MapServer"
+    ],
+    [
+      "vector",
+      "obs/NWM_Stream_Analysis",
+      "MapServer"
+    ],
+    [
+      "vector",
+      "obs/nws_local_storm_reports",
+      "MapServer"
+    ],
+    [
+      "vector",
+      "obs/surface_obs",
+      "MapServer"
+    ],
+    [
+      "vector",
+      "obs/usnic_greatlakes_ice_chart",
+      "MapServer"
+    ],
+    [
+      "vector",
+      "outlooks/cpc_6_10_day_outlk",
+      "MapServer"
+    ],
+    [
+      "vector",
+      "outlooks/cpc_8_14_day_outlk",
+      "MapServer"
+    ],
+    [
+      "vector",
+      "outlooks/cpc_drought_outlk",
+      "FeatureServer"
+    ],
+    [
+      "vector",
+      "outlooks/cpc_drought_outlk",
+      "MapServer"
+    ],
+    [
+      "vector",
+      "outlooks/cpc_mthly_precip_outlk",
+      "MapServer"
+    ],
+    [
+      "vector",
+      "outlooks/cpc_mthly_temp_outlk",
+      "MapServer"
+    ],
+    [
+      "vector",
+      "outlooks/cpc_sea_precip_outlk",
+      "MapServer"
+    ],
+    [
+      "vector",
+      "outlooks/cpc_sea_temp_outlk",
+      "MapServer"
+    ],
+    [
+      "vector",
+      "outlooks/long_range_flood_outlook",
+      "MapServer"
+    ],
+    [
+      "vector",
+      "outlooks/marine_beachforecast_summary",
+      "FeatureServer"
+    ],
+    [
+      "vector",
+      "outlooks/marine_beachforecast_summary",
+      "MapServer"
+    ],
+    [
+      "vector",
+      "outlooks/marine_beachforecast",
+      "MapServer"
+    ],
+    [
+      "vector",
+      "outlooks/natl_fcst_wx_chart",
+      "MapServer"
+    ],
+    [
+      "vector",
+      "outlooks/sig_riv_fld_outlk",
+      "MapServer"
+    ],
+    [
+      "vector",
+      "outlooks/spc_mesoscale_discussion",
+      "MapServer"
+    ],
+    [
+      "vector",
+      "outlooks/SPC_wx_outlks",
+      "FeatureServer"
+    ],
+    [
+      "vector",
+      "outlooks/SPC_wx_outlks",
+      "MapServer"
+    ],
+    [
+      "vector",
+      "outlooks/wpc_wssi_p",
+      "MapServer"
+    ],
+    [
+      "vector",
+      "outlooks/wpc_wssi",
+      "MapServer"
+    ],
+    [
+      "vector",
+      "precip/wpc_prob_winter_precip",
+      "MapServer"
+    ],
+    [
+      "vector",
+      "precip/wpc_qpf",
+      "MapServer"
+    ],
+    [
+      "raster",
+      "air_quality/ndgd_apm25_hr01_bc",
+      "ImageServer"
+    ],
+    [
+      "raster",
+      "air_quality/ndgd_apm25_hr01",
+      "ImageServer"
+    ],
+    [
+      "raster",
+      "air_quality/ndgd_apm25_hr24_bc",
+      "ImageServer"
+    ],
+    [
+      "raster",
+      "air_quality/ndgd_apm25_hr24",
+      "ImageServer"
+    ],
+    [
+      "raster",
+      "air_quality/ndgd_dust_sfc_time",
+      "ImageServer"
+    ],
+    [
+      "raster",
+      "air_quality/ndgd_dust_vert_time",
+      "ImageServer"
+    ],
+    [
+      "raster",
+      "air_quality/ndgd_mpm25_hr01_bc",
+      "ImageServer"
+    ],
+    [
+      "raster",
+      "air_quality/ndgd_mpm25_hr01",
+      "ImageServer"
+    ],
+    [
+      "raster",
+      "air_quality/ndgd_ozone_1hr_avg_time_bc",
+      "ImageServer"
+    ],
+    [
+      "raster",
+      "air_quality/ndgd_ozone_1hr_avg_time",
+      "ImageServer"
+    ],
+    [
+      "raster",
+      "air_quality/ndgd_ozone_1hr_max_time_bc",
+      "ImageServer"
+    ],
+    [
+      "raster",
+      "air_quality/ndgd_ozone_1hr_max_time",
+      "ImageServer"
+    ],
+    [
+      "raster",
+      "air_quality/ndgd_ozone_8hr_avg_time_bc",
+      "ImageServer"
+    ],
+    [
+      "raster",
+      "air_quality/ndgd_ozone_8hr_avg_time",
+      "ImageServer"
+    ],
+    [
+      "raster",
+      "air_quality/ndgd_ozone_8hr_max_time_bc",
+      "ImageServer"
+    ],
+    [
+      "raster",
+      "air_quality/ndgd_ozone_8hr_max_time",
+      "ImageServer"
+    ],
+    [
+      "raster",
+      "air_quality/ndgd_smoke_sfc_1hr_avg_time",
+      "ImageServer"
+    ],
+    [
+      "raster",
+      "air_quality/ndgd_smoke_vert_1hr_avg_time",
+      "ImageServer"
+    ],
+    [
+      "raster",
+      "climate/cpc_cmorph_dly_025deg",
+      "MapServer"
+    ],
+    [
+      "raster",
+      "climate/cpc_gfs_precip_anom",
+      "MapServer"
+    ],
+    [
+      "raster",
+      "climate/cpc_wkly_sst",
+      "MapServer"
+    ],
+    [
+      "raster",
+      "NDFD/NDFD_temp",
+      "MapServer"
+    ],
+    [
+      "raster",
+      "obs/mrms_qpe",
+      "ImageServer"
+    ],
+    [
+      "raster",
+      "obs/NWM_Land_Analysis",
+      "MapServer"
+    ],
+    [
+      "raster",
+      "obs/rfc_qpe",
+      "MapServer"
+    ],
+    [
+      "raster",
+      "obs/usnic_ims_snow_ice_1km",
+      "ImageServer"
+    ],
+    [
+      "raster",
+      "outlooks/winter_weather_outlook",
+      "MapServer"
+    ],
+    [
+      "raster",
+      "precip/rfc_gridded_ffg",
+      "MapServer"
+    ],
+    [
+      "raster",
+      "snow/NOHRSC_Snow_Analysis",
+      "MapServer"
+    ],
+    [
+      "tropical",
+      "tropical/NHC_Breakpoints",
+      "MapServer"
+    ],
+    [
+      "tropical",
+      "tropical/NHC_PeakStormSurge",
+      "MapServer"
+    ],
+    [
+      "tropical",
+      "tropical/NHC_tropical_weather_summary",
+      "MapServer"
+    ],
+    [
+      "tropical",
+      "tropical/NHC_tropical_weather",
+      "MapServer"
+    ],
+    [
+      "tropical",
+      "tropical/StormSurgeRisk",
+      "MapServer"
+    ],
+    [
+      "eventdriven",
+      "radar/radar_base_reflectivity_time",
+      "ImageServer"
+    ],
+    [
+      "eventdriven",
+      "radar/radar_base_reflectivity",
+      "MapServer"
+    ],
+    [
+      "eventdriven",
+      "water/riv_gauges",
+      "MapServer"
+    ],
+    [
+      "eventdriven",
+      "WWA/watch_warn_adv",
+      "FeatureServer"
+    ],
+    [
+      "eventdriven",
+      "WWA/watch_warn_adv",
+      "MapServer"
+    ]
+  ],
+  "verification": {
+    "make_check": null,
+    "live": null
+  }
+}

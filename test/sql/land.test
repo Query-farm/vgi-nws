@@ -1,0 +1,552 @@
+# name: test/sql/land.test
+# description: Soil moisture, rainfall anomalies, snow analysis and local storm reports
+# group: [nws]
+require vgi
+
+require-env NWS_WORKER
+
+statement ok
+ATTACH 'nws' (TYPE vgi, LOCATION '{NWS_WORKER}');
+
+# land-soil-values
+query TRRTI
+SELECT region,saturation_pct,raw_value,raw_unit,soil_depth_cm FROM nws.main.soil_moisture_at(38,-78);
+----
+conus	62.5	0.625	fraction	40
+
+# land-soil-conus
+query I
+SELECT count(*) = 1 AND bool_and(region = 'conus' AND saturation_pct = 62.5) FROM nws.main.soil_moisture_at(38,-78);
+----
+1
+
+# land-soil-alaska
+query I
+SELECT count(*) = 1 AND bool_and(region = 'alaska' AND saturation_pct = 80) FROM nws.main.soil_moisture_at(60,-150);
+----
+1
+
+# land-soil-hawaii
+query I
+SELECT count(*) = 1 AND bool_and(region = 'hawaii' AND saturation_pct = 75) FROM nws.main.soil_moisture_at(20,-156);
+----
+1
+
+# land-soil-puerto_rico
+query I
+SELECT count(*) = 1 AND bool_and(region = 'puerto_rico' AND saturation_pct = 90) FROM nws.main.soil_moisture_at(18,-66);
+----
+1
+
+# land-soil-wrong-region
+query I
+SELECT count(*) = 0 FROM nws.main.soil_moisture_at(38,-78,region := 'hawaii');
+----
+1
+
+# land-soil-times
+query I
+SELECT valid_at = TIMESTAMPTZ '2026-01-02 12:00:00+00' AND issued_at = TIMESTAMPTZ '2026-01-02 11:00:00+00' AND source_file_at = TIMESTAMPTZ '2026-01-02 12:00:01+00' AND ingested_at = TIMESTAMPTZ '2026-01-02 12:00:02+00' AND fetched_at IS NOT NULL AND source_url LIKE '%/identify?%' AND metadata_url LIKE '%/query?%' FROM nws.main.soil_moisture_at(38,-78);
+----
+1
+
+# land-anomaly-values
+query TRT
+SELECT metric,value,unit FROM nws.main.precipitation_anomaly_at(38,-78) ORDER BY metric;
+----
+departure	-1.25	inches
+normal	2	inches
+percent_of_normal	37.5	percent
+
+# land-anomaly-today
+query I
+SELECT count(*) = 3 AND count(DISTINCT metric) = 3 AND min(value) = -1.25 AND count(valid_at) = 0 AND count(issued_at) = 3 FROM nws.main.precipitation_anomaly_at(38,-78,period := 'today');
+----
+1
+
+# land-anomaly-day7
+query I
+SELECT count(*) = 3 AND count(DISTINCT metric) = 3 AND min(value) = -1.25 AND count(valid_at) = 0 AND count(issued_at) = 3 FROM nws.main.precipitation_anomaly_at(38,-78,period := 'day7');
+----
+1
+
+# land-anomaly-day10
+query I
+SELECT count(*) = 3 AND count(DISTINCT metric) = 3 AND min(value) = -1.25 AND count(valid_at) = 0 AND count(issued_at) = 3 FROM nws.main.precipitation_anomaly_at(38,-78,period := 'day10');
+----
+1
+
+# land-anomaly-day14
+query I
+SELECT count(*) = 3 AND count(DISTINCT metric) = 3 AND min(value) = -1.25 AND count(valid_at) = 0 AND count(issued_at) = 3 FROM nws.main.precipitation_anomaly_at(38,-78,period := 'day14');
+----
+1
+
+# land-anomaly-day30
+query I
+SELECT count(*) = 3 AND count(DISTINCT metric) = 3 AND min(value) = -1.25 AND count(valid_at) = 0 AND count(issued_at) = 3 FROM nws.main.precipitation_anomaly_at(38,-78,period := 'day30');
+----
+1
+
+# land-anomaly-day60
+query I
+SELECT count(*) = 3 AND count(DISTINCT metric) = 3 AND min(value) = -1.25 AND count(valid_at) = 0 AND count(issued_at) = 3 FROM nws.main.precipitation_anomaly_at(38,-78,period := 'day60');
+----
+1
+
+# land-anomaly-day90
+query I
+SELECT count(*) = 3 AND count(DISTINCT metric) = 3 AND min(value) = -1.25 AND count(valid_at) = 0 AND count(issued_at) = 3 FROM nws.main.precipitation_anomaly_at(38,-78,period := 'day90');
+----
+1
+
+# land-anomaly-day120
+query I
+SELECT count(*) = 3 AND count(DISTINCT metric) = 3 AND min(value) = -1.25 AND count(valid_at) = 0 AND count(issued_at) = 3 FROM nws.main.precipitation_anomaly_at(38,-78,period := 'day120');
+----
+1
+
+# land-anomaly-day180
+query I
+SELECT count(*) = 3 AND count(DISTINCT metric) = 3 AND min(value) = -1.25 AND count(valid_at) = 0 AND count(issued_at) = 3 FROM nws.main.precipitation_anomaly_at(38,-78,period := 'day180');
+----
+1
+
+# land-anomaly-day365
+query I
+SELECT count(*) = 3 AND count(DISTINCT metric) = 3 AND min(value) = -1.25 AND count(valid_at) = 0 AND count(issued_at) = 3 FROM nws.main.precipitation_anomaly_at(38,-78,period := 'day365');
+----
+1
+
+# land-anomaly-month_to_date
+query I
+SELECT count(*) = 3 AND count(DISTINCT metric) = 3 AND min(value) = -1.25 AND count(valid_at) = 0 AND count(issued_at) = 3 FROM nws.main.precipitation_anomaly_at(38,-78,period := 'month_to_date');
+----
+1
+
+# land-anomaly-year_to_date
+query I
+SELECT count(*) = 3 AND count(DISTINCT metric) = 3 AND min(value) = -1.25 AND count(valid_at) = 0 AND count(issued_at) = 3 FROM nws.main.precipitation_anomaly_at(38,-78,period := 'year_to_date');
+----
+1
+
+# land-anomaly-water_year_to_date
+query I
+SELECT count(*) = 3 AND count(DISTINCT metric) = 3 AND min(value) = -1.25 AND count(valid_at) = 0 AND count(issued_at) = 3 FROM nws.main.precipitation_anomaly_at(38,-78,period := 'water_year_to_date');
+----
+1
+
+# land-metric-normal
+query I
+SELECT count(*) = 1 AND bool_and(metric = 'normal') FROM nws.main.precipitation_anomaly_at(38,-78,metric := 'normal');
+----
+1
+
+# land-metric-departure
+query I
+SELECT count(*) = 1 AND bool_and(metric = 'departure') FROM nws.main.precipitation_anomaly_at(38,-78,metric := 'departure');
+----
+1
+
+# land-metric-percent_of_normal
+query I
+SELECT count(*) = 1 AND bool_and(metric = 'percent_of_normal') FROM nws.main.precipitation_anomaly_at(38,-78,metric := 'percent_of_normal');
+----
+1
+
+# land-snow-values
+query TRTI
+SELECT variable,raw_value,raw_unit,value_mm FROM nws.main.snow_analysis_at(38,-105) ORDER BY variable;
+----
+depth	0.25	m	250
+water_equivalent	45	kg m-2	45
+
+# land-snow-times
+query I
+SELECT count(DISTINCT valid_at) = 2 AND min(valid_at) = TIMESTAMPTZ '2026-01-02 12:00:00+00' AND max(valid_at) = TIMESTAMPTZ '2026-01-02 13:00:00+00' FROM nws.main.snow_analysis_at(38,-105);
+----
+1
+
+# land-snow-depth
+query I
+SELECT count(*) = 1 AND bool_and(variable = 'depth') FROM nws.main.snow_analysis_at(38,-105,variable := 'depth');
+----
+1
+
+# land-snow-water_equivalent
+query I
+SELECT count(*) = 1 AND bool_and(variable = 'water_equivalent') FROM nws.main.snow_analysis_at(38,-105,variable := 'water_equivalent');
+----
+1
+
+# land-soil_moisture_at-null
+query I
+SELECT count(*) = 0 FROM nws.main.soil_moisture_at(NULL,-78);
+----
+1
+
+# land-soil_moisture_at-outside
+query I
+SELECT count(*) = 0 FROM nws.main.soil_moisture_at(38,78);
+----
+1
+
+# land-soil_moisture_at-nodata
+query I
+SELECT count(*) = 1 AND count(saturation_pct) = 0 AND count(raster_id) = 1 FROM nws.main.soil_moisture_at(40,-78);
+----
+1
+
+# land-soil_moisture_at-zero
+query I
+SELECT count(*) = 1 AND bool_and(saturation_pct = 0) FROM nws.main.soil_moisture_at(41,-78);
+----
+1
+
+# land-soil_moisture_at-lateral
+query II
+SELECT s.id,count(p.raster_id) FROM (VALUES(1,38),(2,38),(3,NULL),(4,41)) s(id,lat) LEFT JOIN LATERAL nws.main.soil_moisture_at(s.lat,-78) p ON true GROUP BY s.id ORDER BY s.id;
+----
+1	1
+2	1
+3	0
+4	1
+
+# land-soil_moisture_at-batches
+query I
+SELECT count(*) = 40 AND count(DISTINCT s.id) = 40 FROM (SELECT i AS id, 38+(i%2) AS lat FROM range(40) t(i)) s, LATERAL nws.main.soil_moisture_at(s.lat,-78) p;
+----
+1
+
+# land-precipitation_anomaly_at-null
+query I
+SELECT count(*) = 0 FROM nws.main.precipitation_anomaly_at(NULL,-78);
+----
+1
+
+# land-precipitation_anomaly_at-outside
+query I
+SELECT count(*) = 0 FROM nws.main.precipitation_anomaly_at(38,78);
+----
+1
+
+# land-precipitation_anomaly_at-nodata
+query I
+SELECT count(*) = 3 AND count(value) = 0 AND count(raster_id) = 3 FROM nws.main.precipitation_anomaly_at(40,-78);
+----
+1
+
+# land-precipitation_anomaly_at-zero
+query I
+SELECT count(*) = 3 AND bool_and(value = 0) FROM nws.main.precipitation_anomaly_at(41,-78);
+----
+1
+
+# land-precipitation_anomaly_at-lateral
+query II
+SELECT s.id,count(p.raster_id) FROM (VALUES(1,38),(2,38),(3,NULL),(4,41)) s(id,lat) LEFT JOIN LATERAL nws.main.precipitation_anomaly_at(s.lat,-78) p ON true GROUP BY s.id ORDER BY s.id;
+----
+1	3
+2	3
+3	0
+4	3
+
+# land-precipitation_anomaly_at-batches
+query I
+SELECT count(*) = 120 AND count(DISTINCT s.id) = 40 FROM (SELECT i AS id, 38+(i%2) AS lat FROM range(40) t(i)) s, LATERAL nws.main.precipitation_anomaly_at(s.lat,-78) p;
+----
+1
+
+# land-snow_analysis_at-null
+query I
+SELECT count(*) = 0 FROM nws.main.snow_analysis_at(NULL,-78);
+----
+1
+
+# land-snow_analysis_at-outside
+query I
+SELECT count(*) = 0 FROM nws.main.snow_analysis_at(38,78);
+----
+1
+
+# land-snow_analysis_at-nodata
+query I
+SELECT count(*) = 2 AND count(value_mm) = 0 AND count(raster_id) = 2 FROM nws.main.snow_analysis_at(40,-78);
+----
+1
+
+# land-snow_analysis_at-zero
+query I
+SELECT count(*) = 2 AND bool_and(value_mm = 0) FROM nws.main.snow_analysis_at(41,-78);
+----
+1
+
+# land-snow_analysis_at-lateral
+query II
+SELECT s.id,count(p.raster_id) FROM (VALUES(1,38),(2,38),(3,NULL),(4,41)) s(id,lat) LEFT JOIN LATERAL nws.main.snow_analysis_at(s.lat,-78) p ON true GROUP BY s.id ORDER BY s.id;
+----
+1	2
+2	2
+3	0
+4	2
+
+# land-snow_analysis_at-batches
+query I
+SELECT count(*) = 80 AND count(DISTINCT s.id) = 40 FROM (SELECT i AS id, 38+(i%2) AS lat FROM range(40) t(i)) s, LATERAL nws.main.snow_analysis_at(s.lat,-78) p;
+----
+1
+
+# land-compat-soil_moisture_at
+query I
+SELECT count(*) = 2 FROM (VALUES(38),(38),(NULL)) s(lat), LATERAL nws.compat.soil_moisture_at(s.lat,-78,'{"region":"conus"}') r;
+----
+1
+
+# land-compat-precipitation_anomaly_at
+query I
+SELECT count(*) = 2 FROM (VALUES(38),(38),(NULL)) s(lat), LATERAL nws.compat.precipitation_anomaly_at(s.lat,-78,'{"period":"day7","metric":"departure"}') r;
+----
+1
+
+# land-compat-snow_analysis_at
+query I
+SELECT count(*) = 2 FROM (VALUES(38),(38),(NULL)) s(lat), LATERAL nws.compat.snow_analysis_at(s.lat,-78,'{"variable":"water_equivalent"}') r;
+----
+1
+
+# land-compat-storm_reports_near
+query I
+SELECT count(*) = 4 FROM (VALUES(38),(38),(NULL)) s(lat), LATERAL nws.compat.storm_reports_near(s.lat,-78,'{"radius_km":50,"event":"Hail","state":"VA","page_size":1}') r;
+----
+1
+
+# land-reports-24
+query I
+SELECT count(*) = 8 AND count(DISTINCT object_id) = 8 AND count(geometry_json) = 0 AND count(distance_km) = 0 AND bool_and(lookback_hours = 24) FROM nws.main.storm_reports(lookback_hours := 24,page_size := 1);
+----
+1
+
+# land-reports-48
+query I
+SELECT count(*) = 8 AND count(DISTINCT object_id) = 8 AND count(geometry_json) = 0 AND count(distance_km) = 0 AND bool_and(lookback_hours = 48) FROM nws.main.storm_reports(lookback_hours := 48,page_size := 1);
+----
+1
+
+# land-reports-72
+query I
+SELECT count(*) = 8 AND count(DISTINCT object_id) = 8 AND count(geometry_json) = 0 AND count(distance_km) = 0 AND bool_and(lookback_hours = 72) FROM nws.main.storm_reports(lookback_hours := 72,page_size := 1);
+----
+1
+
+# land-reports-magnitude
+query ITRTT
+SELECT object_id,event,magnitude,magnitude_text,unit FROM nws.main.storm_reports() WHERE object_id IN (1,2,5,6) ORDER BY object_id;
+----
+1	Hail	1.25	1.25	Inch
+2	Thunderstorm Wind	NULL	E60	MPH
+5	Rain	NULL	Trace	Inch
+6	Rain	0	0	Inch
+
+# land-reports-filter
+query I
+SELECT object_id FROM nws.main.storm_reports(state := 'VA',event := 'hAiL',page_size := 1) ORDER BY object_id;
+----
+1
+3
+8
+
+# land-reports-empty
+query I
+SELECT count(*) = 0 FROM nws.main.storm_reports(event := 'missing',page_size := 1);
+----
+1
+
+# land-reports-bbox
+query I
+SELECT count(*) = 5 AND count(geometry_json) = 5 FROM nws.main.storm_reports(bbox := '-79,37,-77,39',include_geometry := true);
+----
+1
+
+# land-reports-time
+query I
+SELECT bool_and(reported_at = TIMESTAMPTZ '2026-01-02 12:00:00+00' AND source_file_at = TIMESTAMPTZ '2026-01-02 12:00:01+00' AND ingested_at = TIMESTAMPTZ '2026-01-02 12:00:02+00' AND fetched_at IS NOT NULL) FROM nws.main.storm_reports();
+----
+1
+
+# land-reports-radius
+query I
+SELECT object_id FROM nws.main.storm_reports_near(38,-78,radius_km := 50,page_size := 1) ORDER BY object_id;
+----
+1
+2
+6
+8
+
+# land-reports-distance
+query I
+SELECT count(*) = 4 AND bool_and(distance_km >= 0 AND distance_km <= 50 AND latitude IS NOT NULL AND longitude IS NOT NULL) FROM nws.main.storm_reports_near(38,-78);
+----
+1
+
+# land-reports-dateline
+query I
+SELECT object_id FROM nws.main.storm_reports_near(10,180) ORDER BY object_id;
+----
+4
+5
+
+# land-reports-dateline-bbox
+query I
+SELECT object_id FROM nws.main.storm_reports(bbox := '179,9,-179,11') ORDER BY object_id;
+----
+4
+5
+
+# land-reports-pole
+query I
+SELECT object_id FROM nws.main.storm_reports_near(90,0);
+----
+7
+
+# land-reports-null
+query I
+SELECT count(*) = 0 FROM nws.main.storm_reports_near(NULL,-78);
+----
+1
+
+# land-reports-lateral
+query II
+SELECT s.id,count(r.object_id) FROM (VALUES(1,38),(2,38),(3,NULL)) s(id,lat) LEFT JOIN LATERAL nws.main.storm_reports_near(s.lat,-78) r ON true GROUP BY s.id ORDER BY s.id;
+----
+1	4
+2	4
+3	0
+
+# land-reports-batches
+query I
+SELECT count(*) = 160 AND count(DISTINCT s.id) = 40 FROM (SELECT i AS id,38+(i%2)*0.01 AS lat FROM range(40) t(i)) s, LATERAL nws.main.storm_reports_near(s.lat,-78) r;
+----
+1
+
+statement error
+SELECT * FROM nws.main.soil_moisture_at(91,-78);
+----
+<REGEX>:.*
+
+statement error
+SELECT * FROM nws.main.soil_moisture_at(38,-78,region := 'invalid');
+----
+<REGEX>:.*
+
+statement error
+SELECT * FROM nws.main.precipitation_anomaly_at(38,-78,period := 'hour1');
+----
+<REGEX>:.*
+
+statement error
+SELECT * FROM nws.main.precipitation_anomaly_at(38,-78,metric := 'invalid');
+----
+<REGEX>:.*
+
+statement error
+SELECT * FROM nws.main.snow_analysis_at(38,-78,variable := 'snowfall');
+----
+<REGEX>:.*
+
+statement error
+SELECT * FROM nws.main.storm_reports(lookback_hours := 12);
+----
+<REGEX>:.*
+
+statement error
+SELECT * FROM nws.main.storm_reports(state := 'ZZ');
+----
+<REGEX>:.*
+
+statement error
+SELECT * FROM nws.main.storm_reports(bbox := '10,0,20,20');
+----
+<REGEX>:.*
+
+statement error
+SELECT * FROM nws.main.storm_reports_near(38,-78,radius_km := 0);
+----
+<REGEX>:.*
+
+statement error
+SELECT * FROM nws.main.storm_reports_near(38,-78,radius_km := 501);
+----
+<REGEX>:.*
+
+statement error
+SELECT * FROM nws.main.storm_reports_near(38,-181);
+----
+<REGEX>:.*
+
+statement error
+SELECT * FROM nws.main.soil_moisture_at(42,-78);
+----
+<REGEX>:.*
+
+statement error
+SELECT * FROM nws.main.soil_moisture_at(43,-78);
+----
+<REGEX>:.*
+
+statement error
+SELECT * FROM nws.main.soil_moisture_at(44,-78);
+----
+<REGEX>:.*
+
+statement error
+SELECT * FROM nws.main.precipitation_anomaly_at(42,-78);
+----
+<REGEX>:.*
+
+statement error
+SELECT * FROM nws.main.precipitation_anomaly_at(43,-78);
+----
+<REGEX>:.*
+
+statement error
+SELECT * FROM nws.main.precipitation_anomaly_at(44,-78);
+----
+<REGEX>:.*
+
+statement error
+SELECT * FROM nws.main.snow_analysis_at(42,-78);
+----
+<REGEX>:.*
+
+statement error
+SELECT * FROM nws.main.snow_analysis_at(43,-78);
+----
+<REGEX>:.*
+
+statement error
+SELECT * FROM nws.main.snow_analysis_at(44,-78);
+----
+<REGEX>:.*
+
+statement error
+SELECT * FROM nws.compat.soil_moisture_at(38,-78,'{"region":"invalid"}');
+----
+<REGEX>:.*
+
+statement error
+SELECT * FROM nws.compat.precipitation_anomaly_at(38,-78,'{"period":"hour1"}');
+----
+<REGEX>:.*
+
+statement error
+SELECT * FROM nws.compat.snow_analysis_at(38,-78,'{"variable":"snowfall"}');
+----
+<REGEX>:.*
+
+statement error
+SELECT * FROM nws.compat.storm_reports_near(38,-78,'{"radius_km":0}');
+----
+<REGEX>:.*
+
+statement ok
+DETACH nws;

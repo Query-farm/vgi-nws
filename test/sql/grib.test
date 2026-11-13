@@ -1,0 +1,101 @@
+require vgi
+require-env NWS_WORKER
+
+statement ok
+ATTACH 'nws' (TYPE vgi, LOCATION '{NWS_WORKER}');
+
+query I
+SELECT count(*)=1 AND min(product_id)='2D/PrecipRate' AND min(unit)='mm/hr' FROM nws.main.mrms_products();
+----
+true
+
+query I
+SELECT count(*)=3 AND min(kind)='grib2' FROM nws.main.mrms_products(folder:='2D/PrecipRate');
+----
+true
+
+query I
+SELECT count(*)=1 AND min(value)=2.5 AND min(unit)='mm/hr' AND min(packing_template)=41 AND min(file_level)=0 AND min(reference_at)=TIMESTAMPTZ '2026-01-02 12:00:30+00' FROM nws.main.mrms_at('2D/PrecipRate',38,-78);
+----
+true
+
+query I
+SELECT count(*)=1 AND min(value)=0 AND min(value_status)='valid' FROM nws.main.mrms_at('2D/PrecipRate',38,-79);
+----
+true
+
+query I
+SELECT count(*)=1 AND count(value)=0 AND min(raw_value)=-1 AND min(value_status)='missing' FROM nws.main.mrms_at('2D/PrecipRate',38,-78.9);
+----
+true
+
+query I
+SELECT count(*)=1 AND count(value)=0 AND min(raw_value)=-3 AND min(value_status)='no_coverage' FROM nws.main.mrms_at('2D/PrecipRate',38,-78.8);
+----
+true
+
+query I
+SELECT count(*)=1 AND count(value)=0 AND bool_and(bitmap_missing) FROM nws.main.mrms_at('2D/PrecipRate',38,-78.5,level:=1);
+----
+true
+
+query I
+SELECT count(*)=1 AND min(raw_value)=9999 AND min(value)=9999 AND bool_and(NOT bitmap_missing) FROM nws.main.mrms_at('2D/PrecipRate',38,-78.6,level:=1);
+----
+true
+
+query I
+SELECT count(*)=1 AND min(filename) LIKE '%110030.grib2.gz' FROM nws.main.mrms_at('2D/PrecipRate',38,-78,file_time:='2026-01-02T11:00:30Z');
+----
+true
+
+query I
+SELECT count(*)=0 FROM nws.main.mrms_at('2D/PrecipRate',0,0);
+----
+true
+
+query I
+SELECT count(*)=0 FROM nws.main.mrms_at(NULL,38,-78);
+----
+true
+
+query I
+SELECT count(*)=2 AND count(m.value)=1 AND max(m.value)=2.5 FROM (VALUES (38.0), (NULL)) s(lat) LEFT JOIN LATERAL nws.main.mrms_at('2D/PrecipRate',s.lat,-78) m ON true;
+----
+true
+
+query I
+SELECT count(*)=1 AND count(value)=0 AND bool_and(bitmap_missing) FROM nws.compat.mrms_at('2D/PrecipRate',38,-78.5,'{"level":1}');
+----
+true
+
+query I
+SELECT count(*)=3 AND min(storm_name)='Fixture' AND min(source_wallet)='AT1' AND min(advisory_number)='12A' FROM nws.main.tropical_features(page_size:=1);
+----
+true
+
+query I
+SELECT count(*)=3 AND min(product)='forecast_cone' FROM nws.main.tropical_features_at(38,-78,page_size:=1);
+----
+true
+
+query I
+SELECT count(*)=3 AND min(product)='forecast_points' FROM nws.compat.tropical_features_at(38,-78,'{"product":"forecast_points","page_size":1}');
+----
+true
+
+query I
+SELECT count(*)=0 FROM nws.main.tropical_features_at(0,0);
+----
+true
+
+statement error
+SELECT * FROM nws.main.mrms_at('2D/PrecipRate',38,-78,level:=99);
+----
+<REGEX>:.*
+
+statement error
+SELECT * FROM nws.main.mrms_at('2D/../private',38,-78);
+----
+<REGEX>:.*
+
