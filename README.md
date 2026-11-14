@@ -147,6 +147,27 @@ FROM nws.main.flood_thresholds('RMDV2')
 ORDER BY stage;
 ```
 
+Combine the two to see how close the forecast crest comes to flooding: the
+highest category reached (NULL below action stage), the next category, and the
+remaining headroom in the gauge's stage units.
+
+```sql
+WITH crest AS (
+  SELECT gauge_id, primary_unit, max(primary_value) AS peak_stage
+  FROM nws.main.stageflow('RMDV2', product := 'forecast')
+  GROUP BY gauge_id, primary_unit
+)
+SELECT c.gauge_id, c.peak_stage, c.primary_unit AS unit,
+       max_by(t.category, t.stage) FILTER (WHERE t.stage <= c.peak_stage) AS category_reached,
+       min_by(t.category, t.stage) FILTER (WHERE t.stage > c.peak_stage) AS next_category,
+       min(t.stage) FILTER (WHERE t.stage > c.peak_stage) - c.peak_stage AS headroom
+FROM crest c
+JOIN nws.main.flood_thresholds('RMDV2') t
+  ON t.gauge_id = c.gauge_id AND t.stage_unit = c.primary_unit
+GROUP BY c.gauge_id, c.peak_stage, c.primary_unit
+ORDER BY c.gauge_id;
+```
+
 ## Spatial outlooks and river discovery
 
 The eight polygon GIS readers each offer a layer scan and an `_at(latitude, longitude)`

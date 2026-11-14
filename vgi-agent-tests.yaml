@@ -258,3 +258,7 @@ tasks:
     reference_sql: "SELECT valid_at, value, unit, value_status, grid_latitude, grid_longitude FROM nws.main.mrms_at('2D/PrecipRate',38.0293,-78.4767) ORDER BY valid_at"
   - name: compat_mrms_at
     reference_sql: "SELECT product_id FROM nws.compat.mrms_at('2D/PrecipRate', 38.0293, -78.4767, '{\"level\":-1}') ORDER BY product_id"
+  - name: composed_minor_flood_headroom
+    check_sql: "SELECT count(*) = 1 AND bool_and(abs(a.ft_below_minor - r.v) < 0.01) FROM minor_headroom a, (SELECT t.stage - arg_max(s.primary_value, s.valid_at) AS v FROM nws.main.stageflow('RMDV2', product := 'observed') s JOIN nws.main.flood_thresholds('RMDV2') t ON t.category = 'minor' AND t.stage_unit = s.primary_unit GROUP BY t.stage) r"
+  - name: composed_major_historic_crests
+    check_sql: "SELECT count(*) = 1 AND bool_and(a.crest_count = r.n) FROM major_crests a, (SELECT count(*) AS n FROM nws.main.historic_crests('RMDV2') h JOIN nws.main.flood_thresholds('RMDV2') t ON t.category = 'major' AND t.stage_unit = h.stage_unit AND h.stage >= t.stage) r"

@@ -244,6 +244,24 @@ minor	12	cfs
 moderate	15	cfs
 major	22	cfs
 
+# Composed: forecast crest (8 ft) against thresholds, as published in the stageflow examples.
+query TRTTTR
+WITH crest AS (SELECT gauge_id, primary_unit, max(primary_value) AS peak_stage FROM nws.main.stageflow('RMDV2', product := 'forecast') GROUP BY gauge_id, primary_unit) SELECT c.gauge_id, c.peak_stage, c.primary_unit AS unit, max_by(t.category, t.stage) FILTER (WHERE t.stage <= c.peak_stage) AS category_reached, min_by(t.category, t.stage) FILTER (WHERE t.stage > c.peak_stage) AS next_category, min(t.stage) FILTER (WHERE t.stage > c.peak_stage) - c.peak_stage AS headroom FROM crest c JOIN nws.main.flood_thresholds('RMDV2') t ON t.gauge_id = c.gauge_id AND t.stage_unit = c.primary_unit GROUP BY c.gauge_id, c.peak_stage, c.primary_unit ORDER BY c.gauge_id;
+----
+RMDV2	8.0	ft	NULL	action	1.0
+
+# Composed: point resolved to its office and forecast zone names.
+query TTTTT
+SELECT p.office_id, f.name AS office_name, f.website, p.forecast_zone, z.name AS zone_name FROM nws.main.point(38.0293, -78.4767) p, LATERAL nws.main.office(p.office_id) f, LATERAL nws.main.zone('forecast', p.forecast_zone) z ORDER BY p.office_id;
+----
+LWX	Sterling	https://www.weather.gov/lwx	VAZ037	Albemarle
+
+# Composed: nearest stations with their latest observation.
+query TTRR
+SELECT s.station_id, s.name, round(111.2 * sqrt((s.latitude - 38.0293) ^ 2 + ((s.longitude + 78.4767) * cos(radians(38.0293))) ^ 2), 1) AS distance_km, o.temperature_c FROM nws.main.stations_at(38.0293, -78.4767) s, LATERAL nws.main.latest_observation(s.station_id) o ORDER BY distance_km, s.station_id LIMIT 3;
+----
+KCHO	Charlottesville Airport	12.5	9.0
+
 query T
 SELECT statement FROM nws.main.flood_impacts('RMDV2');
 ----

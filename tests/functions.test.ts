@@ -1,5 +1,6 @@
 import { afterAll, beforeAll, expect, test } from "bun:test";
-import { FUNCTIONS } from "../src/catalog.ts";
+import { CATALOG, FUNCTIONS } from "../src/catalog.ts";
+import { COMPOSED_EXAMPLES, COMPOSED_TASKS } from "../src/composed.ts";
 import { freshness, getJson, resolveUrl, retryDelay } from "../src/http.ts";
 import { coords, dateRange, obj, page, time } from "../src/reader.ts";
 import { interval, measure } from "../src/weather.ts";
@@ -30,6 +31,23 @@ test("catalog contains all 92 domain functions with example SQL", () => {
   expect(FUNCTIONS.length).toBe(129);
   expect(new Set(FUNCTIONS.map((f) => f.meta.name)).size).toBe(92);
   for (const f of FUNCTIONS) expect(f.meta.examples?.length).toBeGreaterThan(0);
+});
+test("composed examples lead the schema list and sit in the driving function's first five", () => {
+  const schemaSql = JSON.parse(CATALOG.schemas[0]?.tags?.["vgi.example_queries"] ?? "[]").map(
+    (e: { sql: string }) => e.sql,
+  );
+  expect(new Set(schemaSql).size).toBe(schemaSql.length);
+  for (const [name, examples] of Object.entries(COMPOSED_EXAMPLES)) {
+    const fn = FUNCTIONS.find((f) => f.meta.name === name && f.meta.tags?.["nws.compat"] !== "true");
+    const published = JSON.parse(fn?.meta.tags?.["vgi.example_queries"] ?? "[]").map((e: { sql: string }) => e.sql);
+    for (const ex of examples) {
+      expect(published.slice(0, 5)).toContain(ex.sql);
+      expect(schemaSql).toContain(ex.sql);
+      expect(ex.sql).not.toContain(";");
+    }
+  }
+  const tasks = JSON.parse(CATALOG.tags?.["vgi.agent_test_tasks"] ?? "[]").map((t: { name: string }) => t.name);
+  for (const t of COMPOSED_TASKS) expect(tasks).toContain(t.name);
 });
 test("intervals preserve multi-hour and multi-day duration and timestamp offsets", () => {
   expect(interval("2026-01-02T12:00:00-05:00/PT2H")).toEqual([

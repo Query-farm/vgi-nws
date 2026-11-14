@@ -7,6 +7,7 @@
 import type { CatalogDescriptor, VgiFunction } from "@query-farm/vgi";
 import { AIR_QUALITY_FUNCTIONS } from "./air_quality.ts";
 import { API_FUNCTIONS } from "./api_catalog.ts";
+import { COMPOSED_EXAMPLES, COMPOSED_TASKS, type Example } from "./composed.ts";
 import { HAZARD_EXTENSION_FUNCTIONS } from "./hazards_extended.ts";
 import { IMAGE_FUNCTIONS } from "./image_service.ts";
 import { LAND_FUNCTIONS } from "./land.ts";
@@ -58,18 +59,14 @@ export const FUNCTIONS: VgiFunction[] = [
   parseValidTime,
 ];
 
-interface Example {
-  description: string;
-  sql: string;
-}
-
 /**
  * Publish each function's examples as `vgi.example_queries` (with descriptions).
  *
- * Overloads share one SQL name, so their examples are merged per name.
+ * Overloads share one SQL name, so their examples are merged per name. Composed examples follow
+ * the driving function's own example, so they stay within the first few an agent sees.
  * Returns every example, for the schema-level list.
  */
-function stampExampleQueries(functions: VgiFunction[]): Example[] {
+function stampExampleQueries(functions: VgiFunction[], composed: Record<string, Example[]> = {}): Example[] {
   const byName = new Map<string, Example[]>();
   for (const fn of functions) {
     const bucket = byName.get(fn.meta.name) ?? [];
@@ -77,6 +74,11 @@ function stampExampleQueries(functions: VgiFunction[]): Example[] {
     for (const ex of fn.meta.examples ?? []) {
       if (!bucket.some((e) => e.sql === ex.sql)) bucket.push({ description: ex.description, sql: ex.sql });
     }
+  }
+  for (const [name, examples] of Object.entries(composed)) {
+    const bucket = byName.get(name);
+    if (!bucket) throw new Error(`Composed examples reference unknown function ${name}`);
+    bucket.push(...examples);
   }
   for (const fn of functions) {
     fn.meta.tags = { ...fn.meta.tags, "vgi.example_queries": JSON.stringify(byName.get(fn.meta.name)) };
@@ -86,7 +88,10 @@ function stampExampleQueries(functions: VgiFunction[]): Example[] {
 
 const MAIN_FUNCTIONS = FUNCTIONS.filter((fn) => fn.meta.tags?.["nws.compat"] !== "true");
 const COMPAT_FUNCTIONS = FUNCTIONS.filter((fn) => fn.meta.tags?.["nws.compat"] === "true");
-const ALL_EXAMPLES = stampExampleQueries(MAIN_FUNCTIONS);
+const ALL_EXAMPLES = stampExampleQueries(MAIN_FUNCTIONS, COMPOSED_EXAMPLES);
+const COMPOSED = Object.values(COMPOSED_EXAMPLES).flat();
+// Composed examples lead the schema list, followed by the first single-function examples.
+const SCHEMA_EXAMPLES = [...COMPOSED, ...ALL_EXAMPLES.filter((ex) => !COMPOSED.includes(ex)).slice(0, 12)];
 const COMPAT_EXAMPLES = stampExampleQueries(COMPAT_FUNCTIONS);
 const COMPAT_DOC =
   "Positional JSON options for correlated SQL calls on stock DuckDB 2.0.0, whose binder cannot accept named options in a LATERAL call. These readers mirror the corresponding main-schema functions, with a final options_json positional argument. JSON keys and defaults match the main-schema named options. NULL inputs emit no rows; invalid JSON, unknown keys, and wrong value types raise errors.";
@@ -97,19 +102,20 @@ export const CATALOG: CatalogDescriptor = {
   sourceUrl: SOURCE_URL,
   tags: {
     ...CATALOG_TAGS,
-    "vgi.agent_test_tasks": JSON.stringify(
-      FUNCTIONS.map((fn) => ({
+    "vgi.agent_test_tasks": JSON.stringify([
+      ...FUNCTIONS.map((fn) => ({
         name: `${fn.meta.tags?.["nws.compat"] === "true" ? "compat_" : ""}${fn.meta.name}`,
         prompt: `Using the nws worker, ${fn.meta.examples?.[0]?.description || fn.meta.description}.`,
       })),
-    ),
+      ...COMPOSED_TASKS,
+    ]),
   },
   schemas: [
     {
       path: ["main"],
       comment: SCHEMA_DOC_MD,
       functions: MAIN_FUNCTIONS,
-      tags: { ...SCHEMA_TAGS, "vgi.example_queries": JSON.stringify(ALL_EXAMPLES.slice(0, 12)) },
+      tags: { ...SCHEMA_TAGS, "vgi.example_queries": JSON.stringify(SCHEMA_EXAMPLES) },
     },
     {
       path: ["compat"],
