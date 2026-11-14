@@ -1,0 +1,5 @@
+{
+  "kind": "synthetic; never live NOAA data",
+  "scenario_sha256": "43f71fb8995a969c7cbf73ac156ef80e2ca9bdd9ab8918813c4c692895ff2034",
+  "source_schema_revision": "c672f94632fca2541b805ead4d7f861317fe34e8"
+}

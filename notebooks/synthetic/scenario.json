@@ -1,0 +1,1817 @@
+{
+  "provenance": {
+    "kind": "entirely synthetic teaching scenario",
+    "as_of_utc": "2026-01-02T12:00:00Z",
+    "basis": "Hand-authored values using documented public response shapes and existing repository test-fixture schemas. No actual observation, alert, bulletin, gauge condition or hazard polygon is represented. Identifiers and locations illustrate joins only.",
+    "source_schema_revision": "c672f94632fca2541b805ead4d7f861317fe34e8",
+    "license": "0BSD repository fixture shapes; all added values synthetic"
+  },
+  "point": {
+    "type": "Feature",
+    "properties": {
+      "cwa": "LWX",
+      "gridId": "LWX",
+      "gridX": 51,
+      "gridY": 26,
+      "forecast": "https://api.weather.gov/gridpoints/LWX/51,26/forecast",
+      "forecastHourly": "https://api.weather.gov/gridpoints/LWX/51,26/forecast/hourly",
+      "forecastGridData": "https://api.weather.gov/gridpoints/LWX/51,26",
+      "observationStations": "https://api.weather.gov/gridpoints/LWX/51,26/stations",
+      "forecastZone": "https://api.weather.gov/zones/forecast/VAZ037",
+      "county": "https://api.weather.gov/zones/county/VAC540",
+      "fireWeatherZone": "https://api.weather.gov/zones/fire/VAZ037",
+      "timeZone": "America/New_York",
+      "radarStation": "KLWX",
+      "relativeLocation": {
+        "type": "Feature",
+        "properties": {
+          "city": "Synthetic Charlottesville case",
+          "state": "VA"
+        },
+        "geometry": null
+      }
+    },
+    "geometry": null
+  },
+  "stations": [
+    {
+      "type": "Feature",
+      "properties": {
+        "stationIdentifier": "KCHO",
+        "name": "Synthetic KCHO",
+        "elevation": {
+          "value": 195,
+          "unitCode": "wmoUnit:m",
+          "qualityControl": "V"
+        },
+        "timeZone": "America/New_York",
+        "forecast": "https://api.weather.gov/zones/forecast/VAZ037",
+        "county": "https://api.weather.gov/zones/county/VAC540"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.45,
+          38.14
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "stationIdentifier": "KEXA",
+        "name": "Synthetic KEXA",
+        "elevation": {
+          "value": 300,
+          "unitCode": "wmoUnit:m",
+          "qualityControl": "V"
+        },
+        "timeZone": "America/New_York",
+        "forecast": "https://api.weather.gov/zones/forecast/VAZ037",
+        "county": "https://api.weather.gov/zones/county/VAC540"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.5,
+          38.04
+        ]
+      }
+    }
+  ],
+  "observations": {
+    "KCHO": [
+      {
+        "type": "Feature",
+        "properties": {
+          "station": "https://api.weather.gov/stations/KCHO",
+          "timestamp": "2026-01-02T10:00:00Z",
+          "textDescription": "Synthetic clear conditions",
+          "temperature": {
+            "value": 32,
+            "unitCode": "wmoUnit:degF",
+            "qualityControl": "V"
+          },
+          "dewpoint": {
+            "value": 0,
+            "unitCode": "wmoUnit:degC",
+            "qualityControl": "V"
+          },
+          "relativeHumidity": {
+            "value": 50,
+            "unitCode": "wmoUnit:percent",
+            "qualityControl": "V"
+          },
+          "windDirection": {
+            "value": 350,
+            "unitCode": "wmoUnit:degree_(angle)",
+            "qualityControl": "V"
+          },
+          "windSpeed": {
+            "value": 18,
+            "unitCode": "wmoUnit:km_h-1",
+            "qualityControl": "V"
+          },
+          "windGust": {
+            "value": null,
+            "unitCode": "wmoUnit:km_h-1",
+            "qualityControl": "Z"
+          },
+          "barometricPressure": {
+            "value": 100541,
+            "unitCode": "wmoUnit:Pa",
+            "qualityControl": "V"
+          },
+          "visibility": {
+            "value": 16000,
+            "unitCode": "wmoUnit:m",
+            "qualityControl": "V"
+          },
+          "precipitationLastHour": {
+            "value": null,
+            "unitCode": "wmoUnit:mm",
+            "qualityControl": "Z"
+          },
+          "rawMessage": "SYNTHETIC measurement; not METAR",
+          "cloudLayers": []
+        },
+        "geometry": null
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "station": "https://api.weather.gov/stations/KCHO",
+          "timestamp": "2026-01-02T11:00:00Z",
+          "textDescription": "Synthetic clear conditions",
+          "temperature": {
+            "value": 274.15,
+            "unitCode": "wmoUnit:K",
+            "qualityControl": "V"
+          },
+          "dewpoint": {
+            "value": 0,
+            "unitCode": "wmoUnit:degC",
+            "qualityControl": "V"
+          },
+          "relativeHumidity": {
+            "value": 50,
+            "unitCode": "wmoUnit:percent",
+            "qualityControl": "V"
+          },
+          "windDirection": {
+            "value": 350,
+            "unitCode": "wmoUnit:degree_(angle)",
+            "qualityControl": "V"
+          },
+          "windSpeed": {
+            "value": 18,
+            "unitCode": "wmoUnit:km_h-1",
+            "qualityControl": "V"
+          },
+          "windGust": {
+            "value": null,
+            "unitCode": "wmoUnit:km_h-1",
+            "qualityControl": "Z"
+          },
+          "barometricPressure": {
+            "value": 100541,
+            "unitCode": "wmoUnit:Pa",
+            "qualityControl": "V"
+          },
+          "visibility": {
+            "value": 16000,
+            "unitCode": "wmoUnit:m",
+            "qualityControl": "V"
+          },
+          "precipitationLastHour": {
+            "value": null,
+            "unitCode": "wmoUnit:mm",
+            "qualityControl": "Z"
+          },
+          "rawMessage": "SYNTHETIC measurement; not METAR",
+          "cloudLayers": []
+        },
+        "geometry": null
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "station": "https://api.weather.gov/stations/KCHO",
+          "timestamp": "2026-01-02T12:00:00Z",
+          "textDescription": "Synthetic clear conditions",
+          "temperature": {
+            "value": 2,
+            "unitCode": "wmoUnit:degC",
+            "qualityControl": "V"
+          },
+          "dewpoint": {
+            "value": 0,
+            "unitCode": "wmoUnit:degC",
+            "qualityControl": "V"
+          },
+          "relativeHumidity": {
+            "value": 50,
+            "unitCode": "wmoUnit:percent",
+            "qualityControl": "V"
+          },
+          "windDirection": {
+            "value": 350,
+            "unitCode": "wmoUnit:degree_(angle)",
+            "qualityControl": "V"
+          },
+          "windSpeed": {
+            "value": 18,
+            "unitCode": "wmoUnit:km_h-1",
+            "qualityControl": "V"
+          },
+          "windGust": {
+            "value": null,
+            "unitCode": "wmoUnit:km_h-1",
+            "qualityControl": "Z"
+          },
+          "barometricPressure": {
+            "value": 100541,
+            "unitCode": "wmoUnit:Pa",
+            "qualityControl": "V"
+          },
+          "visibility": {
+            "value": 16000,
+            "unitCode": "wmoUnit:m",
+            "qualityControl": "V"
+          },
+          "precipitationLastHour": {
+            "value": null,
+            "unitCode": "wmoUnit:mm",
+            "qualityControl": "Z"
+          },
+          "rawMessage": "SYNTHETIC measurement; not METAR",
+          "cloudLayers": []
+        },
+        "geometry": null
+      }
+    ],
+    "KEXA": [
+      {
+        "type": "Feature",
+        "properties": {
+          "station": "https://api.weather.gov/stations/KEXA",
+          "timestamp": "2026-01-02T07:00:00Z",
+          "textDescription": "Synthetic clear conditions",
+          "temperature": {
+            "value": 32,
+            "unitCode": "wmoUnit:degF",
+            "qualityControl": "V"
+          },
+          "dewpoint": {
+            "value": 0,
+            "unitCode": "wmoUnit:degC",
+            "qualityControl": "V"
+          },
+          "relativeHumidity": {
+            "value": 50,
+            "unitCode": "wmoUnit:percent",
+            "qualityControl": "V"
+          },
+          "windDirection": {
+            "value": 350,
+            "unitCode": "wmoUnit:degree_(angle)",
+            "qualityControl": "V"
+          },
+          "windSpeed": {
+            "value": 18,
+            "unitCode": "wmoUnit:km_h-1",
+            "qualityControl": "V"
+          },
+          "windGust": {
+            "value": null,
+            "unitCode": "wmoUnit:km_h-1",
+            "qualityControl": "Z"
+          },
+          "barometricPressure": {
+            "value": 100541,
+            "unitCode": "wmoUnit:Pa",
+            "qualityControl": "V"
+          },
+          "visibility": {
+            "value": 16000,
+            "unitCode": "wmoUnit:m",
+            "qualityControl": "V"
+          },
+          "precipitationLastHour": {
+            "value": null,
+            "unitCode": "wmoUnit:mm",
+            "qualityControl": "Z"
+          },
+          "rawMessage": "SYNTHETIC measurement; not METAR",
+          "cloudLayers": []
+        },
+        "geometry": null
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "station": "https://api.weather.gov/stations/KEXA",
+          "timestamp": "2026-01-02T08:00:00Z",
+          "textDescription": "Synthetic clear conditions",
+          "temperature": {
+            "value": 274.15,
+            "unitCode": "wmoUnit:K",
+            "qualityControl": "V"
+          },
+          "dewpoint": {
+            "value": 0,
+            "unitCode": "wmoUnit:degC",
+            "qualityControl": "V"
+          },
+          "relativeHumidity": {
+            "value": 50,
+            "unitCode": "wmoUnit:percent",
+            "qualityControl": "V"
+          },
+          "windDirection": {
+            "value": 350,
+            "unitCode": "wmoUnit:degree_(angle)",
+            "qualityControl": "V"
+          },
+          "windSpeed": {
+            "value": 18,
+            "unitCode": "wmoUnit:km_h-1",
+            "qualityControl": "V"
+          },
+          "windGust": {
+            "value": null,
+            "unitCode": "wmoUnit:km_h-1",
+            "qualityControl": "Z"
+          },
+          "barometricPressure": {
+            "value": 100541,
+            "unitCode": "wmoUnit:Pa",
+            "qualityControl": "V"
+          },
+          "visibility": {
+            "value": 16000,
+            "unitCode": "wmoUnit:m",
+            "qualityControl": "V"
+          },
+          "precipitationLastHour": {
+            "value": null,
+            "unitCode": "wmoUnit:mm",
+            "qualityControl": "Z"
+          },
+          "rawMessage": "SYNTHETIC measurement; not METAR",
+          "cloudLayers": []
+        },
+        "geometry": null
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "station": "https://api.weather.gov/stations/KEXA",
+          "timestamp": "2026-01-02T09:00:00Z",
+          "textDescription": "Synthetic clear conditions",
+          "temperature": {
+            "value": 2,
+            "unitCode": "wmoUnit:degC",
+            "qualityControl": "V"
+          },
+          "dewpoint": {
+            "value": 0,
+            "unitCode": "wmoUnit:degC",
+            "qualityControl": "V"
+          },
+          "relativeHumidity": {
+            "value": 50,
+            "unitCode": "wmoUnit:percent",
+            "qualityControl": "V"
+          },
+          "windDirection": {
+            "value": 350,
+            "unitCode": "wmoUnit:degree_(angle)",
+            "qualityControl": "V"
+          },
+          "windSpeed": {
+            "value": 18,
+            "unitCode": "wmoUnit:km_h-1",
+            "qualityControl": "V"
+          },
+          "windGust": {
+            "value": null,
+            "unitCode": "wmoUnit:km_h-1",
+            "qualityControl": "Z"
+          },
+          "barometricPressure": {
+            "value": 100541,
+            "unitCode": "wmoUnit:Pa",
+            "qualityControl": "V"
+          },
+          "visibility": {
+            "value": 16000,
+            "unitCode": "wmoUnit:m",
+            "qualityControl": "V"
+          },
+          "precipitationLastHour": {
+            "value": null,
+            "unitCode": "wmoUnit:mm",
+            "qualityControl": "Z"
+          },
+          "rawMessage": "SYNTHETIC measurement; not METAR",
+          "cloudLayers": []
+        },
+        "geometry": null
+      }
+    ]
+  },
+  "forecasts": {
+    "period": {
+      "type": "Feature",
+      "properties": {
+        "updateTime": "2026-01-02T12:00:00Z",
+        "generatedAt": "2026-01-02T12:00:00Z",
+        "periods": [
+          {
+            "number": 1,
+            "name": "Synthetic period 1",
+            "startTime": "2026-01-02T12:00:00Z",
+            "endTime": "2026-01-03T00:00:00Z",
+            "isDaytime": true,
+            "temperature": 32,
+            "temperatureUnit": "F",
+            "probabilityOfPrecipitation": {
+              "value": null,
+              "unitCode": "wmoUnit:percent",
+              "qualityControl": "V"
+            },
+            "windSpeed": "5 to 10 mph",
+            "windDirection": "N",
+            "shortForecast": "Synthetic forecast",
+            "detailedForecast": "Teaching fixture; no live weather information."
+          },
+          {
+            "number": 2,
+            "name": "Synthetic period 2",
+            "startTime": "2026-01-03T00:00:00Z",
+            "endTime": "2026-01-03T12:00:00Z",
+            "isDaytime": false,
+            "temperature": 41,
+            "temperatureUnit": "F",
+            "probabilityOfPrecipitation": {
+              "value": 20,
+              "unitCode": "wmoUnit:percent",
+              "qualityControl": "V"
+            },
+            "windSpeed": "5 to 10 mph",
+            "windDirection": "N",
+            "shortForecast": "Synthetic forecast",
+            "detailedForecast": "Teaching fixture; no live weather information."
+          }
+        ]
+      },
+      "geometry": null
+    },
+    "hourly": {
+      "type": "Feature",
+      "properties": {
+        "updateTime": "2026-01-02T12:00:00Z",
+        "generatedAt": "2026-01-02T12:00:00Z",
+        "periods": [
+          {
+            "number": 1,
+            "name": "Synthetic hour 1",
+            "startTime": "2026-01-02T12:00:00Z",
+            "endTime": "2026-01-02T13:00:00Z",
+            "isDaytime": true,
+            "temperature": 0,
+            "temperatureUnit": "C",
+            "probabilityOfPrecipitation": {
+              "value": null,
+              "unitCode": "wmoUnit:percent",
+              "qualityControl": "V"
+            },
+            "windSpeed": "5 to 10 mph",
+            "windDirection": "N",
+            "shortForecast": "Synthetic forecast",
+            "detailedForecast": "Teaching fixture; no live weather information."
+          },
+          {
+            "number": 2,
+            "name": "Synthetic hour 2",
+            "startTime": "2026-01-02T13:00:00Z",
+            "endTime": "2026-01-02T14:00:00Z",
+            "isDaytime": false,
+            "temperature": 1,
+            "temperatureUnit": "C",
+            "probabilityOfPrecipitation": {
+              "value": 20,
+              "unitCode": "wmoUnit:percent",
+              "qualityControl": "V"
+            },
+            "windSpeed": "5 to 10 mph",
+            "windDirection": "N",
+            "shortForecast": "Synthetic forecast",
+            "detailedForecast": "Teaching fixture; no live weather information."
+          },
+          {
+            "number": 3,
+            "name": "Synthetic hour 3",
+            "startTime": "2026-01-02T14:00:00Z",
+            "endTime": "2026-01-02T15:00:00Z",
+            "isDaytime": false,
+            "temperature": 2,
+            "temperatureUnit": "C",
+            "probabilityOfPrecipitation": {
+              "value": 20,
+              "unitCode": "wmoUnit:percent",
+              "qualityControl": "V"
+            },
+            "windSpeed": "5 to 10 mph",
+            "windDirection": "N",
+            "shortForecast": "Synthetic forecast",
+            "detailedForecast": "Teaching fixture; no live weather information."
+          },
+          {
+            "number": 4,
+            "name": "Synthetic hour 4",
+            "startTime": "2026-01-02T15:00:00Z",
+            "endTime": "2026-01-02T16:00:00Z",
+            "isDaytime": false,
+            "temperature": 3,
+            "temperatureUnit": "C",
+            "probabilityOfPrecipitation": {
+              "value": 20,
+              "unitCode": "wmoUnit:percent",
+              "qualityControl": "V"
+            },
+            "windSpeed": "5 to 10 mph",
+            "windDirection": "N",
+            "shortForecast": "Synthetic forecast",
+            "detailedForecast": "Teaching fixture; no live weather information."
+          },
+          {
+            "number": 5,
+            "name": "Synthetic hour 5",
+            "startTime": "2026-01-02T16:00:00Z",
+            "endTime": "2026-01-02T17:00:00Z",
+            "isDaytime": false,
+            "temperature": 4,
+            "temperatureUnit": "C",
+            "probabilityOfPrecipitation": {
+              "value": 20,
+              "unitCode": "wmoUnit:percent",
+              "qualityControl": "V"
+            },
+            "windSpeed": "5 to 10 mph",
+            "windDirection": "N",
+            "shortForecast": "Synthetic forecast",
+            "detailedForecast": "Teaching fixture; no live weather information."
+          },
+          {
+            "number": 6,
+            "name": "Synthetic hour 6",
+            "startTime": "2026-01-02T17:00:00Z",
+            "endTime": "2026-01-02T18:00:00Z",
+            "isDaytime": false,
+            "temperature": 5,
+            "temperatureUnit": "C",
+            "probabilityOfPrecipitation": {
+              "value": 20,
+              "unitCode": "wmoUnit:percent",
+              "qualityControl": "V"
+            },
+            "windSpeed": "5 to 10 mph",
+            "windDirection": "N",
+            "shortForecast": "Synthetic forecast",
+            "detailedForecast": "Teaching fixture; no live weather information."
+          }
+        ]
+      },
+      "geometry": null
+    }
+  },
+  "zone": {
+    "type": "Feature",
+    "properties": {
+      "id": "VAZ037",
+      "name": "Synthetic teaching zone",
+      "type": "forecast",
+      "state": "VA",
+      "cwa": [
+        "LWX"
+      ],
+      "timeZone": [
+        "America/New_York"
+      ]
+    },
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            -79,
+            38
+          ],
+          [
+            -78,
+            38
+          ],
+          [
+            -78,
+            39
+          ],
+          [
+            -79,
+            38
+          ]
+        ]
+      ]
+    }
+  },
+  "zone_index": {
+    "type": "Feature",
+    "properties": {
+      "id": "VAZ037",
+      "name": "Synthetic teaching zone",
+      "type": "forecast",
+      "state": "VA",
+      "cwa": [
+        "LWX"
+      ],
+      "timeZone": [
+        "America/New_York"
+      ]
+    },
+    "geometry": null
+  },
+  "office": {
+    "id": "LWX",
+    "name": "Synthetic office record",
+    "sameAs": "https://www.weather.gov/lwx",
+    "responsibleCounties": [
+      "https://api.weather.gov/zones/county/VAC540"
+    ],
+    "responsibleForecastZones": [
+      "https://api.weather.gov/zones/forecast/VAZ037"
+    ]
+  },
+  "glossary": [
+    {
+      "term": "Frost",
+      "definition": "Synthetic glossary entry: ice crystals on a surface; not equivalent to air temperature alone."
+    }
+  ],
+  "alerts": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "urn:oid:synthetic-1",
+        "event": "Freeze Warning",
+        "headline": "SYNTHETIC teaching message 1",
+        "description": "Synthetic content; not a current warning.",
+        "instruction": "No operational instruction; teaching fixture.",
+        "severity": "Severe",
+        "certainty": "Likely",
+        "urgency": "Expected",
+        "status": "Test",
+        "messageType": "Alert",
+        "response": "Execute",
+        "senderName": "Synthetic office",
+        "areaDesc": "Albemarle",
+        "sent": "2026-01-02T10:00:00Z",
+        "effective": "2026-01-02T10:00:00Z",
+        "onset": "2026-01-02T13:00:00Z",
+        "expires": "2026-01-02T18:00:00Z",
+        "ends": null,
+        "affectedZones": [
+          "https://api.weather.gov/zones/forecast/VAZ037"
+        ],
+        "geocode": {
+          "UGC": [
+            "VAZ037"
+          ]
+        },
+        "parameters": {},
+        "references": []
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "urn:oid:synthetic-2",
+        "event": "Freeze Warning",
+        "headline": "SYNTHETIC teaching message 2",
+        "description": "Synthetic content; not a current warning.",
+        "instruction": "No operational instruction; teaching fixture.",
+        "severity": "Severe",
+        "certainty": "Likely",
+        "urgency": "Expected",
+        "status": "Test",
+        "messageType": "Update",
+        "response": "Execute",
+        "senderName": "Synthetic office",
+        "areaDesc": "Albemarle",
+        "sent": "2026-01-02T11:00:00Z",
+        "effective": "2026-01-02T10:00:00Z",
+        "onset": "2026-01-02T13:00:00Z",
+        "expires": "2026-01-02T18:00:00Z",
+        "ends": null,
+        "affectedZones": [
+          "https://api.weather.gov/zones/forecast/VAZ037"
+        ],
+        "geocode": {
+          "UGC": [
+            "VAZ037"
+          ]
+        },
+        "parameters": {},
+        "references": [
+          {
+            "identifier": "urn:oid:synthetic-1",
+            "sender": "synthetic",
+            "sent": "2026-01-02T10:00:00Z"
+          }
+        ]
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "urn:oid:synthetic-3",
+        "event": "Frost Advisory",
+        "headline": "SYNTHETIC teaching message 3",
+        "description": "Synthetic content; not a current warning.",
+        "instruction": "No operational instruction; teaching fixture.",
+        "severity": "Severe",
+        "certainty": "Likely",
+        "urgency": "Expected",
+        "status": "Test",
+        "messageType": "Alert",
+        "response": "Execute",
+        "senderName": "Synthetic office",
+        "areaDesc": "Albemarle",
+        "sent": "2026-01-02T12:00:00Z",
+        "effective": "2026-01-02T10:00:00Z",
+        "onset": "2026-01-02T13:00:00Z",
+        "expires": "2026-01-02T18:00:00Z",
+        "ends": null,
+        "affectedZones": [
+          "https://api.weather.gov/zones/forecast/VAZ037"
+        ],
+        "geocode": {
+          "UGC": [
+            "VAZ037"
+          ]
+        },
+        "parameters": {},
+        "references": []
+      },
+      "geometry": null
+    }
+  ],
+  "products": [
+    {
+      "id": "synthetic-afd-1",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion",
+      "issuingOffice": "KLWX",
+      "issuanceTime": "2026-01-02T08:00:00Z",
+      "wmoCollectiveId": "FXUS61",
+      "productText": "SYNTHETIC AFD version 1. This is teaching text, not an official forecast.\nCooling is discussed; this bulletin is not an alert.\n"
+    },
+    {
+      "id": "synthetic-afd-2",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion",
+      "issuingOffice": "KLWX",
+      "issuanceTime": "2026-01-02T11:00:00Z",
+      "wmoCollectiveId": "FXUS61",
+      "productText": "SYNTHETIC AFD version 2. This is teaching text, not an official forecast.\nCooling is discussed; this bulletin is not an alert.\n"
+    }
+  ],
+  "briefing": {
+    "officeId": "LWX",
+    "title": "Synthetic office briefing",
+    "description": "Teaching metadata only",
+    "startTime": "2026-01-02T10:00:00Z",
+    "endTime": "2026-01-02T18:00:00Z",
+    "updateTime": "2026-01-02T11:00:00Z",
+    "download": "https://example.invalid/synthetic-briefing.pdf",
+    "altText": "Synthetic cold-weather illustration",
+    "priority": 1
+  },
+  "story": {
+    "officeId": "LWX",
+    "title": "Synthetic office story",
+    "description": "Teaching metadata only",
+    "startTime": "2026-01-02T10:00:00Z",
+    "endTime": "2026-01-02T18:00:00Z",
+    "updateTime": "2026-01-02T11:00:00Z",
+    "download": "https://example.invalid/synthetic-story.png",
+    "altText": "Synthetic cold-weather illustration",
+    "priority": 2
+  },
+  "gauge": {
+    "lid": "RMDV2",
+    "usgsId": "02037500",
+    "reachId": 8574021,
+    "name": "Synthetic river gauge RMDV2",
+    "latitude": 37.563,
+    "longitude": -77.547,
+    "state": {
+      "abbreviation": "VA"
+    },
+    "county": "Henrico",
+    "wfo": {
+      "abbreviation": "AKQ"
+    },
+    "rfc": {
+      "abbreviation": "MARFC"
+    },
+    "timeZone": "EST5EDT",
+    "status": {
+      "observed": {
+        "floodCategory": "no_flooding",
+        "validTime": "2026-01-02T12:00:00Z"
+      },
+      "forecast": {
+        "floodCategory": "minor",
+        "validTime": "2026-01-02T18:00:00Z"
+      }
+    },
+    "datums": {
+      "vertical": {
+        "value": [
+          {
+            "abbrev": "NAVD88",
+            "value": 98.04
+          }
+        ]
+      }
+    },
+    "dataAttribution": [
+      {
+        "name": "Synthetic teaching data"
+      }
+    ],
+    "flood": {
+      "stageUnits": "ft",
+      "flowUnits": "cfs",
+      "categories": {
+        "action": {
+          "stage": 9,
+          "flow": 22600
+        },
+        "minor": {
+          "stage": 12,
+          "flow": 42000
+        },
+        "moderate": {
+          "stage": 15,
+          "flow": 66700
+        },
+        "major": {
+          "stage": 22,
+          "flow": 167000
+        }
+      },
+      "impacts": [
+        {
+          "stage": 12,
+          "statement": "Synthetic trail threshold"
+        },
+        {
+          "stage": 15,
+          "statement": "Synthetic road threshold"
+        }
+      ],
+      "crests": {
+        "historic": [
+          {
+            "occurredTime": "1972-06-23T00:00:00Z",
+            "stage": 28.62,
+            "flow": 313000,
+            "preliminary": "R",
+            "olddatum": true
+          },
+          {
+            "occurredTime": "2025-01-02T12:00:00Z",
+            "stage": 16,
+            "flow": 80000,
+            "preliminary": "R",
+            "olddatum": false
+          }
+        ]
+      },
+      "lowWaters": {
+        "historic": [
+          {
+            "occurredTime": "2002-09-01T12:00:00Z",
+            "stage": -0.5,
+            "flow": 12,
+            "statement": "Historic low"
+          },
+          {
+            "occurredTime": "0001-01-01T00:00:00Z",
+            "stage": null,
+            "flow": null,
+            "statement": "Date unavailable"
+          }
+        ]
+      }
+    },
+    "lowThreshold": {
+      "value": -1.0,
+      "units": "ft"
+    },
+    "impactsLowWaters": [
+      {
+        "value": "Below -1 ft",
+        "impact": "Intake exposure"
+      },
+      {
+        "value": "Unknown",
+        "impact": "Original text retained"
+      }
+    ]
+  },
+  "stageflow": {
+    "observed": {
+      "pedts": "HGIRG",
+      "issuedTime": "2026-01-02T12:00:00+00:00",
+      "wfo": "AKQ",
+      "timeZone": "EST5EDT",
+      "primaryName": "Stage",
+      "primaryUnits": "ft",
+      "secondaryName": "Flow",
+      "secondaryUnits": "kcfs",
+      "data": [
+        {
+          "validTime": "2026-01-02T10:00:00Z",
+          "generatedTime": "2026-01-02T12:00:00Z",
+          "primary": 8,
+          "secondary": 16
+        },
+        {
+          "validTime": "2026-01-02T11:00:00Z",
+          "generatedTime": "2026-01-02T12:00:00Z",
+          "primary": 9,
+          "secondary": 18
+        },
+        {
+          "validTime": "2026-01-02T12:00:00Z",
+          "generatedTime": "2026-01-02T12:00:00Z",
+          "primary": 10,
+          "secondary": 20
+        }
+      ]
+    },
+    "forecast": {
+      "pedts": "HGIRG",
+      "issuedTime": "2026-01-02T12:00:00+00:00",
+      "wfo": "AKQ",
+      "timeZone": "EST5EDT",
+      "primaryName": "Stage",
+      "primaryUnits": "ft",
+      "secondaryName": "Flow",
+      "secondaryUnits": "kcfs",
+      "data": [
+        {
+          "validTime": "2026-01-02T13:00:00Z",
+          "generatedTime": "2026-01-02T12:00:00Z",
+          "primary": 11,
+          "secondary": null
+        },
+        {
+          "validTime": "2026-01-02T14:00:00Z",
+          "generatedTime": "2026-01-02T12:00:00Z",
+          "primary": 14,
+          "secondary": null
+        },
+        {
+          "validTime": "2026-01-02T15:00:00Z",
+          "generatedTime": "2026-01-02T12:00:00Z",
+          "primary": 13,
+          "secondary": null
+        }
+      ]
+    }
+  },
+  "gauges": [
+    {
+      "lid": "RMDV2",
+      "name": "Synthetic Richmond-Westham",
+      "latitude": 37.563,
+      "longitude": -77.547,
+      "state": {
+        "abbreviation": "VA"
+      },
+      "wfo": {
+        "abbreviation": "AKQ"
+      },
+      "rfc": {
+        "abbreviation": "MARFC"
+      },
+      "status": {
+        "observed": {
+          "floodCategory": "no_flooding",
+          "validTime": "2026-01-02T12:00:00Z"
+        },
+        "forecast": {
+          "floodCategory": "minor",
+          "validTime": "2026-01-02T18:00:00Z"
+        }
+      }
+    },
+    {
+      "lid": "NEARV2",
+      "name": "Synthetic Nearby gauge",
+      "latitude": 37.8,
+      "longitude": -77.4,
+      "state": {
+        "abbreviation": "VA"
+      },
+      "wfo": {
+        "abbreviation": "AKQ"
+      },
+      "rfc": {
+        "abbreviation": "MARFC"
+      },
+      "status": {
+        "observed": {
+          "floodCategory": "not_current",
+          "validTime": "0001-01-01T00:00:00Z"
+        },
+        "forecast": {
+          "floodCategory": "not_current",
+          "validTime": "0001-01-01T00:00:00Z"
+        }
+      }
+    },
+    {
+      "lid": "CORNV2",
+      "name": "Synthetic Outside radius inside bbox",
+      "latitude": 37.96,
+      "longitude": -76.94,
+      "state": {
+        "abbreviation": "VA"
+      },
+      "wfo": {
+        "abbreviation": "AKQ"
+      },
+      "rfc": {
+        "abbreviation": "MARFC"
+      },
+      "status": {
+        "observed": {
+          "floodCategory": "not_current",
+          "validTime": "0001-01-01T00:00:00Z"
+        },
+        "forecast": {
+          "floodCategory": "not_current",
+          "validTime": "0001-01-01T00:00:00Z"
+        }
+      }
+    },
+    {
+      "lid": "EDGEV2",
+      "name": "Synthetic Internal tile boundary",
+      "latitude": 37.5,
+      "longitude": -80,
+      "state": {
+        "abbreviation": "VA"
+      },
+      "wfo": {
+        "abbreviation": "AKQ"
+      },
+      "rfc": {
+        "abbreviation": "MARFC"
+      },
+      "status": {
+        "observed": {
+          "floodCategory": "not_current",
+          "validTime": "0001-01-01T00:00:00Z"
+        },
+        "forecast": {
+          "floodCategory": "not_current",
+          "validTime": "0001-01-01T00:00:00Z"
+        }
+      }
+    },
+    {
+      "lid": "TESTN2",
+      "name": "Synthetic Different state",
+      "latitude": 37.54,
+      "longitude": -77.43,
+      "state": {
+        "abbreviation": "NC"
+      },
+      "wfo": {
+        "abbreviation": "AKQ"
+      },
+      "rfc": {
+        "abbreviation": "MARFC"
+      },
+      "status": {
+        "observed": {
+          "floodCategory": "not_current",
+          "validTime": "0001-01-01T00:00:00Z"
+        },
+        "forecast": {
+          "floodCategory": "not_current",
+          "validTime": "0001-01-01T00:00:00Z"
+        }
+      }
+    }
+  ],
+  "network": {
+    "startingPoint": {
+      "LID": "RMDV2",
+      "Name": "Synthetic RMDV2"
+    },
+    "upstream": [
+      {
+        "LID": "SVEV2",
+        "Name": "Synthetic upstream A"
+      },
+      {
+        "LID": "CARV2",
+        "Name": "Synthetic upstream B"
+      }
+    ],
+    "downstream": [
+      {
+        "LID": "RICV2",
+        "Name": "Synthetic downstream"
+      }
+    ]
+  },
+  "rating": {
+    "stageUnits": "ft",
+    "flowUnits": "cfs",
+    "data": [
+      {
+        "stage": 8,
+        "flow": 16000
+      },
+      {
+        "stage": 9,
+        "flow": 18000
+      },
+      {
+        "stage": 10,
+        "flow": 20000
+      },
+      {
+        "stage": 12,
+        "flow": 42000
+      },
+      {
+        "stage": 15,
+        "flow": 66700
+      }
+    ]
+  },
+  "reach": {
+    "reachId": "8574021",
+    "name": "Synthetic river reach",
+    "latitude": 37.56,
+    "longitude": -77.55,
+    "streamflow": [
+      "longRange"
+    ],
+    "route": {
+      "upstream": [
+        {
+          "reachId": "8574020",
+          "streamOrder": "3"
+        }
+      ],
+      "downstream": [
+        {
+          "reachId": "8574022",
+          "streamOrder": "3"
+        }
+      ]
+    }
+  },
+  "model": {
+    "reach": {
+      "reachId": "8574021",
+      "name": "Synthetic river reach",
+      "latitude": 37.56,
+      "longitude": -77.55,
+      "streamflow": [
+        "longRange"
+      ],
+      "route": {
+        "upstream": [
+          {
+            "reachId": "8574020",
+            "streamOrder": "3"
+          }
+        ],
+        "downstream": [
+          {
+            "reachId": "8574022",
+            "streamOrder": "3"
+          }
+        ]
+      }
+    },
+    "longRange": {
+      "mean": {
+        "referenceTime": "2026-01-02T12:00:00Z",
+        "units": "ft³/s",
+        "data": [
+          {
+            "validTime": "2026-01-02T13:00:00Z",
+            "flow": 100
+          },
+          {
+            "validTime": "2026-01-02T14:00:00Z",
+            "flow": null
+          }
+        ]
+      },
+      "member1": {
+        "referenceTime": "2026-01-02T12:00:00Z",
+        "units": "ft³/s",
+        "data": [
+          {
+            "validTime": "2026-01-02T13:00:00Z",
+            "flow": 80
+          },
+          {
+            "validTime": "2026-01-02T14:00:00Z",
+            "flow": null
+          }
+        ]
+      },
+      "member2": {
+        "referenceTime": "2026-01-02T12:00:00Z",
+        "units": "ft³/s",
+        "data": [
+          {
+            "validTime": "2026-01-02T13:00:00Z",
+            "flow": 120
+          },
+          {
+            "validTime": "2026-01-02T14:00:00Z",
+            "flow": null
+          }
+        ]
+      }
+    }
+  },
+  "raag": {
+    "statusCode": 200,
+    "rivers": [
+      {
+        "lid": "RMDV2",
+        "name": "Synthetic river summary",
+        "wfo": "AKQ",
+        "rfc": "MARFC",
+        "floodStatements": [
+          {
+            "text": "Synthetic summary only",
+            "units": "ft",
+            "stage": 14,
+            "validTime": "2026-01-02T14:00:00Z"
+          }
+        ]
+      }
+    ]
+  },
+  "services": {
+    "outlooks/SPC_wx_outlks/MapServer": {
+      "label": "Day 1 Categorical Outlook",
+      "layer_id": 101,
+      "fields": [
+        {
+          "name": "objectid",
+          "alias": "Object ID",
+          "type": "esriFieldTypeOID",
+          "nullable": false
+        },
+        {
+          "name": "dn",
+          "alias": "Native category code; not a shared score",
+          "type": "esriFieldTypeInteger",
+          "nullable": true
+        },
+        {
+          "name": "label2",
+          "alias": "Native label",
+          "type": "esriFieldTypeString",
+          "nullable": true
+        }
+      ],
+      "features": [
+        {
+          "type": "Feature",
+          "id": 1,
+          "properties": {
+            "objectid": 1,
+            "idp_filedate": 1767355200000,
+            "idp_ingestdate": 1767355201000,
+            "idp_source": "SYNTHETIC teaching fixture",
+            "dn": 2,
+            "label": "TSTM",
+            "label2": "General Thunderstorms Risk",
+            "issue": "202601021130",
+            "valid": "202601021200",
+            "expire": "202601031200"
+          },
+          "geometry": {
+            "type": "MultiPolygon",
+            "coordinates": [
+              [
+                [
+                  [
+                    -80,
+                    36
+                  ],
+                  [
+                    -76,
+                    36
+                  ],
+                  [
+                    -76,
+                    40
+                  ],
+                  [
+                    -80,
+                    40
+                  ],
+                  [
+                    -80,
+                    36
+                  ]
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "id": 2,
+          "properties": {
+            "objectid": 2,
+            "idp_filedate": 1767355200000,
+            "idp_ingestdate": 1767355201000,
+            "idp_source": "SYNTHETIC teaching fixture",
+            "dn": 3,
+            "label": "MRGL",
+            "label2": "Marginal Risk",
+            "issue": "202601021130",
+            "valid": "202601021200",
+            "expire": "202601031200"
+          },
+          "geometry": {
+            "type": "MultiPolygon",
+            "coordinates": [
+              [
+                [
+                  [
+                    -79,
+                    37
+                  ],
+                  [
+                    -77,
+                    37
+                  ],
+                  [
+                    -77,
+                    39
+                  ],
+                  [
+                    -79,
+                    39
+                  ],
+                  [
+                    -79,
+                    37
+                  ]
+                ]
+              ]
+            ]
+          }
+        }
+      ],
+      "rectangles": {
+        "1": [
+          [
+            -80,
+            36,
+            -76,
+            40
+          ]
+        ],
+        "2": [
+          [
+            -79,
+            37,
+            -77,
+            39
+          ]
+        ]
+      }
+    },
+    "fire_weather/SPC_firewx/MapServer": {
+      "label": "Day 1 Outlook",
+      "layer_id": 101,
+      "fields": [
+        {
+          "name": "objectid",
+          "alias": "Object ID",
+          "type": "esriFieldTypeOID",
+          "nullable": false
+        },
+        {
+          "name": "dn",
+          "alias": "Native category code; not a shared score",
+          "type": "esriFieldTypeInteger",
+          "nullable": true
+        },
+        {
+          "name": "label2",
+          "alias": "Native label",
+          "type": "esriFieldTypeString",
+          "nullable": true
+        }
+      ],
+      "features": [
+        {
+          "type": "Feature",
+          "id": 1,
+          "properties": {
+            "objectid": 1,
+            "idp_filedate": 1767355200000,
+            "idp_ingestdate": 1767355201000,
+            "idp_source": "SYNTHETIC teaching fixture",
+            "dn": 5,
+            "valid": "202601021200",
+            "expire": "202601031200"
+          },
+          "geometry": {
+            "type": "MultiPolygon",
+            "coordinates": [
+              [
+                [
+                  [
+                    -80,
+                    36
+                  ],
+                  [
+                    -76,
+                    36
+                  ],
+                  [
+                    -76,
+                    40
+                  ],
+                  [
+                    -80,
+                    40
+                  ],
+                  [
+                    -80,
+                    36
+                  ]
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "id": 2,
+          "properties": {
+            "objectid": 2,
+            "idp_filedate": 1767355200000,
+            "idp_ingestdate": 1767355201000,
+            "idp_source": "SYNTHETIC teaching fixture",
+            "dn": 8,
+            "valid": "202601021200",
+            "expire": "202601031200"
+          },
+          "geometry": {
+            "type": "MultiPolygon",
+            "coordinates": [
+              [
+                [
+                  [
+                    -79,
+                    37
+                  ],
+                  [
+                    -77,
+                    37
+                  ],
+                  [
+                    -77,
+                    39
+                  ],
+                  [
+                    -79,
+                    39
+                  ],
+                  [
+                    -79,
+                    37
+                  ]
+                ]
+              ]
+            ]
+          }
+        }
+      ],
+      "rectangles": {
+        "1": [
+          [
+            -80,
+            36,
+            -76,
+            40
+          ]
+        ],
+        "2": [
+          [
+            -79,
+            37,
+            -77,
+            39
+          ]
+        ]
+      }
+    },
+    "hazards/wpc_precip_hazards/MapServer": {
+      "label": "Excessive Rainfall Day 1",
+      "layer_id": 101,
+      "fields": [
+        {
+          "name": "objectid",
+          "alias": "Object ID",
+          "type": "esriFieldTypeOID",
+          "nullable": false
+        },
+        {
+          "name": "dn",
+          "alias": "Native category code; not a shared score",
+          "type": "esriFieldTypeInteger",
+          "nullable": true
+        },
+        {
+          "name": "label2",
+          "alias": "Native label",
+          "type": "esriFieldTypeString",
+          "nullable": true
+        }
+      ],
+      "features": [
+        {
+          "type": "Feature",
+          "id": 1,
+          "properties": {
+            "objectid": 1,
+            "idp_filedate": 1767355200000,
+            "idp_ingestdate": 1767355201000,
+            "idp_source": "SYNTHETIC teaching fixture",
+            "dn": 5,
+            "outlook": "Marginal",
+            "snippet": "Original risk explanation",
+            "issue_time": "2026-01-02 11:00:00",
+            "start_time": "2026-01-02 12:00:00",
+            "end_time": "2026-01-03 12:00:00"
+          },
+          "geometry": {
+            "type": "MultiPolygon",
+            "coordinates": [
+              [
+                [
+                  [
+                    -80,
+                    36
+                  ],
+                  [
+                    -76,
+                    36
+                  ],
+                  [
+                    -76,
+                    40
+                  ],
+                  [
+                    -80,
+                    40
+                  ],
+                  [
+                    -80,
+                    36
+                  ]
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "id": 2,
+          "properties": {
+            "objectid": 2,
+            "idp_filedate": 1767355200000,
+            "idp_ingestdate": 1767355201000,
+            "idp_source": "SYNTHETIC teaching fixture",
+            "dn": 10,
+            "outlook": "Slight",
+            "snippet": "Original risk explanation",
+            "issue_time": "2026-01-02 11:00:00",
+            "start_time": "2026-01-02 12:00:00",
+            "end_time": "2026-01-03 12:00:00"
+          },
+          "geometry": {
+            "type": "MultiPolygon",
+            "coordinates": [
+              [
+                [
+                  [
+                    -79,
+                    37
+                  ],
+                  [
+                    -77,
+                    37
+                  ],
+                  [
+                    -77,
+                    39
+                  ],
+                  [
+                    -79,
+                    39
+                  ],
+                  [
+                    -79,
+                    37
+                  ]
+                ]
+              ]
+            ]
+          }
+        }
+      ],
+      "rectangles": {
+        "1": [
+          [
+            -80,
+            36,
+            -76,
+            40
+          ]
+        ],
+        "2": [
+          [
+            -79,
+            37,
+            -77,
+            39
+          ]
+        ]
+      }
+    },
+    "outlooks/wpc_wssi/MapServer": {
+      "label": "Overall_Impact_Day_1",
+      "layer_id": 101,
+      "fields": [
+        {
+          "name": "objectid",
+          "alias": "Object ID",
+          "type": "esriFieldTypeOID",
+          "nullable": false
+        },
+        {
+          "name": "dn",
+          "alias": "Native category code; not a shared score",
+          "type": "esriFieldTypeInteger",
+          "nullable": true
+        },
+        {
+          "name": "label2",
+          "alias": "Native label",
+          "type": "esriFieldTypeString",
+          "nullable": true
+        }
+      ],
+      "features": [
+        {
+          "type": "Feature",
+          "id": 1,
+          "properties": {
+            "objectid": 1,
+            "idp_filedate": 1767355200000,
+            "idp_ingestdate": 1767355201000,
+            "idp_source": "SYNTHETIC teaching fixture",
+            "product": "WINTER STORM SEVERITY INDEX",
+            "component": "WSSI_OVERALL",
+            "impact": "WINTER WEATHER AREA",
+            "issue_time": "2026-01-02 1100Z",
+            "start_time": "12Z 01/02/26",
+            "end_time": "12Z 01/03/26"
+          },
+          "geometry": {
+            "type": "MultiPolygon",
+            "coordinates": [
+              [
+                [
+                  [
+                    -80,
+                    36
+                  ],
+                  [
+                    -76,
+                    36
+                  ],
+                  [
+                    -76,
+                    40
+                  ],
+                  [
+                    -80,
+                    40
+                  ],
+                  [
+                    -80,
+                    36
+                  ]
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "id": 2,
+          "properties": {
+            "objectid": 2,
+            "idp_filedate": 1767355200000,
+            "idp_ingestdate": 1767355201000,
+            "idp_source": "SYNTHETIC teaching fixture",
+            "product": "WINTER STORM SEVERITY INDEX",
+            "component": "WSSI_OVERALL",
+            "impact": "MINOR",
+            "issue_time": "2026-01-02 1100Z",
+            "start_time": "12Z 01/02/26",
+            "end_time": "12Z 01/03/26"
+          },
+          "geometry": {
+            "type": "MultiPolygon",
+            "coordinates": [
+              [
+                [
+                  [
+                    -79,
+                    37
+                  ],
+                  [
+                    -77,
+                    37
+                  ],
+                  [
+                    -77,
+                    39
+                  ],
+                  [
+                    -79,
+                    39
+                  ],
+                  [
+                    -79,
+                    37
+                  ]
+                ]
+              ]
+            ]
+          }
+        }
+      ],
+      "rectangles": {
+        "1": [
+          [
+            -80,
+            36,
+            -76,
+            40
+          ]
+        ],
+        "2": [
+          [
+            -79,
+            37,
+            -77,
+            39
+          ]
+        ]
+      }
+    }
+  }
+}
