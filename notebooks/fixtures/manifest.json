@@ -1,0 +1,26 @@
+{
+  "source": "National Weather Service API",
+  "kind": "complete unmodified public point and grid JSON responses",
+  "capture_started_utc": "2026-11-14T08:52:40.114794+00:00",
+  "capture_finished_utc": "2026-11-14T08:52:40.499959+00:00",
+  "entries": [
+    {
+      "filename": "point.json",
+      "request_path": "/points/38.0293,-78.4767",
+      "url": "https://api.weather.gov/points/38.0293,-78.4767",
+      "status": 200,
+      "retrieved_at_utc": "2026-11-14T08:52:40.287179+00:00",
+      "sha256": "3179e3e80717ea83a2ebdcd86f94971873a34e51678523318099c8f78b415444",
+      "bytes": 3924
+    },
+    {
+      "filename": "grid.json",
+      "request_path": "/gridpoints/LWX/51,26",
+      "url": "https://api.weather.gov/gridpoints/LWX/51,26",
+      "status": 200,
+      "retrieved_at_utc": "2026-11-14T08:52:40.499845+00:00",
+      "sha256": "11cddb0c2f402b3d5e306ffeec1e9769ded561083c4f7766826ef6bc64366d95",
+      "bytes": 193508
+    }
+  ]
+}

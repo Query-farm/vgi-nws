@@ -692,3 +692,7 @@ macOS used ecCodes 2.50.1. Windows CI is configured but was not run locally.
 `verification-mrms-live.json` records the additional live stock-DuckDB MRMS
 queries and their actual values and source file. The opt-in `make test-live`
 manifest includes MRMS discovery, QPE, precipitation rate and outside-grid checks.
+
+## Executed notebook
+
+[Count forecast hours, not compressed rows](notebooks/README.md) demonstrates native temperature intervals, duration weighting and a separate threshold experiment with a portable pinned worker launch.
