@@ -11,14 +11,15 @@ LONG='/outlooks/long_range_flood_outlook/MapServer'
 BEACH='/outlooks/marine_beachforecast_summary/MapServer'
 FFG='/precip/rfc_gridded_ffg/MapServer'
 TROPICAL='/tropical/NHC_tropical_weather_summary/MapServer'
-SERVICES={MCD:{0:'SPC Mesoscale Discussion'},HAZARDS:{101:'3-7 Day Temperature Outlook',103:'8-14 Day Temperature Outlook',104:'3-7 Day Precipitation Outlook',106:'8-14 Day Precipitation Outlook',107:'3-7 Day WildFire/Drought',108:'8-14 Day Wildfire/Drought'},FLOOD:{50:'Flood Outlook'},LONG:{300+i:f'Long_Range_Flood_Outlook_3_Months_{t}_Percent' for i,t in enumerate([5,10,25,50,75,90,95])},BEACH:{401:'Beach Forecast Day 1',402:'Beach Forecast Day 2'},TROPICAL:{99:'Forecast Points',100:'Forecast Cone'}}
+BREAKPOINTS='/tropical/NHC_Breakpoints/MapServer'
+SERVICES={MCD:{0:'SPC Mesoscale Discussion'},HAZARDS:{101:'3-7 Day Temperature Outlook',103:'8-14 Day Temperature Outlook',104:'3-7 Day Precipitation Outlook',106:'8-14 Day Precipitation Outlook',107:'3-7 Day WildFire/Drought',108:'8-14 Day Wildfire/Drought'},FLOOD:{50:'Flood Outlook'},LONG:{300+i:f'Long_Range_Flood_Outlook_3_Months_{t}_Percent' for i,t in enumerate([5,10,25,50,75,90,95])},BEACH:{0:'Beach Forecast Day 1',1:'Beach Forecast Day 2'},TROPICAL:{99:'Forecast Points',100:'Forecast Cone'},BREAKPOINTS:{7:'Watch_Warning_Breakpoints'}}
 SERVICES[WINTER]={500+i*5+j:f'{c}_{impact}_Impacts' for i,c in enumerate(['Overall_Winter_Storms','Snow_Amount','Snow_Load','Ice','Blowing_Snow']) for j,impact in enumerate(['WWA','Minor','Moderate','Major','Extreme'])}
 AIR_NAMES=['ndgd_apm25_hr01','ndgd_apm25_hr24','ndgd_mpm25_hr01','ndgd_ozone_1hr_avg_time','ndgd_ozone_8hr_avg_time','ndgd_ozone_1hr_max_time','ndgd_ozone_8hr_max_time']
 AIR_NAMES += [x+'_bc' for x in AIR_NAMES]
 AIR_NAMES += ['ndgd_smoke_sfc_1hr_avg_time','ndgd_smoke_vert_1hr_avg_time','ndgd_dust_sfc_time','ndgd_dust_vert_time']
 IMAGE_PATHS={f'/air_quality/{x}/ImageServer' for x in AIR_NAMES}|{'/radar/radar_base_reflectivity_time/ImageServer','/obs/mrms_qpe/ImageServer'}
 DIRECTORIES={
- 'gis':[p[1:] for p in SERVICES if p!=TROPICAL]+['outlooks/spc_mesoscale_discussion/FeatureServer'],
+ 'gis':[p[1:] for p in SERVICES if p not in (TROPICAL,BREAKPOINTS)]+['outlooks/spc_mesoscale_discussion/FeatureServer'],
  'raster':[p[1:] for p in IMAGE_PATHS if p.startswith('/air_quality')]+[FFG[1:],'obs/mrms_qpe/ImageServer','obs/NWM_Land_Analysis/MapServer'],
  'tropical':[TROPICAL[1:]],'event':['radar/radar_base_reflectivity_time/ImageServer'],
 }
@@ -32,6 +33,7 @@ def attrs(service,i,layer):
  elif service==BEACH:p.update(id='AKQ',beachname=f'Beach {i}',productdat='N/A' if i==1 else 'Jan 2 2026',producttim='1200 UTC',period='Today',rip='Low' if i!=1 else None,uv='3',surf='2 to 3 ft',wtemp='50 F',maxtemp='60 F',weather='Clear',winds='N 10 kt',tstorm='None',wspout='None',srfprod='https://forecast.weather.gov/product.php?product=SRF',idp_filedate=STAMP+i*1000)
  elif service==LONG:p.update(gaugelid=['RMDV2','OTHER','THIRD'][i-1],name=f'Gauge {i}',state='VA' if i!=2 else 'NC',wfo='akq',rfc='marfc',latitude=38,longitude=-78,interval='JFM',stage='minor',minor='< 0.05',moderate='0.25',major='> 0.95',idp_filedate=STAMP+i*1000)
  elif service==TROPICAL:p={'OBJECTID':i,'stormname':'Fixture','maxwind':50,'idp_source':'AT1_fixture','advisnum':'12A','advdate':'1200 UTC','validtime':'02/1200 UTC','idp_filedate':STAMP+i*1000,'idp_ingestdate':STAMP}
+ elif service==BREAKPOINTS:p.update(name=f'Breakpoint {i}',lat=38,lon=-78,state='Virginia',country='United States')
  return p
 
 def extension(path,q,server=None):
@@ -72,9 +74,10 @@ def extension(path,q,server=None):
    if one('geometryType')=='esriGeometryPoint':
     outside=abs(geom['x']+78)>1 or abs(geom['y']-38)>1
     if service==TROPICAL and layer==100 and abs(geom['x']+80.19)<0.1 and abs(geom['y']-25.76)<0.1:outside=False
+    if service==BEACH and abs(geom['x']+80.0861)<0.1 and abs(geom['y']-25.8204)<0.1:outside=False
    else:outside=not(geom['xmin']<=-78<=geom['xmax'] and geom['ymin']<=38<=geom['ymax'])
   n=4 if service==WINTER else 3;ids=[] if outside else [i for i in range(1,n+1) if i>after]
-  features=[{'type':'Feature','properties':attrs(service,i,layer),'geometry':{'type':'Point','coordinates':[-78,38]} if service in [TROPICAL,LONG] else {'type':'Polygon','coordinates':[[[-79,37],[-77,37],[-77,39],[-79,39],[-79,37]]]}} for i in ids[:size]]
+  features=[{'type':'Feature','properties':attrs(service,i,layer),'geometry':{'type':'Point','coordinates':[-78,38]} if service in [TROPICAL,LONG,BREAKPOINTS] else {'type':'Polygon','coordinates':[[[-79,37],[-77,37],[-77,39],[-79,39],[-79,37]]]}} for i in ids[:size]]
   if one('returnGeometry')=='false':
    for f in features:f['geometry']=None
   return 200,{'type':'FeatureCollection','features':features,'exceededTransferLimit':len(ids)>size}

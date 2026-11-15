@@ -196,8 +196,10 @@ const alertsAt = reader({
   options: alertOptions,
   columns: alertColumns,
   read: (a, cursor) => page("weather", cursor || alertPath(a, coords(a)), alertRow, "features"),
-  example: "SELECT event, headline FROM nws.main.alerts_at(38.0293, -78.4767)",
-  exampleDescription: "Get warnings affecting a garden in Charlottesville",
+  example:
+    "SELECT count(*) AS alerts, list(DISTINCT event ORDER BY event) AS events, max(sent) AS latest_sent FROM nws.main.alerts_at(38.0293, -78.4767, active := false)",
+  exampleDescription:
+    "Count the alerts that covered a garden in Charlottesville over the past week and list their event names; 0 alerts means no alert covered the point",
 });
 const alert = reader({
   name: "alert",

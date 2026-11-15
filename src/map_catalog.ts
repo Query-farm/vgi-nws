@@ -263,8 +263,13 @@ const featureFunctions = [false, true].map((atPoint) =>
       ...GIS_COLUMNS,
     ] as Col[],
     read: (a, c) => mapFeatures(a, c, atPoint),
-    example: `SELECT object_id, attributes_json FROM nws.main.map_features${atPoint ? "_at" : ""}('vector:outlooks/spc_mesoscale_discussion/MapServer',0${atPoint ? ",38.0293,-78.4767" : ""}) ORDER BY object_id`,
-    exampleDescription: "Read native NWS discussion features and their attributes",
+    // Beach forecast areas are fixed polygons, so the point example always finds one.
+    example: atPoint
+      ? "SELECT object_id, attributes_json FROM nws.main.map_features_at('vector:outlooks/marine_beachforecast_summary/MapServer', 0, 25.8204, -80.0861) ORDER BY object_id"
+      : "SELECT object_id, attributes_json FROM nws.main.map_features('vector:outlooks/spc_mesoscale_discussion/MapServer', 0) ORDER BY object_id",
+    exampleDescription: atPoint
+      ? "Read the native attributes of the NWS beach forecast area covering Miami Beach"
+      : "Read native NWS discussion features and their attributes",
   }),
 );
 const raster = reader({

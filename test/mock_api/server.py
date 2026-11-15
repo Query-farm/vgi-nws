@@ -153,6 +153,7 @@ class Handler(BaseHTTPRequestHandler):
         elif path == '/offices/LWX': body = {'id': 'LWX', 'name': 'Sterling', 'sameAs': 'https://www.weather.gov/lwx', 'responsibleCounties': [], 'responsibleForecastZones': []}
         elif path == '/glossary': body = {'glossary': [{'term': 'Frost', 'definition': 'Ice crystals on a surface.'}]}
         elif path == '/gauges/RMDV2': body = GAUGE
+        elif path == '/gauges/EADM7': body = {**GAUGE, 'lid': 'EADM7', 'name': 'St. Louis'}
         elif path == '/gauges/RMDV2/stageflow': body = {k:stageflow(k) for k in ['observed','forecast']}
         if body is None: return self.send(404, {'detail': 'Fixture not found: ' + path})
         self.send(200, body)

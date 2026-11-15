@@ -261,6 +261,8 @@ const beach = pair({
     product_url: str(p.srfprod),
   }),
   exampleColumns: "office_id, beach_name, has_forecast, rip_current_risk, surf_text, water_temperature_text",
+  // Beach areas are fixed polygons published whether or not today's forecast is filled in.
+  pointExample: { latitude: 25.8204, longitude: -80.0861, place: "Miami Beach" },
 });
 export function probabilityRange(text: unknown): {
   lower: number | null;

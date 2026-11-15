@@ -7,6 +7,7 @@
 - Docs link to upstream sources: the catalog `vgi.doc_md` gains a Sources and references section linking the NWS API, the NWPS API, the NOAA/NWS GIS map services, SWPC, NDBC, the AviationWeather.gov Data API and the MRMS product server (VGI183).
 - The `main` schema comment is now a short plain-text line instead of repeating the schema `vgi.doc_md` (VGI102).
 - The catalog `vgi.doc_llm` / `vgi.doc_md` give an overview of the data families, how the parts fit together and the caveats, instead of listing 58 of the 92 functions by name (VGI173). Each function's own description already carries its per-function guidance.
+- Examples return a row for any user at any time (VGI902). Outlook, hazard and discussion readers whose areas exist only while a hazard is forecast now summarize as one row: the feature count and a list of each feature's native fields. The description says that 0 means no published area. `alerts_at` counts the past week's alerts at the point; `storm_reports_near` counts 72 hours of reports within 500 km. Readers over fixed data use data that is always published: `beach_forecast_at` and `map_features_at` read the Miami Beach forecast area, `tropical_features` lists the NHC coastal breakpoints, the low-water functions read the Mississippi River at St. Louis (`EADM7`), and `reach_streamflow` reads the continuously updated `analysis_assimilation` series. The agent-task graders follow the new examples.
 
 ## 0.5.1 — 2026-11-14
 

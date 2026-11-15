@@ -133,10 +133,10 @@ export const STORM_REPORT_FUNCTIONS = [false, true].map((nearby) => {
     columns,
     read: (a, c) => stormReports(a, c, nearby),
     example: nearby
-      ? "SELECT event, magnitude_text, unit, distance_km, reported_at FROM nws.main.storm_reports_near(38.0293,-78.4767) ORDER BY distance_km, object_id"
+      ? "SELECT count(*) AS reports, list(DISTINCT event ORDER BY event) AS events, min(distance_km) AS nearest_km, max(reported_at) AS latest_report FROM nws.main.storm_reports_near(38.0293, -78.4767, radius_km := 500, lookback_hours := 72)"
       : "SELECT event, count(*) AS reports FROM nws.main.storm_reports(lookback_hours := 72) GROUP BY event ORDER BY event",
     exampleDescription: nearby
-      ? "Inspect recent storm reports near Charlottesville with their original units"
+      ? "Count the storm reports within 500 km of Charlottesville over the past 72 hours, list their event types and the nearest distance; 0 reports means nothing was reported nearby"
       : "Count recent local storm reports by event type",
   });
 });

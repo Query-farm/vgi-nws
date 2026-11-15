@@ -96,10 +96,10 @@ export const TROPICAL_FUNCTIONS = [false, true].map((at) =>
     ] as Col[],
     read: (a, c) => tropicalFeatures(a, c, at),
     example: at
-      ? "SELECT product, storm_name, attributes_json FROM nws.main.tropical_features_at(25.76,-80.19) ORDER BY object_id"
-      : "SELECT storm_name, advisory_number, valid_time_text, attributes_json FROM nws.main.tropical_features() ORDER BY object_id",
+      ? "SELECT count(*) AS features, list({'storm_name': storm_name, 'advisory_number': advisory_number, 'attributes_json': attributes_json} ORDER BY object_id) AS details FROM nws.main.tropical_features_at(25.76, -80.19)"
+      : "SELECT object_id, attributes_json FROM nws.main.tropical_features(product := 'breakpoints') ORDER BY object_id",
     exampleDescription: at
-      ? "Find tropical forecast-cone features intersecting Miami"
-      : "Read current tropical forecast points and their original wind and position fields",
+      ? "Count the tropical forecast cones covering Miami and list their storms and advisories; 0 features means no active storm's cone covers the point"
+      : "List the NHC coastal watch and warning breakpoints with their original name, position and state fields",
   }),
 );

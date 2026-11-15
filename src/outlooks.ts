@@ -34,6 +34,39 @@ interface Product {
   filter?: (row: Row, args: Args) => boolean;
   exampleColumns: string;
   exampleOptions?: string;
+  /** A point that always lies inside a published feature, for products whose areas are fixed. */
+  pointExample?: { latitude: number; longitude: number; place: string };
+}
+function exampleArgs(product: Product, point?: string): string {
+  return [point, product.exampleOptions].filter(Boolean).join(", ");
+}
+/** Plain rows at a point that the product always covers. */
+function pointExample(product: Product, name: string) {
+  const p = product.pointExample as NonNullable<Product["pointExample"]>;
+  return {
+    example: `SELECT ${product.exampleColumns} FROM nws.main.${name}(${exampleArgs(product, `${p.latitude}, ${p.longitude}`)}) ORDER BY object_id`,
+    exampleDescription: `Inspect the ${product.name.replaceAll("_", " ")} features covering ${p.place} with their original wording`,
+  };
+}
+/**
+ * One summary row: the feature count and each feature's native fields.
+ *
+ * Most of these products publish areas only while a hazard is forecast, so a plain SELECT
+ * returns no rows on quiet days. The aggregate always answers, and says when nothing applies.
+ */
+function featureSummary(product: Product, name: string, atPoint: boolean) {
+  const fields = product.exampleColumns
+    .split(",")
+    .map((c) => c.trim())
+    .map((c) => `'${c}': ${c}`)
+    .join(", ");
+  const label = product.name.replaceAll("_", " ");
+  return {
+    example: `SELECT count(*) AS features, list({${fields}} ORDER BY object_id) AS details FROM nws.main.${name}(${exampleArgs(product, atPoint ? "38.0293, -78.4767" : undefined)})`,
+    exampleDescription: atPoint
+      ? `Count the ${label} features covering Charlottesville and list their original categories or units; 0 features and NULL details mean no published area covers the point`
+      : `Count the published ${label} features and list their original categories or units; 0 features and NULL details mean none is currently published`,
+  };
 }
 export function pair(product: Product) {
   return [false, true].map((atPoint) => {
@@ -50,8 +83,7 @@ export function pair(product: Product) {
         const result = await gisPage(product.select(a), a, c, (p) => product.map(p, a), atPoint);
         return product.filter ? { ...result, rows: result.rows.filter((r) => product.filter?.(r, a)) } : result;
       },
-      example: `SELECT ${product.exampleColumns} FROM nws.main.${name}(${atPoint ? "38.0293, -78.4767" : ""}${product.exampleOptions ? `${atPoint ? ", " : ""}${product.exampleOptions}` : ""}) ORDER BY object_id`,
-      exampleDescription: `${atPoint ? "Inspect local" : "List published"} ${product.name.replaceAll("_", " ")} features with their original categories or units`,
+      ...(atPoint && product.pointExample ? pointExample(product, name) : featureSummary(product, name, atPoint)),
     });
   });
 }

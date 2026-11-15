@@ -5,7 +5,7 @@ tasks:
   - name: alerts
     reference_sql: "SELECT event, severity, headline, expires FROM nws.main.alerts(area := 'VA') ORDER BY sent DESC"
   - name: alerts_at
-    reference_sql: "SELECT event, headline FROM nws.main.alerts_at(38.0293, -78.4767)"
+    reference_sql: "SELECT count(*) AS alerts, list(DISTINCT event ORDER BY event) AS events, max(sent) AS latest_sent FROM nws.main.alerts_at(38.0293, -78.4767, active := false)"
   - name: alert
     reference_sql: "SELECT d.event, d.headline, d.description FROM nws.main.alerts(area := 'VA') a, LATERAL nws.main.alert(a.id) d LIMIT 5"
   - name: alert_types
@@ -57,29 +57,29 @@ tasks:
   - name: historic_crests
     reference_sql: "SELECT occurred_at, stage, stage_unit, old_datum FROM nws.main.historic_crests('RMDV2') ORDER BY stage DESC LIMIT 5"
   - name: severe_outlook
-    reference_sql: "SELECT day, hazard, category, probability_pct, valid_from, valid_to FROM nws.main.severe_outlook(day := 1) ORDER BY object_id"
+    reference_sql: "SELECT count(*) AS features, list({'day': day, 'hazard': hazard, 'category': category, 'probability_pct': probability_pct, 'valid_from': valid_from, 'valid_to': valid_to} ORDER BY object_id) AS details FROM nws.main.severe_outlook(day := 1)"
   - name: severe_outlook_at
-    reference_sql: "SELECT day, hazard, category, probability_pct, valid_from, valid_to FROM nws.main.severe_outlook_at(38.0293, -78.4767, day := 1) ORDER BY object_id"
+    reference_sql: "SELECT count(*) AS features, list({'day': day, 'hazard': hazard, 'category': category, 'probability_pct': probability_pct, 'valid_from': valid_from, 'valid_to': valid_to} ORDER BY object_id) AS details FROM nws.main.severe_outlook_at(38.0293, -78.4767, day := 1)"
   - name: fire_outlook
-    reference_sql: "SELECT day, hazard, category, valid_from, valid_to FROM nws.main.fire_outlook(day := 1) ORDER BY object_id"
+    reference_sql: "SELECT count(*) AS features, list({'day': day, 'hazard': hazard, 'category': category, 'valid_from': valid_from, 'valid_to': valid_to} ORDER BY object_id) AS details FROM nws.main.fire_outlook(day := 1)"
   - name: fire_outlook_at
-    reference_sql: "SELECT day, hazard, category, valid_from, valid_to FROM nws.main.fire_outlook_at(38.0293, -78.4767, day := 1) ORDER BY object_id"
+    reference_sql: "SELECT count(*) AS features, list({'day': day, 'hazard': hazard, 'category': category, 'valid_from': valid_from, 'valid_to': valid_to} ORDER BY object_id) AS details FROM nws.main.fire_outlook_at(38.0293, -78.4767, day := 1)"
   - name: rainfall_outlook
-    reference_sql: "SELECT day, category, risk_description, valid_from, valid_to FROM nws.main.rainfall_outlook(day := 1) ORDER BY object_id"
+    reference_sql: "SELECT count(*) AS features, list({'day': day, 'category': category, 'risk_description': risk_description, 'valid_from': valid_from, 'valid_to': valid_to} ORDER BY object_id) AS details FROM nws.main.rainfall_outlook(day := 1)"
   - name: rainfall_outlook_at
-    reference_sql: "SELECT day, category, risk_description, valid_from, valid_to FROM nws.main.rainfall_outlook_at(38.0293, -78.4767, day := 1) ORDER BY object_id"
+    reference_sql: "SELECT count(*) AS features, list({'day': day, 'category': category, 'risk_description': risk_description, 'valid_from': valid_from, 'valid_to': valid_to} ORDER BY object_id) AS details FROM nws.main.rainfall_outlook_at(38.0293, -78.4767, day := 1)"
   - name: precipitation_forecast
-    reference_sql: "SELECT period, contour_value, unit, valid_from, valid_to FROM nws.main.precipitation_forecast(period := 'day1') ORDER BY object_id"
+    reference_sql: "SELECT count(*) AS features, list({'period': period, 'contour_value': contour_value, 'unit': unit, 'valid_from': valid_from, 'valid_to': valid_to} ORDER BY object_id) AS details FROM nws.main.precipitation_forecast(period := 'day1')"
   - name: precipitation_forecast_at
-    reference_sql: "SELECT period, contour_value, unit, valid_from, valid_to FROM nws.main.precipitation_forecast_at(38.0293, -78.4767, period := 'day1') ORDER BY object_id"
+    reference_sql: "SELECT count(*) AS features, list({'period': period, 'contour_value': contour_value, 'unit': unit, 'valid_from': valid_from, 'valid_to': valid_to} ORDER BY object_id) AS details FROM nws.main.precipitation_forecast_at(38.0293, -78.4767, period := 'day1')"
   - name: climate_outlook
-    reference_sql: "SELECT variable, category, probability_pct, valid_from, valid_to FROM nws.main.climate_outlook(period := '8_14_day') ORDER BY object_id"
+    reference_sql: "SELECT count(*) AS features, list({'variable': variable, 'category': category, 'probability_pct': probability_pct, 'valid_from': valid_from, 'valid_to': valid_to} ORDER BY object_id) AS details FROM nws.main.climate_outlook(period := '8_14_day')"
   - name: climate_outlook_at
-    reference_sql: "SELECT variable, category, probability_pct, valid_from, valid_to FROM nws.main.climate_outlook_at(38.0293, -78.4767, period := '8_14_day') ORDER BY object_id"
+    reference_sql: "SELECT count(*) AS features, list({'variable': variable, 'category': category, 'probability_pct': probability_pct, 'valid_from': valid_from, 'valid_to': valid_to} ORDER BY object_id) AS details FROM nws.main.climate_outlook_at(38.0293, -78.4767, period := '8_14_day')"
   - name: drought_outlook
-    reference_sql: "SELECT period, category, forecast_date, target_period FROM nws.main.drought_outlook(period := 'monthly') ORDER BY object_id"
+    reference_sql: "SELECT count(*) AS features, list({'period': period, 'category': category, 'forecast_date': forecast_date, 'target_period': target_period} ORDER BY object_id) AS details FROM nws.main.drought_outlook(period := 'monthly')"
   - name: drought_outlook_at
-    reference_sql: "SELECT period, category, forecast_date, target_period FROM nws.main.drought_outlook_at(38.0293, -78.4767, period := 'monthly') ORDER BY object_id"
+    reference_sql: "SELECT count(*) AS features, list({'period': period, 'category': category, 'forecast_date': forecast_date, 'target_period': target_period} ORDER BY object_id) AS details FROM nws.main.drought_outlook_at(38.0293, -78.4767, period := 'monthly')"
   - name: gauges
     reference_sql: "SELECT gauge_id, name, state, observed_category FROM nws.main.gauges(state := 'VA') ORDER BY gauge_id"
   - name: gauges_near
@@ -95,21 +95,21 @@ tasks:
   - name: reach
     reference_sql: "SELECT reach_id, name, available_series_json, upstream_json FROM nws.main.reach('23021904')"
   - name: reach_streamflow
-    reference_sql: "SELECT member, max(flow) AS peak, flow_unit FROM nws.main.reach_streamflow('23021904') GROUP BY member, flow_unit ORDER BY member"
+    reference_sql: "SELECT member, max(flow) AS peak, flow_unit FROM nws.main.reach_streamflow('23021904', series := 'analysis_assimilation') GROUP BY member, flow_unit ORDER BY member"
   - name: low_water_threshold
-    reference_sql: "SELECT gauge_id, threshold, unit FROM nws.main.low_water_threshold('RMDV2') ORDER BY gauge_id"
+    reference_sql: "SELECT gauge_id, threshold, unit FROM nws.main.low_water_threshold('EADM7') ORDER BY gauge_id"
   - name: low_water_impacts
-    reference_sql: "SELECT value_text, statement FROM nws.main.low_water_impacts('RMDV2') ORDER BY value_text"
+    reference_sql: "SELECT value_text, statement FROM nws.main.low_water_impacts('EADM7') ORDER BY value_text"
   - name: historic_low_water
-    reference_sql: "SELECT occurred_at, stage, stage_unit, flow, flow_unit, statement FROM nws.main.historic_low_water('RMDV2') ORDER BY occurred_at"
+    reference_sql: "SELECT occurred_at, stage, stage_unit, flow, flow_unit, statement FROM nws.main.historic_low_water('EADM7') ORDER BY occurred_at"
   - name: winter_precipitation
-    reference_sql: "SELECT hazard, threshold_inches, category, probability_min_pct, probability_max_pct, valid_from FROM nws.main.winter_precipitation(day := 1) ORDER BY object_id"
+    reference_sql: "SELECT count(*) AS features, list({'hazard': hazard, 'threshold_inches': threshold_inches, 'category': category, 'probability_min_pct': probability_min_pct, 'probability_max_pct': probability_max_pct, 'valid_from': valid_from} ORDER BY object_id) AS details FROM nws.main.winter_precipitation(day := 1)"
   - name: winter_precipitation_at
-    reference_sql: "SELECT hazard, threshold_inches, category, probability_min_pct, probability_max_pct, valid_from FROM nws.main.winter_precipitation_at(38.0293, -78.4767, day := 1) ORDER BY object_id"
+    reference_sql: "SELECT count(*) AS features, list({'hazard': hazard, 'threshold_inches': threshold_inches, 'category': category, 'probability_min_pct': probability_min_pct, 'probability_max_pct': probability_max_pct, 'valid_from': valid_from} ORDER BY object_id) AS details FROM nws.main.winter_precipitation_at(38.0293, -78.4767, day := 1)"
   - name: winter_storm_severity
-    reference_sql: "SELECT period, component, impact, valid_from, valid_to FROM nws.main.winter_storm_severity(period := 'day1_3') ORDER BY object_id"
+    reference_sql: "SELECT count(*) AS features, list({'period': period, 'component': component, 'impact': impact, 'valid_from': valid_from, 'valid_to': valid_to} ORDER BY object_id) AS details FROM nws.main.winter_storm_severity(period := 'day1_3')"
   - name: winter_storm_severity_at
-    reference_sql: "SELECT period, component, impact, valid_from, valid_to FROM nws.main.winter_storm_severity_at(38.0293, -78.4767, period := 'day1_3') ORDER BY object_id"
+    reference_sql: "SELECT count(*) AS features, list({'period': period, 'component': component, 'impact': impact, 'valid_from': valid_from, 'valid_to': valid_to} ORDER BY object_id) AS details FROM nws.main.winter_storm_severity_at(38.0293, -78.4767, period := 'day1_3')"
   - name: soil_moisture_at
     reference_sql: "SELECT region, saturation_pct, valid_at FROM nws.main.soil_moisture_at(38.0293,-78.4767) ORDER BY region, raster_id"
   - name: precipitation_anomaly_at
@@ -119,7 +119,7 @@ tasks:
   - name: storm_reports
     reference_sql: "SELECT event, count(*) AS reports FROM nws.main.storm_reports(lookback_hours := 72) GROUP BY event ORDER BY event"
   - name: storm_reports_near
-    reference_sql: "SELECT event, magnitude_text, unit, distance_km FROM nws.main.storm_reports_near(38.0293,-78.4767) ORDER BY distance_km, object_id"
+    reference_sql: "SELECT count(*) AS reports, list(DISTINCT event ORDER BY event) AS events, min(distance_km) AS nearest_km, max(reported_at) AS latest_report FROM nws.main.storm_reports_near(38.0293, -78.4767, radius_km := 500, lookback_hours := 72)"
   - name: map_products
     reference_sql: "SELECT product_id, service_type FROM nws.main.map_products(server := 'vector', folder := 'outlooks') ORDER BY product_id"
   - name: map_layers
@@ -127,9 +127,9 @@ tasks:
   - name: map_fields
     reference_sql: "SELECT field_name, alias, field_type FROM nws.main.map_fields('vector:outlooks/spc_mesoscale_discussion/MapServer') ORDER BY field_name"
   - name: map_features
-    reference_sql: "SELECT object_id, attributes_json FROM nws.main.map_features('vector:outlooks/spc_mesoscale_discussion/MapServer',0) ORDER BY object_id"
+    reference_sql: "SELECT object_id, attributes_json FROM nws.main.map_features('vector:outlooks/spc_mesoscale_discussion/MapServer', 0) ORDER BY object_id"
   - name: map_features_at
-    reference_sql: "SELECT object_id, attributes_json FROM nws.main.map_features_at('vector:outlooks/spc_mesoscale_discussion/MapServer',0,38.0293,-78.4767) ORDER BY object_id"
+    reference_sql: "SELECT object_id, attributes_json FROM nws.main.map_features_at('vector:outlooks/marine_beachforecast_summary/MapServer', 0, 25.8204, -80.0861) ORDER BY object_id"
   - name: map_raster_at
     reference_sql: "SELECT r.raw_value, r.raster_name, r.valid_at FROM (SELECT min(layer_id) AS layer_id FROM nws.main.map_layers('raster:precip/rfc_gridded_ffg/MapServer') WHERE layer_type = 'Mosaic Layer') l, LATERAL nws.main.map_raster_at('raster:precip/rfc_gridded_ffg/MapServer',l.layer_id,38.0293,-78.4767) r ORDER BY r.raster_id"
   - name: map_image_at
@@ -137,25 +137,25 @@ tasks:
   - name: flash_flood_guidance_at
     reference_sql: "SELECT hours, threshold_mm, threshold_inches, valid_at FROM nws.main.flash_flood_guidance_at(38.0293,-78.4767) ORDER BY raster_id"
   - name: mesoscale_discussions
-    reference_sql: "SELECT discussion_number, discussion_info, discussion_html FROM nws.main.mesoscale_discussions() ORDER BY object_id"
+    reference_sql: "SELECT count(*) AS features, list({'discussion_number': discussion_number, 'discussion_info': discussion_info, 'discussion_html': discussion_html} ORDER BY object_id) AS details FROM nws.main.mesoscale_discussions()"
   - name: mesoscale_discussions_at
-    reference_sql: "SELECT discussion_number, discussion_info, discussion_html FROM nws.main.mesoscale_discussions_at(38.0293, -78.4767) ORDER BY object_id"
+    reference_sql: "SELECT count(*) AS features, list({'discussion_number': discussion_number, 'discussion_info': discussion_info, 'discussion_html': discussion_html} ORDER BY object_id) AS details FROM nws.main.mesoscale_discussions_at(38.0293, -78.4767)"
   - name: weather_hazards
-    reference_sql: "SELECT period, hazard_group, hazard, valid_from, valid_to FROM nws.main.weather_hazards() ORDER BY object_id"
+    reference_sql: "SELECT count(*) AS features, list({'period': period, 'hazard_group': hazard_group, 'hazard': hazard, 'valid_from': valid_from, 'valid_to': valid_to} ORDER BY object_id) AS details FROM nws.main.weather_hazards()"
   - name: weather_hazards_at
-    reference_sql: "SELECT period, hazard_group, hazard, valid_from, valid_to FROM nws.main.weather_hazards_at(38.0293, -78.4767) ORDER BY object_id"
+    reference_sql: "SELECT count(*) AS features, list({'period': period, 'hazard_group': hazard_group, 'hazard': hazard, 'valid_from': valid_from, 'valid_to': valid_to} ORDER BY object_id) AS details FROM nws.main.weather_hazards_at(38.0293, -78.4767)"
   - name: winter_storm_probability
-    reference_sql: "SELECT forecast_hour, component, impact, probability_pct, valid_from, valid_to FROM nws.main.winter_storm_probability() ORDER BY object_id"
+    reference_sql: "SELECT count(*) AS features, list({'forecast_hour': forecast_hour, 'component': component, 'impact': impact, 'probability_pct': probability_pct, 'valid_from': valid_from, 'valid_to': valid_to} ORDER BY object_id) AS details FROM nws.main.winter_storm_probability()"
   - name: winter_storm_probability_at
-    reference_sql: "SELECT forecast_hour, component, impact, probability_pct, valid_from, valid_to FROM nws.main.winter_storm_probability_at(38.0293, -78.4767) ORDER BY object_id"
+    reference_sql: "SELECT count(*) AS features, list({'forecast_hour': forecast_hour, 'component': component, 'impact': impact, 'probability_pct': probability_pct, 'valid_from': valid_from, 'valid_to': valid_to} ORDER BY object_id) AS details FROM nws.main.winter_storm_probability_at(38.0293, -78.4767)"
   - name: river_flood_outlook
-    reference_sql: "SELECT outlook, product, valid_from, valid_to FROM nws.main.river_flood_outlook() ORDER BY object_id"
+    reference_sql: "SELECT count(*) AS features, list({'outlook': outlook, 'product': product, 'valid_from': valid_from, 'valid_to': valid_to} ORDER BY object_id) AS details FROM nws.main.river_flood_outlook()"
   - name: river_flood_outlook_at
-    reference_sql: "SELECT outlook, product, valid_from, valid_to FROM nws.main.river_flood_outlook_at(38.0293, -78.4767) ORDER BY object_id"
+    reference_sql: "SELECT count(*) AS features, list({'outlook': outlook, 'product': product, 'valid_from': valid_from, 'valid_to': valid_to} ORDER BY object_id) AS details FROM nws.main.river_flood_outlook_at(38.0293, -78.4767)"
   - name: beach_forecast
-    reference_sql: "SELECT office_id, beach_name, has_forecast, rip_current_risk, surf_text, water_temperature_text FROM nws.main.beach_forecast() ORDER BY object_id"
+    reference_sql: "SELECT count(*) AS features, list({'office_id': office_id, 'beach_name': beach_name, 'has_forecast': has_forecast, 'rip_current_risk': rip_current_risk, 'surf_text': surf_text, 'water_temperature_text': water_temperature_text} ORDER BY object_id) AS details FROM nws.main.beach_forecast()"
   - name: beach_forecast_at
-    reference_sql: "SELECT office_id, beach_name, has_forecast, rip_current_risk, surf_text, water_temperature_text FROM nws.main.beach_forecast_at(38.0293, -78.4767) ORDER BY object_id"
+    reference_sql: "SELECT office_id, beach_name, has_forecast, rip_current_risk, surf_text, water_temperature_text FROM nws.main.beach_forecast_at(25.8204, -80.0861) ORDER BY object_id"
   - name: long_range_flood_outlook
     reference_sql: "SELECT gauge_id, flood_category, probability_text, target_period FROM nws.main.long_range_flood_outlook(state := 'VA') ORDER BY gauge_id, flood_category"
   - name: air_quality_at
@@ -177,9 +177,9 @@ tasks:
   - name: space_weather_rows
     reference_sql: "SELECT record_key, record_json FROM nws.main.space_weather_rows('products/noaa-scales.json') ORDER BY record_key"
   - name: tropical_features
-    reference_sql: "SELECT storm_name, advisory_number, valid_time_text, attributes_json FROM nws.main.tropical_features() ORDER BY object_id"
+    reference_sql: "SELECT object_id, attributes_json FROM nws.main.tropical_features(product := 'breakpoints') ORDER BY object_id"
   - name: tropical_features_at
-    reference_sql: "SELECT product, storm_name, attributes_json FROM nws.main.tropical_features_at(25.76,-80.19) ORDER BY object_id"
+    reference_sql: "SELECT count(*) AS features, list({'storm_name': storm_name, 'advisory_number': advisory_number, 'attributes_json': attributes_json} ORDER BY object_id) AS details FROM nws.main.tropical_features_at(25.76, -80.19)"
   - name: mrms_products
     reference_sql: "SELECT product_id, unit, description FROM nws.main.mrms_products() WHERE kind = 'directory' ORDER BY product_id"
   - name: mrms_at

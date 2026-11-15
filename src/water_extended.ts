@@ -175,8 +175,9 @@ const streamflow = reader({
     return { rows: streamflowRows(doc.body, String(a.reach_id), series).map((r) => ({ ...r, ...provenance(doc) })) };
   },
   example:
-    "SELECT member, max(flow) AS peak, flow_unit FROM nws.main.reach_streamflow('23021904') GROUP BY member, flow_unit ORDER BY member",
-  exampleDescription: "Find model streamflow peaks by member without mixing units",
+    "SELECT member, max(flow) AS peak, flow_unit FROM nws.main.reach_streamflow('23021904', series := 'analysis_assimilation') GROUP BY member, flow_unit ORDER BY member",
+  exampleDescription:
+    "Find the assimilated National Water Model streamflow peak for a reach by member without mixing units",
 });
 
 const lowThreshold = reader({
@@ -198,8 +199,8 @@ const lowThreshold = reader({
     const p = obj(value);
     return { rows: [{ gauge_id: str(a.gauge_id), threshold: num(p.value), unit: str(p.units), ...provenance(doc) }] };
   },
-  example: "SELECT gauge_id, threshold, unit FROM nws.main.low_water_threshold('RMDV2') ORDER BY gauge_id",
-  exampleDescription: "Inspect a published low-water threshold when available",
+  example: "SELECT gauge_id, threshold, unit FROM nws.main.low_water_threshold('EADM7') ORDER BY gauge_id",
+  exampleDescription: "Inspect the published low-water threshold for the Mississippi River at St. Louis",
 });
 const lowImpacts = reader({
   name: "low_water_impacts",
@@ -227,8 +228,8 @@ const lowImpacts = reader({
       }),
     };
   },
-  example: "SELECT value_text, statement FROM nws.main.low_water_impacts('RMDV2') ORDER BY value_text",
-  exampleDescription: "Read local low-water impacts with their original threshold wording",
+  example: "SELECT value_text, statement FROM nws.main.low_water_impacts('EADM7') ORDER BY value_text",
+  exampleDescription: "Read the Mississippi River at St. Louis low-water impacts with their original threshold wording",
 });
 const lowHistory = reader({
   name: "historic_low_water",
@@ -267,7 +268,8 @@ const lowHistory = reader({
     };
   },
   example:
-    "SELECT occurred_at, stage, stage_unit, flow, flow_unit, statement FROM nws.main.historic_low_water('RMDV2') ORDER BY occurred_at",
-  exampleDescription: "Review published historical low-water events and their units",
+    "SELECT occurred_at, stage, stage_unit, flow, flow_unit, statement FROM nws.main.historic_low_water('EADM7') ORDER BY occurred_at",
+  exampleDescription:
+    "Review the published historical low-water events for the Mississippi River at St. Louis and their units",
 });
 export const WATER_EXTENDED_FUNCTIONS = [ratings, reach, streamflow, lowThreshold, lowImpacts, lowHistory];
