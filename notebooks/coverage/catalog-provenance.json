@@ -1,0 +1,12 @@
+{
+  "repository": "Query-farm/vgi-nws",
+  "release_tag": "v0.4.0",
+  "release_revision": "c672f94632fca2541b805ead4d7f861317fe34e8",
+  "current_public_revision": "33c9bc900cdf5d4791afe71fd037a6e794b3e2b6",
+  "engine": "Haybarn 2.0.0rc11 / VGI e75482339d",
+  "released_launch": "github-auto://Query-farm/vgi-nws@v0.4.0",
+  "current_catalog_launch": "Read-only original checkout src/worker.ts with already installed Bun dependencies; no build, install or source edits. Catalog evidence only, not the reader launcher.",
+  "comparison": "Both actual engine catalogs contain 129 logical names: 92 main and 37 compat, no tables/views. All native input signatures match. Release-to-current source/dependency diff changes catalog metadata and adds composed examples only; domain/runtime implementation and dependency pins match. Notebook analytical SQL executes published native v0.4.0, not current source. Current-interface coverage is distinct from exact runtime coverage.",
+  "data_isolation": "Fresh empty temporary SQL-secret directory, persistence disabled, no secrets; default 01 replays original complete NOAA point/grid HTTP bytes captured 2026-11-14. Books02–06 use explicitly synthetic NOAA-shaped local service responses, all upstream roots loopback. No current weather claims. Only optional01 live uses actual public endpoint; no silent fallback.",
+  "captured_at": "2026-11-15T00:14:51.839051+00:00"
+}

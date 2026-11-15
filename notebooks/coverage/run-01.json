@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "notebook_sha256": "32509c8636c55bcffa822b187c0a69f74ecefe523d0399a13f12762ff8d6d42b",
+  "catalog_sha256": "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+  "worker_revision": "v0.4.0",
+  "status": "success",
+  "executed_at": "2026-11-15T00:08:25.984039+00:00",
+  "engine": "Haybarn 2.0.0rc11 / VGI e75482339d",
+  "command": "uv run --locked --extra runner vgi-notebooks 01_count_forecast_hours_not_rows.ipynb",
+  "catalog_aliases": [
+    "nws"
+  ],
+  "cells": [
+    {
+      "id": "bc41a544",
+      "status": "success",
+      "execution_count": 1,
+      "source_sha256": "9b6caadb52449ba79138a7799036f45bf91c75a3a3622cbdfb05e5b7b8d4f615",
+      "outputs_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "id": "install",
+      "status": "success",
+      "execution_count": 2,
+      "source_sha256": "619a382bc7d263e5c2e77458e3da39e5ce1ca531ccd3e43f9a229cd956cb38cf",
+      "outputs_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "id": "7b908873",
+      "status": "success",
+      "execution_count": 3,
+      "source_sha256": "0024b6082b9880d7728f5afed103c34ac3b5d6a29c9d86192b9f887746e16e92",
+      "outputs_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "id": "6d56cf75",
+      "status": "success",
+      "execution_count": 4,
+      "source_sha256": "069226c951f1581304344bee349f46b0f63075af5c80783dd91c9cee66a493b8",
+      "outputs_sha256": "fdb4166dc3676d819413bf960c5f84ffdcb993bd40da932946d3156a193403ba"
+    },
+    {
+      "id": "db71e54e",
+      "status": "success",
+      "execution_count": 5,
+      "source_sha256": "11c6144312c12f279163d372ae53c519c9e5a834db8a3d655ba645234e986c0d",
+      "outputs_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "id": "39e8f042",
+      "status": "success",
+      "execution_count": 6,
+      "source_sha256": "e250ad13e6f99f3836d294ca102ea63c5719ba8c20116c999e467b948efce22c",
+      "outputs_sha256": "89686d35be6a8cbc08dee383f5278b516a23f9867638c1452ebaf5c493d09bca"
+    },
+    {
+      "id": "5be9c1f2",
+      "status": "success",
+      "execution_count": 7,
+      "source_sha256": "a39da1e6ef46154fea2b7cb1f1a1e15669376cee86c28c3d2f4707d2e69f15ff",
+      "outputs_sha256": "0bdc70aa33fe0453d3da152a6e09aef75ace8b5874e2d8bc69f07ec3ee82fd31"
+    },
+    {
+      "id": "efbb96c4",
+      "status": "success",
+      "execution_count": 8,
+      "source_sha256": "ea462f19bceab0b4afe0f5c8ba6c3e32aedf700ea9e7e308404e9d1226b86c37",
+      "outputs_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "id": "5b06d789",
+      "status": "success",
+      "execution_count": 9,
+      "source_sha256": "62f01e14f75dcbab2a655a5f012de9366ec91d3662fd5bb7c867ce0c5b0eff97",
+      "outputs_sha256": "d492c0c696912ba75ae2819bf49c1d66c2e8f035102923f2fd54895d8b915fa3"
+    },
+    {
+      "id": "6a7ad710",
+      "status": "success",
+      "execution_count": 10,
+      "source_sha256": "9fe57e24483c4fdffce42b9f92a65ac401a14c97214de5c5615f69b7ecfef126",
+      "outputs_sha256": "5bd2e32b8da421423a3de9177c238d6e1764ee417af110c4bd906f33b3869ac9"
+    },
+    {
+      "id": "1ccc388f",
+      "status": "success",
+      "execution_count": 11,
+      "source_sha256": "68a58eaebe241d57b0e57b55a3a7a3b05ca2c35fb9fa3d0bdbc6f79a1d17efb4",
+      "outputs_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "id": "91966272",
+      "status": "success",
+      "execution_count": 12,
+      "source_sha256": "6e716f5551fbd3973619dc78da8250092cc6c6f331b009459a65ec1cfcd4cd64",
+      "outputs_sha256": "476b63b624b6db0254e6e37bae3c632646f526688d932de99aa02897a242780f"
+    },
+    {
+      "id": "decoder-sql",
+      "status": "success",
+      "execution_count": 13,
+      "source_sha256": "bcd18e50667135b44319aa646d755dc20c6d49e5f5056b517919a0df9f38ae95",
+      "outputs_sha256": "e31e3c33f5651e4c553c23048f3271369c8bbbec9613d5b01235bfec07a8a95e"
+    },
+    {
+      "id": "decoder-result",
+      "status": "success",
+      "execution_count": 14,
+      "source_sha256": "1cdd54b1b1296c42d5f5b3a369e886e403844db6cca96d0c019025b95f55ab39",
+      "outputs_sha256": "3dff15f9ffca00d7b7cf8e709027b979eeff7423a7c748e08594c710ca330f05"
+    },
+    {
+      "id": "84fec80a",
+      "status": "success",
+      "execution_count": 15,
+      "source_sha256": "910e53f41d36f0436f3882ff0eb0404a4ed394c9179014cb1e3bedee23908f1d",
+      "outputs_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    }
+  ]
+}

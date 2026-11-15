@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "notebook_sha256": "ac6e6e80680194596351e259c390bc64d73c497d04d8a5030dbb35468fe42f40",
+  "catalog_sha256": "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+  "worker_revision": "v0.4.0",
+  "status": "success",
+  "executed_at": "2026-11-15T00:03:31.551592+00:00",
+  "engine": "Haybarn 2.0.0rc11 / VGI e75482339d",
+  "command": "uv run --locked --extra runner vgi-notebooks 02_a_nearby_station_can_still_be_stale.ipynb",
+  "catalog_aliases": [
+    "nws"
+  ],
+  "cells": [
+    {
+      "id": "parameters",
+      "status": "success",
+      "execution_count": 1,
+      "source_sha256": "d1f1ed40bf3cfe8a8d64be41b25b5c667ac65f494804edfcd3176ad09125b38d",
+      "outputs_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "id": "install",
+      "status": "success",
+      "execution_count": 2,
+      "source_sha256": "619a382bc7d263e5c2e77458e3da39e5ce1ca531ccd3e43f9a229cd956cb38cf",
+      "outputs_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "id": "setup",
+      "status": "success",
+      "execution_count": 3,
+      "source_sha256": "eef65820ed49f3ade2b255890b3a2a00aad8eb8d9e1be9da1450e2c74a1431c9",
+      "outputs_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "id": "attach",
+      "status": "success",
+      "execution_count": 4,
+      "source_sha256": "8ec577dc0b6db4f26f1475128d773153fbbeedd83c80343a21a481c7060db302",
+      "outputs_sha256": "c17c19a5c176854762c97c96bafef62f247262c382ecc6533cf998819c105960"
+    },
+    {
+      "id": "context-sql",
+      "status": "success",
+      "execution_count": 5,
+      "source_sha256": "99b12972f8785d866a9aa06beb8cb84458d8bda809da18ee4bdb57f0e33f0aad",
+      "outputs_sha256": "fb5b9d520a7185a6448f8cc1b394a0d9c344c2c89366200f7b5f5757326dd6b9"
+    },
+    {
+      "id": "measurement-sql",
+      "status": "success",
+      "execution_count": 6,
+      "source_sha256": "8d24c0a163893d2ed848ce134ce7a30da6bfe2362aada73d158f33dd4020219b",
+      "outputs_sha256": "6a8cf7c6a1c02b5d123bfb8e4b1dce194cc28d419e63941668263b1a5a6f3aca"
+    },
+    {
+      "id": "recency-capture",
+      "status": "success",
+      "execution_count": 7,
+      "source_sha256": "945ff9bbcfb4189eb0aeb64c1bc419a99c9d2aa4d51bae9932ae3d9171504435",
+      "outputs_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "id": "recency-result",
+      "status": "success",
+      "execution_count": 8,
+      "source_sha256": "13da02c6e56af2e05fda688d785f7aba96c90246f2e3371a5f9d6eea75004399",
+      "outputs_sha256": "ce3ceab49d848696e6c4adf132f2d9379d1cb7c03ff5491ad2a8848718cac1bf"
+    },
+    {
+      "id": "age-chart",
+      "status": "success",
+      "execution_count": 9,
+      "source_sha256": "418bc66af235de098c36ef160ef023988cc7234bb448f2cf8412f38591c376cd",
+      "outputs_sha256": "16cbfe0d19169636317944ebe66210b11d819d7cc450913171493c058e92f0d0"
+    },
+    {
+      "id": "products-capture",
+      "status": "success",
+      "execution_count": 10,
+      "source_sha256": "da72e4ef5fd62be0d5c29668dd4633fec8e1a8e68ead92765cdf99c089252f1e",
+      "outputs_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "id": "products-chart",
+      "status": "success",
+      "execution_count": 11,
+      "source_sha256": "f61e4e486db713ac7aa69f66d291ee8718367c69cca972549a11e87e8e2f5472",
+      "outputs_sha256": "9e20e2acc4bee8fd6d61fdf60088612748b502e0ac8a8a48f80505ac1f71d841"
+    },
+    {
+      "id": "checks-sql",
+      "status": "success",
+      "execution_count": 12,
+      "source_sha256": "d91388cbbd3400616377ca8367c873d7aca789eea72b918da6670c07ff3babfd",
+      "outputs_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "id": "checks-result",
+      "status": "success",
+      "execution_count": 13,
+      "source_sha256": "52689d67f7062f949ab3d2203a480e7512e8e67269931a53e19c643e6a92107d",
+      "outputs_sha256": "10c72cf5c4dd67a68ec2bdeceffcf8cb1ed782ceb53455d97868c0e26fc1d137"
+    },
+    {
+      "id": "cleanup",
+      "status": "success",
+      "execution_count": 14,
+      "source_sha256": "92db0fb9d501fa155de6f838ff974d111b10964336b440939c4747e9fd9afdb8",
+      "outputs_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    }
+  ]
+}

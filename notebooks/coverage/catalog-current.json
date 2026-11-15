@@ -1,0 +1,1333 @@
+{
+  "schema_version": 1,
+  "repository": "Query-farm/vgi-nws",
+  "revision": "33c9bc900cdf5d4791afe71fd037a6e794b3e2b6",
+  "captured_at": "2026-11-15T00:14:51.839051+00:00",
+  "default_schema": "main",
+  "scope": "all_public_functions_and_tables",
+  "complete": true,
+  "evidence": [
+    {
+      "path": "coverage/catalog-provenance.json",
+      "sha256": "1d14abb090a942672dbef4eeda28cfd52762c87f68916624cac9607dd0048c64",
+      "description": "Actual full release/current acquisition and recorded/synthetic data boundary."
+    },
+    {
+      "path": "coverage/current-functions.json",
+      "sha256": "8c3b8efe0bfd5bfa7c4f074b0430cd89914ea60f34d4c2d21e44ca2ae905bdd2",
+      "description": "Complete native duckdb_functions() export filtered by attached worker; all names retained."
+    },
+    {
+      "path": "coverage/current-tables.json",
+      "sha256": "06e8d49ec2ae4778a37c1bc9fcf5156ee507d64a0224c3a61f7c3b7c20a2083f",
+      "description": "Complete native duckdb_tables() export filtered by attached worker; all names retained."
+    },
+    {
+      "path": "coverage/current-views.json",
+      "sha256": "134ed7ca517ffbdc3dce528abba07521d1141c614fa1996c71990962f1879a04",
+      "description": "Complete native duckdb_views() export filtered by attached worker; all names retained."
+    },
+    {
+      "path": "coverage/current-database.json",
+      "sha256": "57420f84f2401c45064959cabe225588a9b322b70e6f1ba446e7155e163607ce",
+      "description": "Actual worker catalog title/subtitle."
+    },
+    {
+      "path": "coverage/current-source-registration.json",
+      "sha256": "f3cf4f986c5891fc34fde569d42901fcd1f82260a05cdbeb405a7f646bf68964",
+      "description": "Full registration and complete source/dependency diff from native release."
+    }
+  ],
+  "objects": [
+    {
+      "schema": "compat",
+      "name": "air_quality_at",
+      "kind": "function",
+      "signatures": [
+        "air_quality_at(DOUBLE, DOUBLE, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "compat",
+      "name": "api_rows",
+      "kind": "function",
+      "signatures": [
+        "api_rows(VARCHAR, VARCHAR, VARCHAR, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "compat",
+      "name": "beach_forecast_at",
+      "kind": "function",
+      "signatures": [
+        "beach_forecast_at(DOUBLE, DOUBLE, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "compat",
+      "name": "buoy_measurements",
+      "kind": "function",
+      "signatures": [
+        "buoy_measurements(VARCHAR, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "compat",
+      "name": "buoy_products",
+      "kind": "function",
+      "signatures": [
+        "buoy_products(VARCHAR, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "compat",
+      "name": "climate_outlook_at",
+      "kind": "function",
+      "signatures": [
+        "climate_outlook_at(DOUBLE, DOUBLE, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "compat",
+      "name": "drought_outlook_at",
+      "kind": "function",
+      "signatures": [
+        "drought_outlook_at(DOUBLE, DOUBLE, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "compat",
+      "name": "fire_outlook_at",
+      "kind": "function",
+      "signatures": [
+        "fire_outlook_at(DOUBLE, DOUBLE, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "compat",
+      "name": "flash_flood_guidance_at",
+      "kind": "function",
+      "signatures": [
+        "flash_flood_guidance_at(DOUBLE, DOUBLE, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "compat",
+      "name": "gauges_near",
+      "kind": "function",
+      "signatures": [
+        "gauges_near(DOUBLE, DOUBLE, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "compat",
+      "name": "map_features",
+      "kind": "function",
+      "signatures": [
+        "map_features(VARCHAR, DOUBLE, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "compat",
+      "name": "map_features_at",
+      "kind": "function",
+      "signatures": [
+        "map_features_at(VARCHAR, DOUBLE, DOUBLE, DOUBLE, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "compat",
+      "name": "map_fields",
+      "kind": "function",
+      "signatures": [
+        "map_fields(VARCHAR, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "compat",
+      "name": "map_image_at",
+      "kind": "function",
+      "signatures": [
+        "map_image_at(VARCHAR, DOUBLE, DOUBLE, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "compat",
+      "name": "map_layers",
+      "kind": "function",
+      "signatures": [
+        "map_layers(VARCHAR, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "compat",
+      "name": "map_raster_at",
+      "kind": "function",
+      "signatures": [
+        "map_raster_at(VARCHAR, DOUBLE, DOUBLE, DOUBLE, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "compat",
+      "name": "mesoscale_discussions_at",
+      "kind": "function",
+      "signatures": [
+        "mesoscale_discussions_at(DOUBLE, DOUBLE, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "compat",
+      "name": "mrms_at",
+      "kind": "function",
+      "signatures": [
+        "mrms_at(VARCHAR, DOUBLE, DOUBLE, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "compat",
+      "name": "precipitation_anomaly_at",
+      "kind": "function",
+      "signatures": [
+        "precipitation_anomaly_at(DOUBLE, DOUBLE, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "compat",
+      "name": "precipitation_forecast_at",
+      "kind": "function",
+      "signatures": [
+        "precipitation_forecast_at(DOUBLE, DOUBLE, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "compat",
+      "name": "precipitation_observed_at",
+      "kind": "function",
+      "signatures": [
+        "precipitation_observed_at(DOUBLE, DOUBLE, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "compat",
+      "name": "rainfall_outlook_at",
+      "kind": "function",
+      "signatures": [
+        "rainfall_outlook_at(DOUBLE, DOUBLE, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "compat",
+      "name": "rating_curve",
+      "kind": "function",
+      "signatures": [
+        "rating_curve(VARCHAR, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "compat",
+      "name": "reach_streamflow",
+      "kind": "function",
+      "signatures": [
+        "reach_streamflow(VARCHAR, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "compat",
+      "name": "river_at_a_glance",
+      "kind": "function",
+      "signatures": [
+        "river_at_a_glance(VARCHAR, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "compat",
+      "name": "river_flood_outlook_at",
+      "kind": "function",
+      "signatures": [
+        "river_flood_outlook_at(DOUBLE, DOUBLE, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "compat",
+      "name": "river_network",
+      "kind": "function",
+      "signatures": [
+        "river_network(VARCHAR, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "compat",
+      "name": "severe_outlook_at",
+      "kind": "function",
+      "signatures": [
+        "severe_outlook_at(DOUBLE, DOUBLE, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "compat",
+      "name": "snow_analysis_at",
+      "kind": "function",
+      "signatures": [
+        "snow_analysis_at(DOUBLE, DOUBLE, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "compat",
+      "name": "soil_moisture_at",
+      "kind": "function",
+      "signatures": [
+        "soil_moisture_at(DOUBLE, DOUBLE, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "compat",
+      "name": "space_weather_rows",
+      "kind": "function",
+      "signatures": [
+        "space_weather_rows(VARCHAR, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "compat",
+      "name": "storm_reports_near",
+      "kind": "function",
+      "signatures": [
+        "storm_reports_near(DOUBLE, DOUBLE, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "compat",
+      "name": "tropical_features_at",
+      "kind": "function",
+      "signatures": [
+        "tropical_features_at(DOUBLE, DOUBLE, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "compat",
+      "name": "weather_hazards_at",
+      "kind": "function",
+      "signatures": [
+        "weather_hazards_at(DOUBLE, DOUBLE, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "compat",
+      "name": "winter_precipitation_at",
+      "kind": "function",
+      "signatures": [
+        "winter_precipitation_at(DOUBLE, DOUBLE, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "compat",
+      "name": "winter_storm_probability_at",
+      "kind": "function",
+      "signatures": [
+        "winter_storm_probability_at(DOUBLE, DOUBLE, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "compat",
+      "name": "winter_storm_severity_at",
+      "kind": "function",
+      "signatures": [
+        "winter_storm_severity_at(DOUBLE, DOUBLE, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "air_quality_at",
+      "kind": "function",
+      "signatures": [
+        "air_quality_at(DOUBLE, DOUBLE, VARCHAR, VARCHAR, DOUBLE, DOUBLE, VARCHAR, VARCHAR, BOOLEAN) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "alert",
+      "kind": "function",
+      "signatures": [
+        "alert(VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "alert_types",
+      "kind": "function",
+      "signatures": [
+        "alert_types(DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "alerts",
+      "kind": "function",
+      "signatures": [
+        "alerts(DOUBLE, VARCHAR, VARCHAR, VARCHAR, VARCHAR, VARCHAR, BOOLEAN) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "alerts_at",
+      "kind": "function",
+      "signatures": [
+        "alerts_at(DOUBLE, DOUBLE, VARCHAR, VARCHAR, VARCHAR, DOUBLE, BOOLEAN) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "api_endpoints",
+      "kind": "function",
+      "signatures": [
+        "api_endpoints(VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "api_rows",
+      "kind": "function",
+      "signatures": [
+        "api_rows(VARCHAR, VARCHAR, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "beach_forecast",
+      "kind": "function",
+      "signatures": [
+        "beach_forecast(DOUBLE, DOUBLE, DOUBLE, BOOLEAN, VARCHAR) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "beach_forecast_at",
+      "kind": "function",
+      "signatures": [
+        "beach_forecast_at(DOUBLE, DOUBLE, DOUBLE, DOUBLE, BOOLEAN, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "briefing",
+      "kind": "function",
+      "signatures": [
+        "briefing(VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "buoy_measurements",
+      "kind": "function",
+      "signatures": [
+        "buoy_measurements(VARCHAR, VARCHAR, VARCHAR, VARCHAR, VARCHAR, DOUBLE, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "buoy_products",
+      "kind": "function",
+      "signatures": [
+        "buoy_products(VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "buoy_stations",
+      "kind": "function",
+      "signatures": [
+        "buoy_stations(DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "climate_outlook",
+      "kind": "function",
+      "signatures": [
+        "climate_outlook(VARCHAR, VARCHAR, VARCHAR, DOUBLE, DOUBLE, DOUBLE, BOOLEAN) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "climate_outlook_at",
+      "kind": "function",
+      "signatures": [
+        "climate_outlook_at(DOUBLE, DOUBLE, VARCHAR, DOUBLE, DOUBLE, VARCHAR, DOUBLE, BOOLEAN) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "drought_outlook",
+      "kind": "function",
+      "signatures": [
+        "drought_outlook(DOUBLE, VARCHAR, DOUBLE, BOOLEAN, VARCHAR) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "drought_outlook_at",
+      "kind": "function",
+      "signatures": [
+        "drought_outlook_at(DOUBLE, DOUBLE, DOUBLE, VARCHAR, DOUBLE, BOOLEAN) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "fire_outlook",
+      "kind": "function",
+      "signatures": [
+        "fire_outlook(DOUBLE, VARCHAR, DOUBLE, DOUBLE, BOOLEAN, VARCHAR) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "fire_outlook_at",
+      "kind": "function",
+      "signatures": [
+        "fire_outlook_at(DOUBLE, DOUBLE, DOUBLE, DOUBLE, BOOLEAN, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "flash_flood_guidance_at",
+      "kind": "function",
+      "signatures": [
+        "flash_flood_guidance_at(DOUBLE, DOUBLE, DOUBLE, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "flood_impacts",
+      "kind": "function",
+      "signatures": [
+        "flood_impacts(VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "flood_thresholds",
+      "kind": "function",
+      "signatures": [
+        "flood_thresholds(VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "forecast",
+      "kind": "function",
+      "signatures": [
+        "forecast(DOUBLE, DOUBLE, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "forecast_hourly",
+      "kind": "function",
+      "signatures": [
+        "forecast_hourly(DOUBLE, DOUBLE, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "gauge",
+      "kind": "function",
+      "signatures": [
+        "gauge(VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "gauges",
+      "kind": "function",
+      "signatures": [
+        "gauges(VARCHAR, DOUBLE, VARCHAR) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "gauges_near",
+      "kind": "function",
+      "signatures": [
+        "gauges_near(DOUBLE, DOUBLE, VARCHAR, DOUBLE, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "glossary",
+      "kind": "function",
+      "signatures": [
+        "glossary(DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "grid_series",
+      "kind": "function",
+      "signatures": [
+        "grid_series(DOUBLE, DOUBLE, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "historic_crests",
+      "kind": "function",
+      "signatures": [
+        "historic_crests(VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "historic_low_water",
+      "kind": "function",
+      "signatures": [
+        "historic_low_water(VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "latest_observation",
+      "kind": "function",
+      "signatures": [
+        "latest_observation(VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "latest_product",
+      "kind": "function",
+      "signatures": [
+        "latest_product(VARCHAR, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "long_range_flood_outlook",
+      "kind": "function",
+      "signatures": [
+        "long_range_flood_outlook(DOUBLE, VARCHAR, VARCHAR, DOUBLE, DOUBLE, VARCHAR, BOOLEAN) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "low_water_impacts",
+      "kind": "function",
+      "signatures": [
+        "low_water_impacts(VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "low_water_threshold",
+      "kind": "function",
+      "signatures": [
+        "low_water_threshold(VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "map_features",
+      "kind": "function",
+      "signatures": [
+        "map_features(VARCHAR, DOUBLE, DOUBLE, DOUBLE, BOOLEAN, VARCHAR) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "map_features_at",
+      "kind": "function",
+      "signatures": [
+        "map_features_at(VARCHAR, DOUBLE, DOUBLE, DOUBLE, DOUBLE, DOUBLE, BOOLEAN) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "map_fields",
+      "kind": "function",
+      "signatures": [
+        "map_fields(VARCHAR, DOUBLE, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "map_image_at",
+      "kind": "function",
+      "signatures": [
+        "map_image_at(VARCHAR, DOUBLE, DOUBLE, VARCHAR, VARCHAR, DOUBLE, DOUBLE, VARCHAR) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "map_layers",
+      "kind": "function",
+      "signatures": [
+        "map_layers(VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "map_products",
+      "kind": "function",
+      "signatures": [
+        "map_products(VARCHAR, DOUBLE, BOOLEAN, VARCHAR) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "map_raster_at",
+      "kind": "function",
+      "signatures": [
+        "map_raster_at(VARCHAR, DOUBLE, DOUBLE, DOUBLE, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "mesoscale_discussions",
+      "kind": "function",
+      "signatures": [
+        "mesoscale_discussions(DOUBLE, DOUBLE, BOOLEAN, VARCHAR) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "mesoscale_discussions_at",
+      "kind": "function",
+      "signatures": [
+        "mesoscale_discussions_at(DOUBLE, DOUBLE, DOUBLE, DOUBLE, BOOLEAN) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "mrms_at",
+      "kind": "function",
+      "signatures": [
+        "mrms_at(VARCHAR, DOUBLE, DOUBLE, DOUBLE, DOUBLE, VARCHAR) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "mrms_products",
+      "kind": "function",
+      "signatures": [
+        "mrms_products(DOUBLE, VARCHAR) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "observations",
+      "kind": "function",
+      "signatures": [
+        "observations(VARCHAR, VARCHAR, DOUBLE, DOUBLE, VARCHAR) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "office",
+      "kind": "function",
+      "signatures": [
+        "office(VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "parse_valid_time",
+      "kind": "function",
+      "signatures": [
+        "parse_valid_time(VARCHAR) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "point",
+      "kind": "function",
+      "signatures": [
+        "point(DOUBLE, DOUBLE, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "precipitation_anomaly_at",
+      "kind": "function",
+      "signatures": [
+        "precipitation_anomaly_at(DOUBLE, DOUBLE, VARCHAR, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "precipitation_forecast",
+      "kind": "function",
+      "signatures": [
+        "precipitation_forecast(DOUBLE, VARCHAR, DOUBLE, BOOLEAN, VARCHAR) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "precipitation_forecast_at",
+      "kind": "function",
+      "signatures": [
+        "precipitation_forecast_at(DOUBLE, DOUBLE, DOUBLE, VARCHAR, DOUBLE, BOOLEAN) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "precipitation_observed_at",
+      "kind": "function",
+      "signatures": [
+        "precipitation_observed_at(DOUBLE, DOUBLE, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "product",
+      "kind": "function",
+      "signatures": [
+        "product(VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "product_locations",
+      "kind": "function",
+      "signatures": [
+        "product_locations(VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "product_types",
+      "kind": "function",
+      "signatures": [
+        "product_types(DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "products",
+      "kind": "function",
+      "signatures": [
+        "products(VARCHAR, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "rainfall_outlook",
+      "kind": "function",
+      "signatures": [
+        "rainfall_outlook(DOUBLE, DOUBLE, DOUBLE, BOOLEAN, VARCHAR) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "rainfall_outlook_at",
+      "kind": "function",
+      "signatures": [
+        "rainfall_outlook_at(DOUBLE, DOUBLE, DOUBLE, DOUBLE, BOOLEAN, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "rating_curve",
+      "kind": "function",
+      "signatures": [
+        "rating_curve(VARCHAR, VARCHAR, BOOLEAN, DOUBLE, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "reach",
+      "kind": "function",
+      "signatures": [
+        "reach(VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "reach_streamflow",
+      "kind": "function",
+      "signatures": [
+        "reach_streamflow(VARCHAR, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "river_at_a_glance",
+      "kind": "function",
+      "signatures": [
+        "river_at_a_glance(VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "river_flood_outlook",
+      "kind": "function",
+      "signatures": [
+        "river_flood_outlook(DOUBLE, DOUBLE, BOOLEAN, VARCHAR) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "river_flood_outlook_at",
+      "kind": "function",
+      "signatures": [
+        "river_flood_outlook_at(DOUBLE, DOUBLE, DOUBLE, DOUBLE, BOOLEAN) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "river_network",
+      "kind": "function",
+      "signatures": [
+        "river_network(VARCHAR, DOUBLE, VARCHAR) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "severe_outlook",
+      "kind": "function",
+      "signatures": [
+        "severe_outlook(DOUBLE, VARCHAR, DOUBLE, DOUBLE, BOOLEAN, VARCHAR) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "severe_outlook_at",
+      "kind": "function",
+      "signatures": [
+        "severe_outlook_at(DOUBLE, DOUBLE, DOUBLE, DOUBLE, BOOLEAN, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "snow_analysis_at",
+      "kind": "function",
+      "signatures": [
+        "snow_analysis_at(DOUBLE, DOUBLE, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "soil_moisture_at",
+      "kind": "function",
+      "signatures": [
+        "soil_moisture_at(DOUBLE, DOUBLE, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "space_weather_products",
+      "kind": "function",
+      "signatures": [
+        "space_weather_products(BOOLEAN, DOUBLE, VARCHAR) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "space_weather_rows",
+      "kind": "function",
+      "signatures": [
+        "space_weather_rows(VARCHAR, DOUBLE, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "stageflow",
+      "kind": "function",
+      "signatures": [
+        "stageflow(VARCHAR, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "station",
+      "kind": "function",
+      "signatures": [
+        "station(VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "stations_at",
+      "kind": "function",
+      "signatures": [
+        "stations_at(DOUBLE, DOUBLE, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "storm_reports",
+      "kind": "function",
+      "signatures": [
+        "storm_reports(VARCHAR, DOUBLE, VARCHAR, VARCHAR, DOUBLE, DOUBLE, BOOLEAN) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "storm_reports_near",
+      "kind": "function",
+      "signatures": [
+        "storm_reports_near(DOUBLE, DOUBLE, VARCHAR, DOUBLE, VARCHAR, DOUBLE, DOUBLE, BOOLEAN, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "tropical_features",
+      "kind": "function",
+      "signatures": [
+        "tropical_features(VARCHAR, DOUBLE, DOUBLE, BOOLEAN, VARCHAR) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "tropical_features_at",
+      "kind": "function",
+      "signatures": [
+        "tropical_features_at(DOUBLE, DOUBLE, VARCHAR, DOUBLE, DOUBLE, BOOLEAN) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "weather_hazards",
+      "kind": "function",
+      "signatures": [
+        "weather_hazards(VARCHAR, VARCHAR, DOUBLE, DOUBLE, VARCHAR, BOOLEAN) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "weather_hazards_at",
+      "kind": "function",
+      "signatures": [
+        "weather_hazards_at(DOUBLE, DOUBLE, VARCHAR, DOUBLE, BOOLEAN, DOUBLE, VARCHAR) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "weather_stories",
+      "kind": "function",
+      "signatures": [
+        "weather_stories(VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "winter_precipitation",
+      "kind": "function",
+      "signatures": [
+        "winter_precipitation(DOUBLE, VARCHAR, DOUBLE, DOUBLE, DOUBLE, BOOLEAN, VARCHAR) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "winter_precipitation_at",
+      "kind": "function",
+      "signatures": [
+        "winter_precipitation_at(DOUBLE, DOUBLE, DOUBLE, DOUBLE, DOUBLE, BOOLEAN, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "winter_storm_probability",
+      "kind": "function",
+      "signatures": [
+        "winter_storm_probability(VARCHAR, DOUBLE, VARCHAR, BOOLEAN, DOUBLE, DOUBLE, VARCHAR) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "winter_storm_probability_at",
+      "kind": "function",
+      "signatures": [
+        "winter_storm_probability_at(DOUBLE, DOUBLE, DOUBLE, DOUBLE, BOOLEAN, VARCHAR, DOUBLE, VARCHAR) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "winter_storm_severity",
+      "kind": "function",
+      "signatures": [
+        "winter_storm_severity(VARCHAR, VARCHAR, DOUBLE, DOUBLE, VARCHAR, BOOLEAN) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "winter_storm_severity_at",
+      "kind": "function",
+      "signatures": [
+        "winter_storm_severity_at(DOUBLE, DOUBLE, DOUBLE, VARCHAR, DOUBLE, BOOLEAN, VARCHAR) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "zone",
+      "kind": "function",
+      "signatures": [
+        "zone(VARCHAR, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "zones",
+      "kind": "function",
+      "signatures": [
+        "zones(VARCHAR, VARCHAR, DOUBLE) -> TABLE"
+      ],
+      "authentication": "none",
+      "access": "read"
+    }
+  ]
+}

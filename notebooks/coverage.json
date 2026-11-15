@@ -1,0 +1,2454 @@
+{
+  "schema_version": 1,
+  "catalogs": {
+    "released": {
+      "path": "coverage/catalog-released.json",
+      "sha256": "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "catalog_sha256": "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+        "notes": "All 129 public logical names retained, including 37 compat surfaces and the 64 not demonstrated. Both actual engine catalogs contain 129 logical names: 92 main and 37 compat, no tables/views. All native input signatures match. Release-to-current source/dependency diff changes catalog metadata and adds composed examples only; domain/runtime implementation and dependency pins match. Notebook analytical SQL executes published native v0.4.0, not current source. Current-interface coverage is distinct from exact runtime coverage."
+      }
+    },
+    "current": {
+      "path": "coverage/catalog-current.json",
+      "sha256": "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae",
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "catalog_sha256": "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae",
+        "notes": "All 129 public logical names retained, including 37 compat surfaces and the 64 not demonstrated. Both actual engine catalogs contain 129 logical names: 92 main and 37 compat, no tables/views. All native input signatures match. Release-to-current source/dependency diff changes catalog metadata and adds composed examples only; domain/runtime implementation and dependency pins match. Notebook analytical SQL executes published native v0.4.0, not current source. Current-interface coverage is distinct from exact runtime coverage."
+      }
+    }
+  },
+  "notebooks": [
+    {
+      "path": "01_count_forecast_hours_not_rows.ipynb",
+      "sha256": "32509c8636c55bcffa822b187c0a69f74ecefe523d0399a13f12762ff8d6d42b",
+      "execution": {
+        "path": "coverage/run-01.json",
+        "sha256": "8585d743b1c23f18e3143d5a0fb66d3802c701b751d40d99a6fd28bcaa4055f8"
+      }
+    },
+    {
+      "path": "02_a_nearby_station_can_still_be_stale.ipynb",
+      "sha256": "ac6e6e80680194596351e259c390bc64d73c497d04d8a5030dbb35468fe42f40",
+      "execution": {
+        "path": "coverage/run-02.json",
+        "sha256": "a67c702cea594477dbc695da5b6b0d21ea71b0412abeff2e95e16a0d40a1ecac"
+      }
+    },
+    {
+      "path": "03_an_update_is_not_an_extra_hazard.ipynb",
+      "sha256": "02d346feea1f18e94a2d988485796558c2138da89af5f641cfbe798081fc2acd",
+      "execution": {
+        "path": "coverage/run-03.json",
+        "sha256": "cb4b0717180661d8a4522660208a44e17641e048af5b189b1ddd99c80651d9e4"
+      }
+    },
+    {
+      "path": "04_nearby_gauges_are_not_a_river_network.ipynb",
+      "sha256": "93023199ceb6bd997d8ea265e6f7e44a270175fbe0531b2be268420f7d32ef95",
+      "execution": {
+        "path": "coverage/run-04.json",
+        "sha256": "164d313a8341b8a6a428237b2e5c851078f3a3d75048221f27ad5dad0506b858"
+      }
+    },
+    {
+      "path": "05_a_short_rating_is_not_a_complete_curve.ipynb",
+      "sha256": "e2f59efc0fd1c1b423a82252bfddcf3998336b08b1e60a65b83c5e20332c16bc",
+      "execution": {
+        "path": "coverage/run-05.json",
+        "sha256": "c2cc1e7b1932f8017a5cf3e4af3e9a8db95a279fc14cfffc8d61f3c69c8cf36c"
+      }
+    },
+    {
+      "path": "06_overlapping_products_are_not_a_common_score.ipynb",
+      "sha256": "2889def9eb4badfb10e9aed9d4e0b4f87d68f6c9d30f7e03ccb9e67563f82802",
+      "execution": {
+        "path": "coverage/run-06.json",
+        "sha256": "93ad2b526b6d334ad87d66a0ac2540d386a9be00886d8d67f24441ef31a0e3dc"
+      }
+    }
+  ],
+  "examples": [
+    {
+      "object": {
+        "schema": "main",
+        "name": "grid_series"
+      },
+      "notebook": "01_count_forecast_hours_not_rows.ipynb",
+      "sql": [
+        {
+          "cell": "6d56cf75",
+          "reference": "nws.main.grid_series"
+        }
+      ],
+      "narrative_cells": [
+        "85397ac5"
+      ],
+      "result_cells": [
+        "39e8f042",
+        "91966272"
+      ],
+      "interpretation_cells": [
+        "91966272"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "32509c8636c55bcffa822b187c0a69f74ecefe523d0399a13f12762ff8d6d42b",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Measure a fixed forecast window by elapsed interval duration rather than row count.",
+        "finding": "The complete recording contains 179 native intervals. The fixed 48-hour window has 41 compressed rows: 18 rows but 23 hours are below 5 °C. The 0 °C experiment changes classification only; source fingerprint, window and both means stay fixed. These forecast values do not establish forecast accuracy or a frost warning."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "parse_valid_time"
+      },
+      "notebook": "01_count_forecast_hours_not_rows.ipynb",
+      "sql": [
+        {
+          "cell": "decoder-sql",
+          "reference": "nws.main.parse_valid_time"
+        }
+      ],
+      "narrative_cells": [
+        "decoder-story"
+      ],
+      "result_cells": [
+        "decoder-sql",
+        "decoder-result"
+      ],
+      "interpretation_cells": [
+        "decoder-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "32509c8636c55bcffa822b187c0a69f74ecefe523d0399a13f12762ff8d6d42b",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Decode native ISO intervals and reconcile the utility with the recorded reader.",
+        "finding": "All 179 original intervals have positive durations and reconcile values and endpoints with the recorded reader. The earlier independent standard-library decoder checks the original bytes. This SQL utility shares the worker decoder and is explicitly not independent confirmation."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "point"
+      },
+      "notebook": "02_a_nearby_station_can_still_be_stale.ipynb",
+      "sql": [
+        {
+          "cell": "context-sql",
+          "reference": "nws.main.point"
+        }
+      ],
+      "narrative_cells": [
+        "context-story"
+      ],
+      "result_cells": [
+        "context-sql",
+        "recency-result"
+      ],
+      "interpretation_cells": [
+        "recency-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "ac6e6e80680194596351e259c390bc64d73c497d04d8a5030dbb35468fe42f40",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Resolve the grid/office/zone and inspect station metadata before selecting measurements.",
+        "finding": "The point resolves LWX/VAZ037. The zone index omits a boundary while the individual zone supplies one; office metadata and the Frost glossary entry provide context without asserting frost. Two station identities and elevations reconcile. Listing order and equal temperatures do not establish freshness."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "stations_at"
+      },
+      "notebook": "02_a_nearby_station_can_still_be_stale.ipynb",
+      "sql": [
+        {
+          "cell": "context-sql",
+          "reference": "nws.main.stations_at"
+        }
+      ],
+      "narrative_cells": [
+        "context-story"
+      ],
+      "result_cells": [
+        "context-sql",
+        "recency-result"
+      ],
+      "interpretation_cells": [
+        "recency-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "ac6e6e80680194596351e259c390bc64d73c497d04d8a5030dbb35468fe42f40",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Resolve the grid/office/zone and inspect station metadata before selecting measurements.",
+        "finding": "The point resolves LWX/VAZ037. The zone index omits a boundary while the individual zone supplies one; office metadata and the Frost glossary entry provide context without asserting frost. Two station identities and elevations reconcile. Listing order and equal temperatures do not establish freshness."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "station"
+      },
+      "notebook": "02_a_nearby_station_can_still_be_stale.ipynb",
+      "sql": [
+        {
+          "cell": "context-sql",
+          "reference": "nws.main.station"
+        }
+      ],
+      "narrative_cells": [
+        "context-story"
+      ],
+      "result_cells": [
+        "context-sql",
+        "recency-result"
+      ],
+      "interpretation_cells": [
+        "recency-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "ac6e6e80680194596351e259c390bc64d73c497d04d8a5030dbb35468fe42f40",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Resolve the grid/office/zone and inspect station metadata before selecting measurements.",
+        "finding": "The point resolves LWX/VAZ037. The zone index omits a boundary while the individual zone supplies one; office metadata and the Frost glossary entry provide context without asserting frost. Two station identities and elevations reconcile. Listing order and equal temperatures do not establish freshness."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "zone"
+      },
+      "notebook": "02_a_nearby_station_can_still_be_stale.ipynb",
+      "sql": [
+        {
+          "cell": "context-sql",
+          "reference": "nws.main.zone"
+        }
+      ],
+      "narrative_cells": [
+        "context-story"
+      ],
+      "result_cells": [
+        "context-sql",
+        "recency-result"
+      ],
+      "interpretation_cells": [
+        "recency-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "ac6e6e80680194596351e259c390bc64d73c497d04d8a5030dbb35468fe42f40",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Resolve the grid/office/zone and inspect station metadata before selecting measurements.",
+        "finding": "The point resolves LWX/VAZ037. The zone index omits a boundary while the individual zone supplies one; office metadata and the Frost glossary entry provide context without asserting frost. Two station identities and elevations reconcile. Listing order and equal temperatures do not establish freshness."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "zones"
+      },
+      "notebook": "02_a_nearby_station_can_still_be_stale.ipynb",
+      "sql": [
+        {
+          "cell": "context-sql",
+          "reference": "nws.main.zones"
+        }
+      ],
+      "narrative_cells": [
+        "context-story"
+      ],
+      "result_cells": [
+        "context-sql",
+        "recency-result"
+      ],
+      "interpretation_cells": [
+        "recency-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "ac6e6e80680194596351e259c390bc64d73c497d04d8a5030dbb35468fe42f40",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Resolve the grid/office/zone and inspect station metadata before selecting measurements.",
+        "finding": "The point resolves LWX/VAZ037. The zone index omits a boundary while the individual zone supplies one; office metadata and the Frost glossary entry provide context without asserting frost. Two station identities and elevations reconcile. Listing order and equal temperatures do not establish freshness."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "office"
+      },
+      "notebook": "02_a_nearby_station_can_still_be_stale.ipynb",
+      "sql": [
+        {
+          "cell": "context-sql",
+          "reference": "nws.main.office"
+        }
+      ],
+      "narrative_cells": [
+        "context-story"
+      ],
+      "result_cells": [
+        "context-sql",
+        "recency-result"
+      ],
+      "interpretation_cells": [
+        "recency-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "ac6e6e80680194596351e259c390bc64d73c497d04d8a5030dbb35468fe42f40",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Resolve the grid/office/zone and inspect station metadata before selecting measurements.",
+        "finding": "The point resolves LWX/VAZ037. The zone index omits a boundary while the individual zone supplies one; office metadata and the Frost glossary entry provide context without asserting frost. Two station identities and elevations reconcile. Listing order and equal temperatures do not establish freshness."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "glossary"
+      },
+      "notebook": "02_a_nearby_station_can_still_be_stale.ipynb",
+      "sql": [
+        {
+          "cell": "context-sql",
+          "reference": "nws.main.glossary"
+        }
+      ],
+      "narrative_cells": [
+        "context-story"
+      ],
+      "result_cells": [
+        "context-sql",
+        "recency-result"
+      ],
+      "interpretation_cells": [
+        "recency-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "ac6e6e80680194596351e259c390bc64d73c497d04d8a5030dbb35468fe42f40",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Resolve the grid/office/zone and inspect station metadata before selecting measurements.",
+        "finding": "The point resolves LWX/VAZ037. The zone index omits a boundary while the individual zone supplies one; office metadata and the Frost glossary entry provide context without asserting frost. Two station identities and elevations reconcile. Listing order and equal temperatures do not establish freshness."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "observations"
+      },
+      "notebook": "02_a_nearby_station_can_still_be_stale.ipynb",
+      "sql": [
+        {
+          "cell": "measurement-sql",
+          "reference": "nws.main.observations"
+        }
+      ],
+      "narrative_cells": [
+        "measurement-story"
+      ],
+      "result_cells": [
+        "measurement-sql",
+        "recency-result",
+        "age-chart",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "recency-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "ac6e6e80680194596351e259c390bc64d73c497d04d8a5030dbb35468fe42f40",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Compare observation ages using a fixed clock while preserving normalized units and NULLs.",
+        "finding": "Six unique station-times normalize °F, kelvin and °C to 0/1/2 °C and 18 km/h to 5 m/s, retaining NULL gust and precipitation. Latest ages are 0 and 3 hours, so the 1→4 hour cutoff selects 1→2 stations without changing source data. Two 12-hour day/night periods and six 1-hour forecast periods retain native durations and missing probabilities; no interpolation or forecast-skill claim is made."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "latest_observation"
+      },
+      "notebook": "02_a_nearby_station_can_still_be_stale.ipynb",
+      "sql": [
+        {
+          "cell": "measurement-sql",
+          "reference": "nws.main.latest_observation"
+        }
+      ],
+      "narrative_cells": [
+        "measurement-story"
+      ],
+      "result_cells": [
+        "measurement-sql",
+        "recency-result",
+        "age-chart",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "recency-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "ac6e6e80680194596351e259c390bc64d73c497d04d8a5030dbb35468fe42f40",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Compare observation ages using a fixed clock while preserving normalized units and NULLs.",
+        "finding": "Six unique station-times normalize °F, kelvin and °C to 0/1/2 °C and 18 km/h to 5 m/s, retaining NULL gust and precipitation. Latest ages are 0 and 3 hours, so the 1→4 hour cutoff selects 1→2 stations without changing source data. Two 12-hour day/night periods and six 1-hour forecast periods retain native durations and missing probabilities; no interpolation or forecast-skill claim is made."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "forecast"
+      },
+      "notebook": "02_a_nearby_station_can_still_be_stale.ipynb",
+      "sql": [
+        {
+          "cell": "measurement-sql",
+          "reference": "nws.main.forecast"
+        }
+      ],
+      "narrative_cells": [
+        "measurement-story"
+      ],
+      "result_cells": [
+        "measurement-sql",
+        "products-chart",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "recency-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "ac6e6e80680194596351e259c390bc64d73c497d04d8a5030dbb35468fe42f40",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Keep day/night and hourly forecast validity periods distinct from station observations.",
+        "finding": "Six unique station-times normalize °F, kelvin and °C to 0/1/2 °C and 18 km/h to 5 m/s, retaining NULL gust and precipitation. Latest ages are 0 and 3 hours, so the 1→4 hour cutoff selects 1→2 stations without changing source data. Two 12-hour day/night periods and six 1-hour forecast periods retain native durations and missing probabilities; no interpolation or forecast-skill claim is made."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "forecast_hourly"
+      },
+      "notebook": "02_a_nearby_station_can_still_be_stale.ipynb",
+      "sql": [
+        {
+          "cell": "measurement-sql",
+          "reference": "nws.main.forecast_hourly"
+        }
+      ],
+      "narrative_cells": [
+        "measurement-story"
+      ],
+      "result_cells": [
+        "measurement-sql",
+        "products-chart",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "recency-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "ac6e6e80680194596351e259c390bc64d73c497d04d8a5030dbb35468fe42f40",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Keep day/night and hourly forecast validity periods distinct from station observations.",
+        "finding": "Six unique station-times normalize °F, kelvin and °C to 0/1/2 °C and 18 km/h to 5 m/s, retaining NULL gust and precipitation. Latest ages are 0 and 3 hours, so the 1→4 hour cutoff selects 1→2 stations without changing source data. Two 12-hour day/night periods and six 1-hour forecast periods retain native durations and missing probabilities; no interpolation or forecast-skill claim is made."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "alert_types"
+      },
+      "notebook": "03_an_update_is_not_an_extra_hazard.ipynb",
+      "sql": [
+        {
+          "cell": "alerts-sql",
+          "reference": "nws.main.alert_types"
+        }
+      ],
+      "narrative_cells": [
+        "alerts-story"
+      ],
+      "result_cells": [
+        "alerts-sql",
+        "message-result",
+        "timeline-chart",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "message-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "02d346feea1f18e94a2d988485796558c2138da89af5f641cfbe798081fc2acd",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Reconcile state/point event filters and explicit message references before counting versions.",
+        "finding": "Three state messages versus two point messages reflect the explicit Freeze Warning event filter. The Update references the Alert; retaining predecessors changes selected versions from one to two. Both remain Test messages with NULL geometry and zone links. This is not a full CAP lifecycle or a count of independent hazards."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "alerts"
+      },
+      "notebook": "03_an_update_is_not_an_extra_hazard.ipynb",
+      "sql": [
+        {
+          "cell": "alerts-sql",
+          "reference": "nws.main.alerts"
+        }
+      ],
+      "narrative_cells": [
+        "alerts-story"
+      ],
+      "result_cells": [
+        "alerts-sql",
+        "message-result",
+        "timeline-chart",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "message-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "02d346feea1f18e94a2d988485796558c2138da89af5f641cfbe798081fc2acd",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Reconcile state/point event filters and explicit message references before counting versions.",
+        "finding": "Three state messages versus two point messages reflect the explicit Freeze Warning event filter. The Update references the Alert; retaining predecessors changes selected versions from one to two. Both remain Test messages with NULL geometry and zone links. This is not a full CAP lifecycle or a count of independent hazards."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "alerts_at"
+      },
+      "notebook": "03_an_update_is_not_an_extra_hazard.ipynb",
+      "sql": [
+        {
+          "cell": "alerts-sql",
+          "reference": "nws.main.alerts_at"
+        }
+      ],
+      "narrative_cells": [
+        "alerts-story"
+      ],
+      "result_cells": [
+        "alerts-sql",
+        "message-result",
+        "timeline-chart",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "message-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "02d346feea1f18e94a2d988485796558c2138da89af5f641cfbe798081fc2acd",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Reconcile state/point event filters and explicit message references before counting versions.",
+        "finding": "Three state messages versus two point messages reflect the explicit Freeze Warning event filter. The Update references the Alert; retaining predecessors changes selected versions from one to two. Both remain Test messages with NULL geometry and zone links. This is not a full CAP lifecycle or a count of independent hazards."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "alert"
+      },
+      "notebook": "03_an_update_is_not_an_extra_hazard.ipynb",
+      "sql": [
+        {
+          "cell": "alerts-sql",
+          "reference": "nws.main.alert"
+        }
+      ],
+      "narrative_cells": [
+        "alerts-story"
+      ],
+      "result_cells": [
+        "alerts-sql",
+        "message-result",
+        "timeline-chart",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "message-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "02d346feea1f18e94a2d988485796558c2138da89af5f641cfbe798081fc2acd",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Reconcile state/point event filters and explicit message references before counting versions.",
+        "finding": "Three state messages versus two point messages reflect the explicit Freeze Warning event filter. The Update references the Alert; retaining predecessors changes selected versions from one to two. Both remain Test messages with NULL geometry and zone links. This is not a full CAP lifecycle or a count of independent hazards."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "product_types"
+      },
+      "notebook": "03_an_update_is_not_an_extra_hazard.ipynb",
+      "sql": [
+        {
+          "cell": "bulletin-sql",
+          "reference": "nws.main.product_types"
+        }
+      ],
+      "narrative_cells": [
+        "bulletin-story"
+      ],
+      "result_cells": [
+        "bulletin-sql",
+        "roles-result",
+        "roles-chart",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "roles-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "02d346feea1f18e94a2d988485796558c2138da89af5f641cfbe798081fc2acd",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Separate product discovery,indexentries,fulltext,newestissueandassetmetadata.",
+        "finding": "AFD discovery retains the missing AKQ location label. Two index rows omit text; both full records provide it, and the latest lookup matches the newest issue. Briefing and story metadata each provide one link, with zero binary asset downloads. The separate row counts are not a severity measure."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "product_locations"
+      },
+      "notebook": "03_an_update_is_not_an_extra_hazard.ipynb",
+      "sql": [
+        {
+          "cell": "bulletin-sql",
+          "reference": "nws.main.product_locations"
+        }
+      ],
+      "narrative_cells": [
+        "bulletin-story"
+      ],
+      "result_cells": [
+        "bulletin-sql",
+        "roles-result",
+        "roles-chart",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "roles-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "02d346feea1f18e94a2d988485796558c2138da89af5f641cfbe798081fc2acd",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Separate product discovery,indexentries,fulltext,newestissueandassetmetadata.",
+        "finding": "AFD discovery retains the missing AKQ location label. Two index rows omit text; both full records provide it, and the latest lookup matches the newest issue. Briefing and story metadata each provide one link, with zero binary asset downloads. The separate row counts are not a severity measure."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "products"
+      },
+      "notebook": "03_an_update_is_not_an_extra_hazard.ipynb",
+      "sql": [
+        {
+          "cell": "bulletin-sql",
+          "reference": "nws.main.products"
+        }
+      ],
+      "narrative_cells": [
+        "bulletin-story"
+      ],
+      "result_cells": [
+        "bulletin-sql",
+        "roles-result",
+        "roles-chart",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "roles-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "02d346feea1f18e94a2d988485796558c2138da89af5f641cfbe798081fc2acd",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Separate product discovery,indexentries,fulltext,newestissueandassetmetadata.",
+        "finding": "AFD discovery retains the missing AKQ location label. Two index rows omit text; both full records provide it, and the latest lookup matches the newest issue. Briefing and story metadata each provide one link, with zero binary asset downloads. The separate row counts are not a severity measure."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "product"
+      },
+      "notebook": "03_an_update_is_not_an_extra_hazard.ipynb",
+      "sql": [
+        {
+          "cell": "bulletin-sql",
+          "reference": "nws.main.product"
+        }
+      ],
+      "narrative_cells": [
+        "bulletin-story"
+      ],
+      "result_cells": [
+        "bulletin-sql",
+        "roles-result",
+        "roles-chart",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "roles-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "02d346feea1f18e94a2d988485796558c2138da89af5f641cfbe798081fc2acd",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Separate product discovery,indexentries,fulltext,newestissueandassetmetadata.",
+        "finding": "AFD discovery retains the missing AKQ location label. Two index rows omit text; both full records provide it, and the latest lookup matches the newest issue. Briefing and story metadata each provide one link, with zero binary asset downloads. The separate row counts are not a severity measure."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "latest_product"
+      },
+      "notebook": "03_an_update_is_not_an_extra_hazard.ipynb",
+      "sql": [
+        {
+          "cell": "bulletin-sql",
+          "reference": "nws.main.latest_product"
+        }
+      ],
+      "narrative_cells": [
+        "bulletin-story"
+      ],
+      "result_cells": [
+        "bulletin-sql",
+        "roles-result",
+        "roles-chart",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "roles-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "02d346feea1f18e94a2d988485796558c2138da89af5f641cfbe798081fc2acd",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Separate product discovery,indexentries,fulltext,newestissueandassetmetadata.",
+        "finding": "AFD discovery retains the missing AKQ location label. Two index rows omit text; both full records provide it, and the latest lookup matches the newest issue. Briefing and story metadata each provide one link, with zero binary asset downloads. The separate row counts are not a severity measure."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "briefing"
+      },
+      "notebook": "03_an_update_is_not_an_extra_hazard.ipynb",
+      "sql": [
+        {
+          "cell": "bulletin-sql",
+          "reference": "nws.main.briefing"
+        }
+      ],
+      "narrative_cells": [
+        "bulletin-story"
+      ],
+      "result_cells": [
+        "bulletin-sql",
+        "roles-result",
+        "roles-chart",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "roles-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "02d346feea1f18e94a2d988485796558c2138da89af5f641cfbe798081fc2acd",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Separate product discovery,indexentries,fulltext,newestissueandassetmetadata.",
+        "finding": "AFD discovery retains the missing AKQ location label. Two index rows omit text; both full records provide it, and the latest lookup matches the newest issue. Briefing and story metadata each provide one link, with zero binary asset downloads. The separate row counts are not a severity measure."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "weather_stories"
+      },
+      "notebook": "03_an_update_is_not_an_extra_hazard.ipynb",
+      "sql": [
+        {
+          "cell": "bulletin-sql",
+          "reference": "nws.main.weather_stories"
+        }
+      ],
+      "narrative_cells": [
+        "bulletin-story"
+      ],
+      "result_cells": [
+        "bulletin-sql",
+        "roles-result",
+        "roles-chart",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "roles-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "02d346feea1f18e94a2d988485796558c2138da89af5f641cfbe798081fc2acd",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Separate product discovery,indexentries,fulltext,newestissueandassetmetadata.",
+        "finding": "AFD discovery retains the missing AKQ location label. Two index rows omit text; both full records provide it, and the latest lookup matches the newest issue. Briefing and story metadata each provide one link, with zero binary asset downloads. The separate row counts are not a severity measure."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "gauges"
+      },
+      "notebook": "04_nearby_gauges_are_not_a_river_network.ipynb",
+      "sql": [
+        {
+          "cell": "search-sql",
+          "reference": "nws.main.gauges"
+        }
+      ],
+      "narrative_cells": [
+        "search-story"
+      ],
+      "result_cells": [
+        "search-sql",
+        "search-result",
+        "search-chart",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "search-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "93023199ceb6bd997d8ea265e6f7e44a270175fbe0531b2be268420f7d32ef95",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Compare geographic candidates with reported river connectivity and reconcile named/JSON option interfaces.",
+        "finding": "The regional population is three gauges. A 25→50 km radius changes nearby candidates from one to two, while three reported network identifiers remain unchanged and have no overlap with nearby candidates. The added nearby gauge has no current observation time. Both named/JSON interface pairs agree on business fields and are not independent data sources."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "gauges_near"
+      },
+      "notebook": "04_nearby_gauges_are_not_a_river_network.ipynb",
+      "sql": [
+        {
+          "cell": "search-sql",
+          "reference": "nws.main.gauges_near"
+        }
+      ],
+      "narrative_cells": [
+        "search-story"
+      ],
+      "result_cells": [
+        "search-sql",
+        "search-result",
+        "search-chart",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "search-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "93023199ceb6bd997d8ea265e6f7e44a270175fbe0531b2be268420f7d32ef95",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Compare geographic candidates with reported river connectivity and reconcile named/JSON option interfaces.",
+        "finding": "The regional population is three gauges. A 25→50 km radius changes nearby candidates from one to two, while three reported network identifiers remain unchanged and have no overlap with nearby candidates. The added nearby gauge has no current observation time. Both named/JSON interface pairs agree on business fields and are not independent data sources."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "river_network"
+      },
+      "notebook": "04_nearby_gauges_are_not_a_river_network.ipynb",
+      "sql": [
+        {
+          "cell": "search-sql",
+          "reference": "nws.main.river_network"
+        }
+      ],
+      "narrative_cells": [
+        "search-story"
+      ],
+      "result_cells": [
+        "search-sql",
+        "search-result",
+        "search-chart",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "search-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "93023199ceb6bd997d8ea265e6f7e44a270175fbe0531b2be268420f7d32ef95",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Compare geographic candidates with reported river connectivity and reconcile named/JSON option interfaces.",
+        "finding": "The regional population is three gauges. A 25→50 km radius changes nearby candidates from one to two, while three reported network identifiers remain unchanged and have no overlap with nearby candidates. The added nearby gauge has no current observation time. Both named/JSON interface pairs agree on business fields and are not independent data sources."
+      }
+    },
+    {
+      "object": {
+        "schema": "compat",
+        "name": "gauges_near"
+      },
+      "notebook": "04_nearby_gauges_are_not_a_river_network.ipynb",
+      "sql": [
+        {
+          "cell": "search-sql",
+          "reference": "nws.compat.gauges_near"
+        }
+      ],
+      "narrative_cells": [
+        "search-story"
+      ],
+      "result_cells": [
+        "search-sql",
+        "search-result",
+        "search-chart",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "search-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "93023199ceb6bd997d8ea265e6f7e44a270175fbe0531b2be268420f7d32ef95",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Compare geographic candidates with reported river connectivity and reconcile named/JSON option interfaces.",
+        "finding": "The regional population is three gauges. A 25→50 km radius changes nearby candidates from one to two, while three reported network identifiers remain unchanged and have no overlap with nearby candidates. The added nearby gauge has no current observation time. Both named/JSON interface pairs agree on business fields and are not independent data sources."
+      }
+    },
+    {
+      "object": {
+        "schema": "compat",
+        "name": "river_network"
+      },
+      "notebook": "04_nearby_gauges_are_not_a_river_network.ipynb",
+      "sql": [
+        {
+          "cell": "search-sql",
+          "reference": "nws.compat.river_network"
+        }
+      ],
+      "narrative_cells": [
+        "search-story"
+      ],
+      "result_cells": [
+        "search-sql",
+        "search-result",
+        "search-chart",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "search-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "93023199ceb6bd997d8ea265e6f7e44a270175fbe0531b2be268420f7d32ef95",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Compare geographic candidates with reported river connectivity and reconcile named/JSON option interfaces.",
+        "finding": "The regional population is three gauges. A 25→50 km radius changes nearby candidates from one to two, while three reported network identifiers remain unchanged and have no overlap with nearby candidates. The added nearby gauge has no current observation time. Both named/JSON interface pairs agree on business fields and are not independent data sources."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "gauge"
+      },
+      "notebook": "04_nearby_gauges_are_not_a_river_network.ipynb",
+      "sql": [
+        {
+          "cell": "stage-sql",
+          "reference": "nws.main.gauge"
+        }
+      ],
+      "narrative_cells": [
+        "stage-story"
+      ],
+      "result_cells": [
+        "stage-sql",
+        "stage-chart",
+        "low-result",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "low-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "93023199ceb6bd997d8ea265e6f7e44a270175fbe0531b2be268420f7d32ef95",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Interpret stage/flow units,impactstatementsandhistoricaldatumqualifiersbeforecomparison.",
+        "finding": "Gauge metadata retains USGS, reach and datum information. Six stage points span observed 8–10 ft and forecast 11–14 ft. Observed flow in kcfs is not directly compared with threshold flow in cfs; forecast flow remains NULL. The 14 ft maximum exceeds minor 12 ft but stays below moderate 15 ft. Impact statements are not observed impacts. The 28.62 ft old-datum crest is excluded and the unflagged 16 ft crest remains historical context."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "stageflow"
+      },
+      "notebook": "04_nearby_gauges_are_not_a_river_network.ipynb",
+      "sql": [
+        {
+          "cell": "stage-sql",
+          "reference": "nws.main.stageflow"
+        }
+      ],
+      "narrative_cells": [
+        "stage-story"
+      ],
+      "result_cells": [
+        "stage-sql",
+        "stage-chart",
+        "low-result",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "low-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "93023199ceb6bd997d8ea265e6f7e44a270175fbe0531b2be268420f7d32ef95",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Interpret stage/flow units,impactstatementsandhistoricaldatumqualifiersbeforecomparison.",
+        "finding": "Gauge metadata retains USGS, reach and datum information. Six stage points span observed 8–10 ft and forecast 11–14 ft. Observed flow in kcfs is not directly compared with threshold flow in cfs; forecast flow remains NULL. The 14 ft maximum exceeds minor 12 ft but stays below moderate 15 ft. Impact statements are not observed impacts. The 28.62 ft old-datum crest is excluded and the unflagged 16 ft crest remains historical context."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "flood_thresholds"
+      },
+      "notebook": "04_nearby_gauges_are_not_a_river_network.ipynb",
+      "sql": [
+        {
+          "cell": "stage-sql",
+          "reference": "nws.main.flood_thresholds"
+        }
+      ],
+      "narrative_cells": [
+        "stage-story"
+      ],
+      "result_cells": [
+        "stage-sql",
+        "stage-chart",
+        "low-result",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "low-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "93023199ceb6bd997d8ea265e6f7e44a270175fbe0531b2be268420f7d32ef95",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Interpret stage/flow units,impactstatementsandhistoricaldatumqualifiersbeforecomparison.",
+        "finding": "Gauge metadata retains USGS, reach and datum information. Six stage points span observed 8–10 ft and forecast 11–14 ft. Observed flow in kcfs is not directly compared with threshold flow in cfs; forecast flow remains NULL. The 14 ft maximum exceeds minor 12 ft but stays below moderate 15 ft. Impact statements are not observed impacts. The 28.62 ft old-datum crest is excluded and the unflagged 16 ft crest remains historical context."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "flood_impacts"
+      },
+      "notebook": "04_nearby_gauges_are_not_a_river_network.ipynb",
+      "sql": [
+        {
+          "cell": "stage-sql",
+          "reference": "nws.main.flood_impacts"
+        }
+      ],
+      "narrative_cells": [
+        "stage-story"
+      ],
+      "result_cells": [
+        "stage-sql",
+        "stage-chart",
+        "low-result",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "low-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "93023199ceb6bd997d8ea265e6f7e44a270175fbe0531b2be268420f7d32ef95",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Interpret stage/flow units,impactstatementsandhistoricaldatumqualifiersbeforecomparison.",
+        "finding": "Gauge metadata retains USGS, reach and datum information. Six stage points span observed 8–10 ft and forecast 11–14 ft. Observed flow in kcfs is not directly compared with threshold flow in cfs; forecast flow remains NULL. The 14 ft maximum exceeds minor 12 ft but stays below moderate 15 ft. Impact statements are not observed impacts. The 28.62 ft old-datum crest is excluded and the unflagged 16 ft crest remains historical context."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "historic_crests"
+      },
+      "notebook": "04_nearby_gauges_are_not_a_river_network.ipynb",
+      "sql": [
+        {
+          "cell": "stage-sql",
+          "reference": "nws.main.historic_crests"
+        }
+      ],
+      "narrative_cells": [
+        "stage-story"
+      ],
+      "result_cells": [
+        "stage-sql",
+        "stage-chart",
+        "low-result",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "low-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "93023199ceb6bd997d8ea265e6f7e44a270175fbe0531b2be268420f7d32ef95",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Interpret stage/flow units,impactstatementsandhistoricaldatumqualifiersbeforecomparison.",
+        "finding": "Gauge metadata retains USGS, reach and datum information. Six stage points span observed 8–10 ft and forecast 11–14 ft. Observed flow in kcfs is not directly compared with threshold flow in cfs; forecast flow remains NULL. The 14 ft maximum exceeds minor 12 ft but stays below moderate 15 ft. Impact statements are not observed impacts. The 28.62 ft old-datum crest is excluded and the unflagged 16 ft crest remains historical context."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "low_water_threshold"
+      },
+      "notebook": "04_nearby_gauges_are_not_a_river_network.ipynb",
+      "sql": [
+        {
+          "cell": "low-sql",
+          "reference": "nws.main.low_water_threshold"
+        }
+      ],
+      "narrative_cells": [
+        "low-story"
+      ],
+      "result_cells": [
+        "low-sql",
+        "low-result",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "low-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "93023199ceb6bd997d8ea265e6f7e44a270175fbe0531b2be268420f7d32ef95",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Keep numeric low-stage threshold distinct from descriptive text and missing historical dates.",
+        "finding": "The numeric low threshold is −1 ft relative to the datum, not negative water depth. Two impact texts include Unknown without an invented numeric threshold. Two historical low-water rows retain one NULL sentinel date, so only one is dated. No operational availability claim follows."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "low_water_impacts"
+      },
+      "notebook": "04_nearby_gauges_are_not_a_river_network.ipynb",
+      "sql": [
+        {
+          "cell": "low-sql",
+          "reference": "nws.main.low_water_impacts"
+        }
+      ],
+      "narrative_cells": [
+        "low-story"
+      ],
+      "result_cells": [
+        "low-sql",
+        "low-result",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "low-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "93023199ceb6bd997d8ea265e6f7e44a270175fbe0531b2be268420f7d32ef95",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Keep numeric low-stage threshold distinct from descriptive text and missing historical dates.",
+        "finding": "The numeric low threshold is −1 ft relative to the datum, not negative water depth. Two impact texts include Unknown without an invented numeric threshold. Two historical low-water rows retain one NULL sentinel date, so only one is dated. No operational availability claim follows."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "historic_low_water"
+      },
+      "notebook": "04_nearby_gauges_are_not_a_river_network.ipynb",
+      "sql": [
+        {
+          "cell": "low-sql",
+          "reference": "nws.main.historic_low_water"
+        }
+      ],
+      "narrative_cells": [
+        "low-story"
+      ],
+      "result_cells": [
+        "low-sql",
+        "low-result",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "low-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "93023199ceb6bd997d8ea265e6f7e44a270175fbe0531b2be268420f7d32ef95",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Keep numeric low-stage threshold distinct from descriptive text and missing historical dates.",
+        "finding": "The numeric low threshold is −1 ft relative to the datum, not negative water depth. Two impact texts include Unknown without an invented numeric threshold. Two historical low-water rows retain one NULL sentinel date, so only one is dated. No operational availability claim follows."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "rating_curve"
+      },
+      "notebook": "05_a_short_rating_is_not_a_complete_curve.ipynb",
+      "sql": [
+        {
+          "cell": "rating-sql",
+          "reference": "nws.main.rating_curve"
+        }
+      ],
+      "narrative_cells": [
+        "rating-story"
+      ],
+      "result_cells": [
+        "rating-sql",
+        "rating-result",
+        "rating-chart",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "rating-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "e2f59efc0fd1c1b423a82252bfddcf3998336b08b1e60a65b83c5e20332c16bc",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Audit row-limit truncation and native rating points through both interfaces.",
+        "finding": "The requested limit 2→8 returns 2→5 of five known synthetic points and changes possibly_truncated from true to false. Completeness applies only to this fixture. Native ft/cfs units and the display rescaling remain explicit; there is no interpolation or extrapolation. Named and positional JSON interfaces return matching business rows."
+      }
+    },
+    {
+      "object": {
+        "schema": "compat",
+        "name": "rating_curve"
+      },
+      "notebook": "05_a_short_rating_is_not_a_complete_curve.ipynb",
+      "sql": [
+        {
+          "cell": "rating-sql",
+          "reference": "nws.compat.rating_curve"
+        }
+      ],
+      "narrative_cells": [
+        "rating-story"
+      ],
+      "result_cells": [
+        "rating-sql",
+        "rating-result",
+        "rating-chart",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "rating-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "e2f59efc0fd1c1b423a82252bfddcf3998336b08b1e60a65b83c5e20332c16bc",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Audit row-limit truncation and native rating points through both interfaces.",
+        "finding": "The requested limit 2→8 returns 2→5 of five known synthetic points and changes possibly_truncated from true to false. Completeness applies only to this fixture. Native ft/cfs units and the display rescaling remain explicit; there is no interpolation or extrapolation. Named and positional JSON interfaces return matching business rows."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "reach"
+      },
+      "notebook": "05_a_short_rating_is_not_a_complete_curve.ipynb",
+      "sql": [
+        {
+          "cell": "model-sql",
+          "reference": "nws.main.reach"
+        }
+      ],
+      "narrative_cells": [
+        "model-story"
+      ],
+      "result_cells": [
+        "model-sql",
+        "model-chart",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "checks-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "e2f59efc0fd1c1b423a82252bfddcf3998336b08b1e60a65b83c5e20332c16bc",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Preserve reachmetadata,modelmemberidentityandNULLvalidtimes.",
+        "finding": "Reach 8574021 lists longRange and adjacent model reach identifiers. At 13:00 UTC the mean is 100 and members are 80/120 ft³/s; all three values at 14:00 are NULL. The mean is not added to its members, and the arithmetic relationship is checked only for this fixture. Both interfaces match. Rating-limit changes leave the model population unchanged."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "reach_streamflow"
+      },
+      "notebook": "05_a_short_rating_is_not_a_complete_curve.ipynb",
+      "sql": [
+        {
+          "cell": "model-sql",
+          "reference": "nws.main.reach_streamflow"
+        }
+      ],
+      "narrative_cells": [
+        "model-story"
+      ],
+      "result_cells": [
+        "model-sql",
+        "model-chart",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "checks-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "e2f59efc0fd1c1b423a82252bfddcf3998336b08b1e60a65b83c5e20332c16bc",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Preserve reachmetadata,modelmemberidentityandNULLvalidtimes.",
+        "finding": "Reach 8574021 lists longRange and adjacent model reach identifiers. At 13:00 UTC the mean is 100 and members are 80/120 ft³/s; all three values at 14:00 are NULL. The mean is not added to its members, and the arithmetic relationship is checked only for this fixture. Both interfaces match. Rating-limit changes leave the model population unchanged."
+      }
+    },
+    {
+      "object": {
+        "schema": "compat",
+        "name": "reach_streamflow"
+      },
+      "notebook": "05_a_short_rating_is_not_a_complete_curve.ipynb",
+      "sql": [
+        {
+          "cell": "model-sql",
+          "reference": "nws.compat.reach_streamflow"
+        }
+      ],
+      "narrative_cells": [
+        "model-story"
+      ],
+      "result_cells": [
+        "model-sql",
+        "model-chart",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "checks-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "e2f59efc0fd1c1b423a82252bfddcf3998336b08b1e60a65b83c5e20332c16bc",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Preserve reachmetadata,modelmemberidentityandNULLvalidtimes.",
+        "finding": "Reach 8574021 lists longRange and adjacent model reach identifiers. At 13:00 UTC the mean is 100 and members are 80/120 ft³/s; all three values at 14:00 are NULL. The mean is not added to its members, and the arithmetic relationship is checked only for this fixture. Both interfaces match. Rating-limit changes leave the model population unchanged."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "river_at_a_glance"
+      },
+      "notebook": "05_a_short_rating_is_not_a_complete_curve.ipynb",
+      "sql": [
+        {
+          "cell": "summary-sql",
+          "reference": "nws.main.river_at_a_glance"
+        }
+      ],
+      "narrative_cells": [
+        "summary-story"
+      ],
+      "result_cells": [
+        "summary-sql",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "checks-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "e2f59efc0fd1c1b423a82252bfddcf3998336b08b1e60a65b83c5e20332c16bc",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Read a gauge summary statement without treating it as a model member or rating point.",
+        "finding": "The read-only POST is confined to the local RMDV2 fixture. Both interfaces return one summary retaining the original text, 14 ft stage and 14:00 UTC time. No account write or remote mutation occurs. The statement is not inserted into the model streamflow series or treated as a rating point."
+      }
+    },
+    {
+      "object": {
+        "schema": "compat",
+        "name": "river_at_a_glance"
+      },
+      "notebook": "05_a_short_rating_is_not_a_complete_curve.ipynb",
+      "sql": [
+        {
+          "cell": "summary-sql",
+          "reference": "nws.compat.river_at_a_glance"
+        }
+      ],
+      "narrative_cells": [
+        "summary-story"
+      ],
+      "result_cells": [
+        "summary-sql",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "checks-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "e2f59efc0fd1c1b423a82252bfddcf3998336b08b1e60a65b83c5e20332c16bc",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Read a gauge summary statement without treating it as a model member or rating point.",
+        "finding": "The read-only POST is confined to the local RMDV2 fixture. Both interfaces return one summary retaining the original text, 14 ft stage and 14:00 UTC time. No account write or remote mutation occurs. The statement is not inserted into the model streamflow series or treated as a rating point."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "map_products"
+      },
+      "notebook": "06_overlapping_products_are_not_a_common_score.ipynb",
+      "sql": [
+        {
+          "cell": "discovery-sql",
+          "reference": "nws.main.map_products"
+        }
+      ],
+      "narrative_cells": [
+        "discovery-story"
+      ],
+      "result_cells": [
+        "discovery-sql",
+        "spatial-result",
+        "polygon-chart",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "spatial-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "2889def9eb4badfb10e9aed9d4e0b4f87d68f6c9d30f7e03ccb9e67563f82802",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Discover product/layer/fieldcontractsandrelategenericfeaturestospatialselection.",
+        "finding": "Discovery returns two services and a feature layer with ID 101; field types, aliases and native codes remain visible. Two nested rectangles yield inner=2 and edge=1 object IDs with distinct source and ingestion clocks. Four generic interface pairs agree on business fields, and generic/typed severe identities reconcile. The layer ID is fixture-specific, not a production constant."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "map_layers"
+      },
+      "notebook": "06_overlapping_products_are_not_a_common_score.ipynb",
+      "sql": [
+        {
+          "cell": "discovery-sql",
+          "reference": "nws.main.map_layers"
+        }
+      ],
+      "narrative_cells": [
+        "discovery-story"
+      ],
+      "result_cells": [
+        "discovery-sql",
+        "spatial-result",
+        "polygon-chart",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "spatial-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "2889def9eb4badfb10e9aed9d4e0b4f87d68f6c9d30f7e03ccb9e67563f82802",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Discover product/layer/fieldcontractsandrelategenericfeaturestospatialselection.",
+        "finding": "Discovery returns two services and a feature layer with ID 101; field types, aliases and native codes remain visible. Two nested rectangles yield inner=2 and edge=1 object IDs with distinct source and ingestion clocks. Four generic interface pairs agree on business fields, and generic/typed severe identities reconcile. The layer ID is fixture-specific, not a production constant."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "map_fields"
+      },
+      "notebook": "06_overlapping_products_are_not_a_common_score.ipynb",
+      "sql": [
+        {
+          "cell": "discovery-sql",
+          "reference": "nws.main.map_fields"
+        }
+      ],
+      "narrative_cells": [
+        "discovery-story"
+      ],
+      "result_cells": [
+        "discovery-sql",
+        "spatial-result",
+        "polygon-chart",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "spatial-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "2889def9eb4badfb10e9aed9d4e0b4f87d68f6c9d30f7e03ccb9e67563f82802",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Discover product/layer/fieldcontractsandrelategenericfeaturestospatialselection.",
+        "finding": "Discovery returns two services and a feature layer with ID 101; field types, aliases and native codes remain visible. Two nested rectangles yield inner=2 and edge=1 object IDs with distinct source and ingestion clocks. Four generic interface pairs agree on business fields, and generic/typed severe identities reconcile. The layer ID is fixture-specific, not a production constant."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "map_features"
+      },
+      "notebook": "06_overlapping_products_are_not_a_common_score.ipynb",
+      "sql": [
+        {
+          "cell": "discovery-sql",
+          "reference": "nws.main.map_features"
+        }
+      ],
+      "narrative_cells": [
+        "discovery-story"
+      ],
+      "result_cells": [
+        "discovery-sql",
+        "spatial-result",
+        "polygon-chart",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "spatial-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "2889def9eb4badfb10e9aed9d4e0b4f87d68f6c9d30f7e03ccb9e67563f82802",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Discover product/layer/fieldcontractsandrelategenericfeaturestospatialselection.",
+        "finding": "Discovery returns two services and a feature layer with ID 101; field types, aliases and native codes remain visible. Two nested rectangles yield inner=2 and edge=1 object IDs with distinct source and ingestion clocks. Four generic interface pairs agree on business fields, and generic/typed severe identities reconcile. The layer ID is fixture-specific, not a production constant."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "map_features_at"
+      },
+      "notebook": "06_overlapping_products_are_not_a_common_score.ipynb",
+      "sql": [
+        {
+          "cell": "discovery-sql",
+          "reference": "nws.main.map_features_at"
+        }
+      ],
+      "narrative_cells": [
+        "discovery-story"
+      ],
+      "result_cells": [
+        "discovery-sql",
+        "spatial-result",
+        "polygon-chart",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "spatial-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "2889def9eb4badfb10e9aed9d4e0b4f87d68f6c9d30f7e03ccb9e67563f82802",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Discover product/layer/fieldcontractsandrelategenericfeaturestospatialselection.",
+        "finding": "Discovery returns two services and a feature layer with ID 101; field types, aliases and native codes remain visible. Two nested rectangles yield inner=2 and edge=1 object IDs with distinct source and ingestion clocks. Four generic interface pairs agree on business fields, and generic/typed severe identities reconcile. The layer ID is fixture-specific, not a production constant."
+      }
+    },
+    {
+      "object": {
+        "schema": "compat",
+        "name": "map_layers"
+      },
+      "notebook": "06_overlapping_products_are_not_a_common_score.ipynb",
+      "sql": [
+        {
+          "cell": "discovery-sql",
+          "reference": "nws.compat.map_layers"
+        }
+      ],
+      "narrative_cells": [
+        "discovery-story"
+      ],
+      "result_cells": [
+        "discovery-sql",
+        "spatial-result",
+        "polygon-chart",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "spatial-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "2889def9eb4badfb10e9aed9d4e0b4f87d68f6c9d30f7e03ccb9e67563f82802",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Discover product/layer/fieldcontractsandrelategenericfeaturestospatialselection.",
+        "finding": "Discovery returns two services and a feature layer with ID 101; field types, aliases and native codes remain visible. Two nested rectangles yield inner=2 and edge=1 object IDs with distinct source and ingestion clocks. Four generic interface pairs agree on business fields, and generic/typed severe identities reconcile. The layer ID is fixture-specific, not a production constant."
+      }
+    },
+    {
+      "object": {
+        "schema": "compat",
+        "name": "map_fields"
+      },
+      "notebook": "06_overlapping_products_are_not_a_common_score.ipynb",
+      "sql": [
+        {
+          "cell": "discovery-sql",
+          "reference": "nws.compat.map_fields"
+        }
+      ],
+      "narrative_cells": [
+        "discovery-story"
+      ],
+      "result_cells": [
+        "discovery-sql",
+        "spatial-result",
+        "polygon-chart",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "spatial-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "2889def9eb4badfb10e9aed9d4e0b4f87d68f6c9d30f7e03ccb9e67563f82802",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Discover product/layer/fieldcontractsandrelategenericfeaturestospatialselection.",
+        "finding": "Discovery returns two services and a feature layer with ID 101; field types, aliases and native codes remain visible. Two nested rectangles yield inner=2 and edge=1 object IDs with distinct source and ingestion clocks. Four generic interface pairs agree on business fields, and generic/typed severe identities reconcile. The layer ID is fixture-specific, not a production constant."
+      }
+    },
+    {
+      "object": {
+        "schema": "compat",
+        "name": "map_features"
+      },
+      "notebook": "06_overlapping_products_are_not_a_common_score.ipynb",
+      "sql": [
+        {
+          "cell": "discovery-sql",
+          "reference": "nws.compat.map_features"
+        }
+      ],
+      "narrative_cells": [
+        "discovery-story"
+      ],
+      "result_cells": [
+        "discovery-sql",
+        "spatial-result",
+        "polygon-chart",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "spatial-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "2889def9eb4badfb10e9aed9d4e0b4f87d68f6c9d30f7e03ccb9e67563f82802",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Discover product/layer/fieldcontractsandrelategenericfeaturestospatialselection.",
+        "finding": "Discovery returns two services and a feature layer with ID 101; field types, aliases and native codes remain visible. Two nested rectangles yield inner=2 and edge=1 object IDs with distinct source and ingestion clocks. Four generic interface pairs agree on business fields, and generic/typed severe identities reconcile. The layer ID is fixture-specific, not a production constant."
+      }
+    },
+    {
+      "object": {
+        "schema": "compat",
+        "name": "map_features_at"
+      },
+      "notebook": "06_overlapping_products_are_not_a_common_score.ipynb",
+      "sql": [
+        {
+          "cell": "discovery-sql",
+          "reference": "nws.compat.map_features_at"
+        }
+      ],
+      "narrative_cells": [
+        "discovery-story"
+      ],
+      "result_cells": [
+        "discovery-sql",
+        "spatial-result",
+        "polygon-chart",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "spatial-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "2889def9eb4badfb10e9aed9d4e0b4f87d68f6c9d30f7e03ccb9e67563f82802",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Discover product/layer/fieldcontractsandrelategenericfeaturestospatialselection.",
+        "finding": "Discovery returns two services and a feature layer with ID 101; field types, aliases and native codes remain visible. Two nested rectangles yield inner=2 and edge=1 object IDs with distinct source and ingestion clocks. Four generic interface pairs agree on business fields, and generic/typed severe identities reconcile. The layer ID is fixture-specific, not a production constant."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "severe_outlook"
+      },
+      "notebook": "06_overlapping_products_are_not_a_common_score.ipynb",
+      "sql": [
+        {
+          "cell": "typed-sql",
+          "reference": "nws.main.severe_outlook"
+        }
+      ],
+      "narrative_cells": [
+        "typed-story"
+      ],
+      "result_cells": [
+        "typed-sql",
+        "spatial-result",
+        "labels-chart",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "spatial-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "2889def9eb4badfb10e9aed9d4e0b4f87d68f6c9d30f7e03ccb9e67563f82802",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Preserve the full source layer and native product vocabulary while comparing point intersections and the positional JSON interface.",
+        "finding": "Each family retains two complete source polygons and its own labels. Inner→edge selection changes two matches to one per family while complete source data and both-site retrieval remain fixed. Severe probabilities remain NULL; fire codes and missing issue time are retained; rainfall preserves risk descriptions; winter preserves the overall component and impact labels. Validity stays 24 hours. Each point ID belongs to its full source and positional JSON results agree. Feature counts are not events and codes are not a combined score."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "severe_outlook_at"
+      },
+      "notebook": "06_overlapping_products_are_not_a_common_score.ipynb",
+      "sql": [
+        {
+          "cell": "typed-sql",
+          "reference": "nws.main.severe_outlook_at"
+        }
+      ],
+      "narrative_cells": [
+        "typed-story"
+      ],
+      "result_cells": [
+        "typed-sql",
+        "spatial-result",
+        "labels-chart",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "spatial-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "2889def9eb4badfb10e9aed9d4e0b4f87d68f6c9d30f7e03ccb9e67563f82802",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Preserve the full source layer and native product vocabulary while comparing point intersections and the positional JSON interface.",
+        "finding": "Each family retains two complete source polygons and its own labels. Inner→edge selection changes two matches to one per family while complete source data and both-site retrieval remain fixed. Severe probabilities remain NULL; fire codes and missing issue time are retained; rainfall preserves risk descriptions; winter preserves the overall component and impact labels. Validity stays 24 hours. Each point ID belongs to its full source and positional JSON results agree. Feature counts are not events and codes are not a combined score."
+      }
+    },
+    {
+      "object": {
+        "schema": "compat",
+        "name": "severe_outlook_at"
+      },
+      "notebook": "06_overlapping_products_are_not_a_common_score.ipynb",
+      "sql": [
+        {
+          "cell": "typed-sql",
+          "reference": "nws.compat.severe_outlook_at"
+        }
+      ],
+      "narrative_cells": [
+        "typed-story"
+      ],
+      "result_cells": [
+        "typed-sql",
+        "spatial-result",
+        "labels-chart",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "spatial-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "2889def9eb4badfb10e9aed9d4e0b4f87d68f6c9d30f7e03ccb9e67563f82802",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Preserve the full source layer and native product vocabulary while comparing point intersections and the positional JSON interface.",
+        "finding": "Each family retains two complete source polygons and its own labels. Inner→edge selection changes two matches to one per family while complete source data and both-site retrieval remain fixed. Severe probabilities remain NULL; fire codes and missing issue time are retained; rainfall preserves risk descriptions; winter preserves the overall component and impact labels. Validity stays 24 hours. Each point ID belongs to its full source and positional JSON results agree. Feature counts are not events and codes are not a combined score."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "fire_outlook"
+      },
+      "notebook": "06_overlapping_products_are_not_a_common_score.ipynb",
+      "sql": [
+        {
+          "cell": "typed-sql",
+          "reference": "nws.main.fire_outlook"
+        }
+      ],
+      "narrative_cells": [
+        "typed-story"
+      ],
+      "result_cells": [
+        "typed-sql",
+        "spatial-result",
+        "labels-chart",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "spatial-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "2889def9eb4badfb10e9aed9d4e0b4f87d68f6c9d30f7e03ccb9e67563f82802",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Preserve the full source layer and native product vocabulary while comparing point intersections and the positional JSON interface.",
+        "finding": "Each family retains two complete source polygons and its own labels. Inner→edge selection changes two matches to one per family while complete source data and both-site retrieval remain fixed. Severe probabilities remain NULL; fire codes and missing issue time are retained; rainfall preserves risk descriptions; winter preserves the overall component and impact labels. Validity stays 24 hours. Each point ID belongs to its full source and positional JSON results agree. Feature counts are not events and codes are not a combined score."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "fire_outlook_at"
+      },
+      "notebook": "06_overlapping_products_are_not_a_common_score.ipynb",
+      "sql": [
+        {
+          "cell": "typed-sql",
+          "reference": "nws.main.fire_outlook_at"
+        }
+      ],
+      "narrative_cells": [
+        "typed-story"
+      ],
+      "result_cells": [
+        "typed-sql",
+        "spatial-result",
+        "labels-chart",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "spatial-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "2889def9eb4badfb10e9aed9d4e0b4f87d68f6c9d30f7e03ccb9e67563f82802",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Preserve the full source layer and native product vocabulary while comparing point intersections and the positional JSON interface.",
+        "finding": "Each family retains two complete source polygons and its own labels. Inner→edge selection changes two matches to one per family while complete source data and both-site retrieval remain fixed. Severe probabilities remain NULL; fire codes and missing issue time are retained; rainfall preserves risk descriptions; winter preserves the overall component and impact labels. Validity stays 24 hours. Each point ID belongs to its full source and positional JSON results agree. Feature counts are not events and codes are not a combined score."
+      }
+    },
+    {
+      "object": {
+        "schema": "compat",
+        "name": "fire_outlook_at"
+      },
+      "notebook": "06_overlapping_products_are_not_a_common_score.ipynb",
+      "sql": [
+        {
+          "cell": "typed-sql",
+          "reference": "nws.compat.fire_outlook_at"
+        }
+      ],
+      "narrative_cells": [
+        "typed-story"
+      ],
+      "result_cells": [
+        "typed-sql",
+        "spatial-result",
+        "labels-chart",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "spatial-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "2889def9eb4badfb10e9aed9d4e0b4f87d68f6c9d30f7e03ccb9e67563f82802",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Preserve the full source layer and native product vocabulary while comparing point intersections and the positional JSON interface.",
+        "finding": "Each family retains two complete source polygons and its own labels. Inner→edge selection changes two matches to one per family while complete source data and both-site retrieval remain fixed. Severe probabilities remain NULL; fire codes and missing issue time are retained; rainfall preserves risk descriptions; winter preserves the overall component and impact labels. Validity stays 24 hours. Each point ID belongs to its full source and positional JSON results agree. Feature counts are not events and codes are not a combined score."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "rainfall_outlook"
+      },
+      "notebook": "06_overlapping_products_are_not_a_common_score.ipynb",
+      "sql": [
+        {
+          "cell": "typed-sql",
+          "reference": "nws.main.rainfall_outlook"
+        }
+      ],
+      "narrative_cells": [
+        "typed-story"
+      ],
+      "result_cells": [
+        "typed-sql",
+        "spatial-result",
+        "labels-chart",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "spatial-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "2889def9eb4badfb10e9aed9d4e0b4f87d68f6c9d30f7e03ccb9e67563f82802",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Preserve the full source layer and native product vocabulary while comparing point intersections and the positional JSON interface.",
+        "finding": "Each family retains two complete source polygons and its own labels. Inner→edge selection changes two matches to one per family while complete source data and both-site retrieval remain fixed. Severe probabilities remain NULL; fire codes and missing issue time are retained; rainfall preserves risk descriptions; winter preserves the overall component and impact labels. Validity stays 24 hours. Each point ID belongs to its full source and positional JSON results agree. Feature counts are not events and codes are not a combined score."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "rainfall_outlook_at"
+      },
+      "notebook": "06_overlapping_products_are_not_a_common_score.ipynb",
+      "sql": [
+        {
+          "cell": "typed-sql",
+          "reference": "nws.main.rainfall_outlook_at"
+        }
+      ],
+      "narrative_cells": [
+        "typed-story"
+      ],
+      "result_cells": [
+        "typed-sql",
+        "spatial-result",
+        "labels-chart",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "spatial-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "2889def9eb4badfb10e9aed9d4e0b4f87d68f6c9d30f7e03ccb9e67563f82802",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Preserve the full source layer and native product vocabulary while comparing point intersections and the positional JSON interface.",
+        "finding": "Each family retains two complete source polygons and its own labels. Inner→edge selection changes two matches to one per family while complete source data and both-site retrieval remain fixed. Severe probabilities remain NULL; fire codes and missing issue time are retained; rainfall preserves risk descriptions; winter preserves the overall component and impact labels. Validity stays 24 hours. Each point ID belongs to its full source and positional JSON results agree. Feature counts are not events and codes are not a combined score."
+      }
+    },
+    {
+      "object": {
+        "schema": "compat",
+        "name": "rainfall_outlook_at"
+      },
+      "notebook": "06_overlapping_products_are_not_a_common_score.ipynb",
+      "sql": [
+        {
+          "cell": "typed-sql",
+          "reference": "nws.compat.rainfall_outlook_at"
+        }
+      ],
+      "narrative_cells": [
+        "typed-story"
+      ],
+      "result_cells": [
+        "typed-sql",
+        "spatial-result",
+        "labels-chart",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "spatial-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "2889def9eb4badfb10e9aed9d4e0b4f87d68f6c9d30f7e03ccb9e67563f82802",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Preserve the full source layer and native product vocabulary while comparing point intersections and the positional JSON interface.",
+        "finding": "Each family retains two complete source polygons and its own labels. Inner→edge selection changes two matches to one per family while complete source data and both-site retrieval remain fixed. Severe probabilities remain NULL; fire codes and missing issue time are retained; rainfall preserves risk descriptions; winter preserves the overall component and impact labels. Validity stays 24 hours. Each point ID belongs to its full source and positional JSON results agree. Feature counts are not events and codes are not a combined score."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "winter_storm_severity"
+      },
+      "notebook": "06_overlapping_products_are_not_a_common_score.ipynb",
+      "sql": [
+        {
+          "cell": "typed-sql",
+          "reference": "nws.main.winter_storm_severity"
+        }
+      ],
+      "narrative_cells": [
+        "typed-story"
+      ],
+      "result_cells": [
+        "typed-sql",
+        "spatial-result",
+        "labels-chart",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "spatial-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "2889def9eb4badfb10e9aed9d4e0b4f87d68f6c9d30f7e03ccb9e67563f82802",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Preserve the full source layer and native product vocabulary while comparing point intersections and the positional JSON interface.",
+        "finding": "Each family retains two complete source polygons and its own labels. Inner→edge selection changes two matches to one per family while complete source data and both-site retrieval remain fixed. Severe probabilities remain NULL; fire codes and missing issue time are retained; rainfall preserves risk descriptions; winter preserves the overall component and impact labels. Validity stays 24 hours. Each point ID belongs to its full source and positional JSON results agree. Feature counts are not events and codes are not a combined score."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "winter_storm_severity_at"
+      },
+      "notebook": "06_overlapping_products_are_not_a_common_score.ipynb",
+      "sql": [
+        {
+          "cell": "typed-sql",
+          "reference": "nws.main.winter_storm_severity_at"
+        }
+      ],
+      "narrative_cells": [
+        "typed-story"
+      ],
+      "result_cells": [
+        "typed-sql",
+        "spatial-result",
+        "labels-chart",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "spatial-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "2889def9eb4badfb10e9aed9d4e0b4f87d68f6c9d30f7e03ccb9e67563f82802",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Preserve the full source layer and native product vocabulary while comparing point intersections and the positional JSON interface.",
+        "finding": "Each family retains two complete source polygons and its own labels. Inner→edge selection changes two matches to one per family while complete source data and both-site retrieval remain fixed. Severe probabilities remain NULL; fire codes and missing issue time are retained; rainfall preserves risk descriptions; winter preserves the overall component and impact labels. Validity stays 24 hours. Each point ID belongs to its full source and positional JSON results agree. Feature counts are not events and codes are not a combined score."
+      }
+    },
+    {
+      "object": {
+        "schema": "compat",
+        "name": "winter_storm_severity_at"
+      },
+      "notebook": "06_overlapping_products_are_not_a_common_score.ipynb",
+      "sql": [
+        {
+          "cell": "typed-sql",
+          "reference": "nws.compat.winter_storm_severity_at"
+        }
+      ],
+      "narrative_cells": [
+        "typed-story"
+      ],
+      "result_cells": [
+        "typed-sql",
+        "spatial-result",
+        "labels-chart",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "spatial-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root/notebooks_ortools",
+        "reviewed_at": "2026-11-15T00:14:51.839051+00:00",
+        "notebook_sha256": "2889def9eb4badfb10e9aed9d4e0b4f87d68f6c9d30f7e03ccb9e67563f82802",
+        "catalog_sha256": [
+          "a028b0578a440467cdf93b999dc317b9168281d7bc7cf3a6500dec5037930b38",
+          "cedc09098fe441ba4c2998523fbafce7b142dec39e58b5092ed9bee7964237ae"
+        ],
+        "purpose": "Preserve the full source layer and native product vocabulary while comparing point intersections and the positional JSON interface.",
+        "finding": "Each family retains two complete source polygons and its own labels. Inner→edge selection changes two matches to one per family while complete source data and both-site retrieval remain fixed. Severe probabilities remain NULL; fire codes and missing issue time are retained; rainfall preserves risk descriptions; winter preserves the overall component and impact labels. Validity stays 24 hours. Each point ID belongs to its full source and positional JSON results agree. Feature counts are not events and codes are not a combined score."
+      }
+    }
+  ]
+}

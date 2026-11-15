@@ -714,6 +714,6 @@ macOS used ecCodes 2.50.1. Windows CI is configured but was not run locally.
 queries and their actual values and source file. The opt-in `make test-live`
 manifest includes MRMS discovery, QPE, precipitation rate and outside-grid checks.
 
-## Executed notebook
+## Executed notebooks
 
-[Count forecast hours, not compressed rows](notebooks/README.md) demonstrates native temperature intervals, duration weighting and a separate threshold experiment with a portable pinned worker launch.
+[Six independent NWS walkthroughs](notebooks/README.md) cover forecast duration, station freshness, message references, river context, rating/model boundaries and spatial product meanings through visible SQL and portable released-worker execution.
