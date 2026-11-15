@@ -18,6 +18,11 @@ ignore = [
   { code = "VGI117", kind = "domain-exemption", reason = "Keep the established nws.main public namespace for this focused NWS/NWPS catalog. Its 92 functions intentionally exceed the default 50-object guidance; all have categories, typed arguments, result columns, examples and agent tasks. Moving related extensions to new schemas would fragment the existing SQL interface." },
 ]
 
+[per_object]
+"nws.main.space_weather_rows" = { ignore = [
+  { code = "VGI516", kind = "tooling-bug", reason = "products/noaa-scales.json is an SWPC API product path, not a local file" },
+] }
+
 # Adopting the gate on a worker that already has findings? Record them once with
 #   vgi-lint lint --baseline vgi-lint-baseline --update-baseline
 # and uncomment the next line. Only new findings fail after that.

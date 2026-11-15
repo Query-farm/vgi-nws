@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.1 — 2026-11-14
+
+### Changed
+
+- vgi-lint 2.7.0 compatibility: `space_weather_rows` carries a scoped VGI516 waiver, because its example's `products/noaa-scales.json` is an SWPC API product path, not a local file. No example returns a NULL-only or zero-count result (VGI913).
+
 ## 0.5.0 — 2026-11-14
 
 ### Breaking

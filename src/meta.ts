@@ -13,7 +13,7 @@
 import { field, type VgiDataType, type VgiField } from "@query-farm/vgi";
 
 export const CATALOG_NAME = "nws";
-export const VERSION = "0.5.0";
+export const VERSION = "0.5.1";
 
 export const SOURCE_URL = "https://www.weather.gov/documentation/services-web-api";
 export const SCHEMA_CATEGORIES = [
