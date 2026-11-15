@@ -38,7 +38,10 @@ test("catalog comment is one short plain-text paragraph", () => {
   expect(comment.length).toBeGreaterThan(0);
   expect(comment.length).toBeLessThanOrEqual(300);
   expect(comment).not.toMatch(/[#`*[\]\n]/);
-  expect(CATALOG.tags?.["vgi.doc_md"]).toContain("forecast_hourly");
+  // The long guide is an overview with upstream links, not a function list (VGI173).
+  const docMd = CATALOG.tags?.["vgi.doc_md"] ?? "";
+  expect(docMd).toContain("## Sources and references");
+  expect(docMd).not.toContain("forecast_hourly");
 });
 test("composed examples lead the schema list and sit in the driving function's first five", () => {
   const schemaSql = JSON.parse(CATALOG.schemas[0]?.tags?.["vgi.example_queries"] ?? "[]").map(
