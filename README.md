@@ -33,7 +33,7 @@ INSTALL vgi FROM query_farm;
 LOAD vgi FROM query_farm;
 
 ATTACH 'nws' (TYPE vgi,
-  LOCATION '/Users/rusty/Development/vgi-nws/bin/vgi-nws-worker');
+  LOCATION 'github-auto://Query-farm/vgi-nws@v0.5.2');
 
 SELECT event, headline, expires
 FROM nws.main.alerts(area := 'VA')
