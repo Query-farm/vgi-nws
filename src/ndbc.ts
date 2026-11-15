@@ -1,7 +1,7 @@
 import { fileCursor, listingLinks } from "./file_products.ts";
 import { gisTime } from "./gis.ts";
 import { getText } from "./http.ts";
-import { type Args, type Col, dateRange, json, type Page, provenance, type Row, readerWithOptions } from "./reader.ts";
+import { type Args, type Col, dateRange, json, type Page, provenance, type Row, reader } from "./reader.ts";
 
 const PRODUCTS = [
   "txt",
@@ -204,7 +204,7 @@ const measurementColumns: Col[] = [
   ["frequency_hz", "number", "Frequency for a spectral bin; NULL for ordinary columns and separation frequency."],
 ];
 export const NDBC_FUNCTIONS = [
-  ...readerWithOptions({
+  reader({
     name: "buoy_stations",
     category: "reference",
     description:
@@ -232,12 +232,11 @@ export const NDBC_FUNCTIONS = [
       "SELECT station_id, name, latitude, longitude FROM nws.main.buoy_stations() WHERE meteorology ORDER BY station_id",
     exampleDescription: "Discover active marine observation stations",
   }),
-  ...readerWithOptions({
+  reader({
     name: "buoy_products",
     category: "reference",
     inputs: idInput,
     inputDocs: idDoc,
-    exampleInputs: ["'44014'"],
     description:
       "List realtime files actually published for an NDBC station. Includes meteorology, wave summary/spectra, ocean chemistry, currents, radiation, rainfall, drifting platforms, supplemental wind/pressure, and DART water-column height where available. File existence does not imply freshness; inspect observation timestamps. Supported suffixes can be passed to buoy_measurements; unrecognized formats remain discoverable with supported=false.",
     columns: [
@@ -264,11 +263,10 @@ export const NDBC_FUNCTIONS = [
     example: "SELECT product, supported, data_url FROM nws.main.buoy_products('44014') ORDER BY product",
     exampleDescription: "Find currently published products for an offshore buoy",
   }),
-  ...readerWithOptions({
+  reader({
     name: "buoy_measurements",
     inputs: idInput,
     inputDocs: idDoc,
-    exampleInputs: ["'44014'"],
     description:
       "Read NDBC realtime measurements as long-form rows with native variable names, units, timestamps and original value tokens. Supports all 15 current realtime formats, including directional wave spectra and DART seconds. MM and documented spectral/continuous-wind missing codes become NULL; zero remains zero and categorical text remains available. Each spectral bin has frequency_hz; ADCP bin names and quality fields remain distinct. Source files normally cover recent observations, not a complete historical archive. File content changes during paging raise an error. DART water-column heights are raw measurements, not tsunami warnings.",
     options: {

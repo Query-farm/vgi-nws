@@ -3,7 +3,7 @@ import { BBOX_OPTION, checkedBody, GIS_COLUMNS, GIS_OPTIONS, gisPage, type Layer
 import { getJson, type MapService } from "./http.ts";
 import { choose } from "./outlooks.ts";
 import { RASTER_COLUMNS, sampleRasters } from "./raster.ts";
-import { type Args, arr, type Col, json, num, obj, type Page, provenance, readerWithOptions, str } from "./reader.ts";
+import { type Args, arr, type Col, json, num, obj, type Page, provenance, reader, str } from "./reader.ts";
 
 export const MAP_ROOTS: Record<string, MapService> = {
   vector: "gis",
@@ -163,7 +163,7 @@ const pointDoc = {
   latitude: "WGS84 latitude from -90 to 90; NULL emits no rows.",
   longitude: "WGS84 longitude from -180 to 180; NULL emits no rows.",
 };
-const discovery = readerWithOptions({
+const discovery = reader({
   name: "map_products",
   category: "reference",
   description:
@@ -192,9 +192,8 @@ const discovery = readerWithOptions({
     "SELECT product_id, service_type FROM nws.main.map_products(server := 'vector', folder := 'outlooks') ORDER BY product_id",
   exampleDescription: "Discover available NWS outlook services",
 });
-const layers = readerWithOptions({
+const layers = reader({
   name: "map_layers",
-  exampleInputs: ["'vector:outlooks/spc_mesoscale_discussion/MapServer'"],
   category: "reference",
   inputs: productInput,
   inputDocs: productDoc,
@@ -217,9 +216,8 @@ const layers = readerWithOptions({
     "SELECT layer_id, layer_name, reader FROM nws.main.map_layers('vector:outlooks/spc_mesoscale_discussion/MapServer') ORDER BY layer_id",
   exampleDescription: "Find queryable mesoscale discussion layers",
 });
-const fields = readerWithOptions({
+const fields = reader({
   name: "map_fields",
-  exampleInputs: ["'vector:outlooks/spc_mesoscale_discussion/MapServer'"],
   category: "reference",
   inputs: productInput,
   inputDocs: productDoc,
@@ -246,14 +244,9 @@ const fields = readerWithOptions({
     "SELECT field_name, alias, field_type FROM nws.main.map_fields('vector:outlooks/spc_mesoscale_discussion/MapServer') ORDER BY field_name",
   exampleDescription: "Inspect discussion attributes and their meaning",
 });
-const featureFunctions = [false, true].flatMap((atPoint) =>
-  readerWithOptions({
+const featureFunctions = [false, true].map((atPoint) =>
+  reader({
     name: `map_features${atPoint ? "_at" : ""}`,
-    exampleInputs: [
-      "'vector:outlooks/spc_mesoscale_discussion/MapServer'",
-      "0",
-      ...(atPoint ? ["38.0293", "-78.4767"] : []),
-    ],
     inputs: { ...layersInput, ...(atPoint ? pointInput : {}) },
     inputDocs: { ...layersDoc, ...(atPoint ? pointDoc : {}) },
     description:
@@ -274,14 +267,8 @@ const featureFunctions = [false, true].flatMap((atPoint) =>
     exampleDescription: "Read native NWS discussion features and their attributes",
   }),
 );
-const raster = readerWithOptions({
+const raster = reader({
   name: "map_raster_at",
-  exampleInputs: [
-    "'raster:precip/rfc_gridded_ffg/MapServer'",
-    "(SELECT min(layer_id) FROM nws.main.map_layers('raster:precip/rfc_gridded_ffg/MapServer') WHERE layer_type = 'Mosaic Layer')",
-    "38.0293",
-    "-78.4767",
-  ],
   inputs: { ...layersInput, ...pointInput },
   inputDocs: { ...layersDoc, ...pointDoc },
   description:
@@ -309,4 +296,4 @@ const raster = readerWithOptions({
     "SELECT r.raw_value, r.raster_name, r.valid_at FROM (SELECT min(layer_id) AS layer_id FROM nws.main.map_layers('raster:precip/rfc_gridded_ffg/MapServer') WHERE layer_type = 'Mosaic Layer') l, LATERAL nws.main.map_raster_at('raster:precip/rfc_gridded_ffg/MapServer',l.layer_id,38.0293,-78.4767) r ORDER BY r.raster_id",
   exampleDescription: "Discover a flash flood guidance mosaic and inspect its native pixels",
 });
-export const MAP_CATALOG_FUNCTIONS = [...discovery, ...layers, ...fields, ...featureFunctions, ...raster];
+export const MAP_CATALOG_FUNCTIONS = [discovery, layers, fields, ...featureFunctions, raster];

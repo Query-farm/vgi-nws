@@ -13,7 +13,6 @@ import {
   query,
   type Row,
   reader,
-  readerWithOptions,
   str,
   time,
 } from "./reader.ts";
@@ -151,9 +150,8 @@ const gauges = reader({
   example: "SELECT gauge_id, name, state, observed_category FROM nws.main.gauges(state := 'VA') ORDER BY gauge_id",
   exampleDescription: "Discover Virginia river gauges and their reported observed status",
 });
-const gaugesNear = readerWithOptions({
+const gaugesNear = reader({
   name: "gauges_near",
-  exampleInputs: ["37.5407", "-77.4360"],
   category: "water",
   description:
     "Find NWPS gauges within a great-circle radius of a location. Uses geographic bounding boxes, then an exact spherical distance filter; supports poles and the antimeridian. Order by distance_km to obtain nearest gauges; input/output order does not imply distance or hydrologic connectivity.",
@@ -173,7 +171,7 @@ const gaugesNear = readerWithOptions({
     "SELECT gauge_id, name, distance_km FROM nws.main.gauges_near(37.5407, -77.4360, radius_km := 50) ORDER BY distance_km, gauge_id",
   exampleDescription: "Find nearby Richmond gauges ordered by distance in kilometres",
 });
-const network = readerWithOptions({
+const network = reader({
   name: "river_network",
   category: "water",
   description:
@@ -217,4 +215,4 @@ const network = readerWithOptions({
   example: "SELECT direction, gauge_id, name FROM nws.main.river_network('RMDV2') ORDER BY direction, sequence_number",
   exampleDescription: "Discover gauges connected to Richmond-Westham along its river network",
 });
-export const WATER_DISCOVERY_FUNCTIONS = [gauges, ...gaugesNear, ...network];
+export const WATER_DISCOVERY_FUNCTIONS = [gauges, gaugesNear, network];

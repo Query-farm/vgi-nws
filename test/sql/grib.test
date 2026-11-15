@@ -65,7 +65,7 @@ SELECT count(*)=2 AND count(m.value)=1 AND max(m.value)=2.5 FROM (VALUES (38.0),
 true
 
 query I
-SELECT count(*)=1 AND count(value)=0 AND bool_and(bitmap_missing) FROM nws.compat.mrms_at('2D/PrecipRate',38,-78.5,'{"level":1}');
+SELECT count(*)=1 AND count(value)=0 AND bool_and(bitmap_missing) FROM nws.main.mrms_at('2D/PrecipRate',38,-78.5, level := 1);
 ----
 true
 
@@ -80,7 +80,7 @@ SELECT count(*)=3 AND min(product)='forecast_cone' FROM nws.main.tropical_featur
 true
 
 query I
-SELECT count(*)=3 AND min(product)='forecast_points' FROM nws.compat.tropical_features_at(38,-78,'{"product":"forecast_points","page_size":1}');
+SELECT count(*)=3 AND min(product)='forecast_points' FROM nws.main.tropical_features_at(38,-78, product := 'forecast_points', page_size := 1);
 ----
 true
 

@@ -1,13 +1,12 @@
 # vgi-nws
 
-A TypeScript VGI worker exposing **92 main SQL functions** for the US National Weather
+A TypeScript VGI worker exposing **92 SQL functions** for the US National Weather
 Service and National Water Prediction Service. It covers alerts, observations,
 forecasts, gridded forecast variables, text bulletins, zone boundaries, office
 briefings, spatial outlooks, river conditions, geographic gauge discovery,
 observed rainfall, winter impacts, model streamflow, soil moisture, rainfall
 anomalies, snowpack, storm reports, tropical features, marine and space-weather feeds,
-and native MRMS radar grids. Thirty-seven additional `nws.compat` variants support customized correlated calls on stock
-DuckDB 2.0.0. No API key is required.
+and native MRMS radar grids. No API key is required.
 
 Built from [Query-farm/vgi-starter-typescript](https://github.com/Query-farm/vgi-starter-typescript)
 v1.3.0, commit `145aedcb87ed8fadde6dfb8a26197d0d68112369`. The original CLI,
@@ -52,9 +51,9 @@ set before DuckDB launches the worker (or before starting its HTTP server).
 The primary functions live in `nws.main`. Positional arguments accept literals or columns,
 including correlated `LATERAL` joins. NULL positional input produces no rows;
 `LEFT JOIN LATERAL ... ON true` preserves the outer site when it has no result.
-Filters and options use named arguments, for example `area := 'VA'`. On stock
-DuckDB 2.0.0, customized correlated calls use the `nws.compat` forms described
-below; correlated calls using defaults work directly in `nws.main`.
+Filters and options use named arguments, for example `area := 'VA'`. Named
+options inside a correlated `LATERAL` call need DuckDB 2.0.1 or later; on 2.0.0,
+correlated calls work with default options.
 
 | Functions | Purpose |
 | --- | --- |
@@ -246,12 +245,13 @@ connections and does not claim immediate adjacency or a complete watershed graph
 The NWPS year-one status-time sentinel becomes NULL; original status values and
 sentinels remain available in `status_json`.
 
-### Customized multi-site queries on stock DuckDB
+### Customized multi-site queries
 
-Stock DuckDB 2.0.0 has a
-[named-options limitation in correlated table functions](https://github.com/duckdb/duckdb/pull/27833).
-Literal calls with named options work. For correlated calls that need custom
-options, use `nws.compat` with a final positional JSON object:
+Pass options by name inside the `LATERAL` call. DuckDB 2.0.1 and later accept
+named arguments in correlated table-function calls
+([duckdb#27833](https://github.com/duckdb/duckdb/pull/27833)); DuckDB 2.0.0 accepts
+only positional arguments there, so on 2.0.0 use literal calls when you need custom
+options.
 
 ```sql
 WITH sites(name, latitude, longitude) AS (
@@ -260,21 +260,12 @@ WITH sites(name, latitude, longitude) AS (
 )
 SELECT s.name, o.category, o.probability_pct, o.valid_from, o.valid_to
 FROM sites s
-LEFT JOIN LATERAL nws.compat.climate_outlook_at(
+LEFT JOIN LATERAL nws.main.climate_outlook_at(
   s.latitude, s.longitude,
-  '{"period":"8_14_day","variable":"precipitation"}'
+  period := '8_14_day', variable := 'precipitation'
 ) o ON true
 ORDER BY s.name, o.valid_from;
 ```
-
-Compatibility forms exist for all eight polygon `_at` functions, `gauges_near`,
-`river_network`, `precipitation_observed_at`, `rating_curve`, `reach_streamflow`,
-`soil_moisture_at`, `precipitation_anomaly_at`, `snow_analysis_at`, and `storm_reports_near`. JSON keys and defaults match the main function's named options,
-including page limits. Unknown keys and invalid types are rejected; the object is
-limited to 4096 characters. NULL positional inputs produce no rows. These forms
-also work in Haybarn. The transport suite retains direct named-option LATERAL
-cases for Haybarn 2.0.0rc11; stock verification exercises equivalent customized
-calls through `nws.compat`. The SDK and engine pins have not been changed.
 
 Both tested engines also lose rows for some computed text expressions supplied
 directly as correlated arguments. Derive a computed gauge/reach ID as a named
@@ -358,7 +349,7 @@ ORDER BY stage;
 
 SELECT g.gauge_id, m.member, m.valid_at, m.flow, m.flow_unit
 FROM nws.main.gauge('RMDV2') g,
-LATERAL nws.compat.reach_streamflow(g.reach_id, '{"series":"long_range"}') m
+LATERAL nws.main.reach_streamflow(g.reach_id, series := 'long_range') m
 ORDER BY m.member, m.valid_at;
 
 SELECT occurred_at, stage, stage_unit, statement
@@ -421,7 +412,7 @@ Authoritative references: [NWS web API documentation](https://www.weather.gov/do
 
 | Variable | Default and purpose |
 | --- | --- |
-| `NWS_USER_AGENT` | `vgi-nws/0.4.0 (https://query.farm)`; set an identifying application/contact string |
+| `NWS_USER_AGENT` | `vgi-nws/0.5.0 (https://query.farm)`; set an identifying application/contact string |
 | `NWS_API_BASE_URL` | `https://api.weather.gov`; trusted server-level override for tests or a proxy |
 | `NWPS_API_BASE_URL` | `https://api.water.noaa.gov/nwps/v1`; trusted server-level override for tests or a proxy |
 | `NWS_RASTER_BASE_URL` | `https://mapservices.weather.noaa.gov/raster/rest/services`; trusted RFC raster root override for tests or a proxy |

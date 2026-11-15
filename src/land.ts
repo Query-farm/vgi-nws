@@ -1,6 +1,6 @@
 import { choose } from "./outlooks.ts";
 import { RASTER_COLUMNS, sampleRasters } from "./raster.ts";
-import { type Args, type Page, readerWithOptions } from "./reader.ts";
+import { type Args, type Page, reader } from "./reader.ts";
 
 const inputs = { latitude: "number", longitude: "number" } as const;
 const inputDocs = {
@@ -36,7 +36,7 @@ export async function soilMoisture(a: Args): Promise<Page> {
     })),
   };
 }
-const soil = readerWithOptions({
+const soil = reader({
   name: "soil_moisture_at",
   inputs,
   inputDocs,
@@ -106,7 +106,7 @@ export async function precipitationAnomaly(a: Args): Promise<Page> {
     }),
   };
 }
-const anomalies = readerWithOptions({
+const anomalies = reader({
   name: "precipitation_anomaly_at",
   inputs,
   inputDocs,
@@ -164,7 +164,7 @@ export async function snowAnalysis(a: Args): Promise<Page> {
     }),
   };
 }
-const snow = readerWithOptions({
+const snow = reader({
   name: "snow_analysis_at",
   inputs,
   inputDocs,
@@ -194,4 +194,4 @@ const snow = readerWithOptions({
     "SELECT variable, raw_value, raw_unit, value_mm, valid_at FROM nws.main.snow_analysis_at(40,-105) ORDER BY variable, raster_id",
   exampleDescription: "Inspect current analyzed snow depth and water equivalent near Boulder",
 });
-export const LAND_FUNCTIONS = [...soil, ...anomalies, ...snow];
+export const LAND_FUNCTIONS = [soil, anomalies, snow];

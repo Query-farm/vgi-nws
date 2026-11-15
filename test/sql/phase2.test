@@ -252,9 +252,9 @@ SELECT * FROM nws.main.gauges_near('NaN'::DOUBLE,-78);
 ----
 Invalid non-finite
 
-# Positional JSON options also work on stock DuckDB 2.0.0 (duckdb#27833 workaround).
+# Named options in correlated calls.
 query II
-SELECT s.id, count(o.object_id) FROM (VALUES (1,38.0),(2,38.0),(3,NULL),(4,0.0)) s(id,lat) LEFT JOIN LATERAL nws.compat.severe_outlook_at(s.lat,-78,'{"page_size":1}') o ON true GROUP BY s.id ORDER BY s.id;
+SELECT s.id, count(o.object_id) FROM (VALUES (1,38.0),(2,38.0),(3,NULL),(4,0.0)) s(id,lat) LEFT JOIN LATERAL nws.main.severe_outlook_at(s.lat,-78, page_size := 1) o ON true GROUP BY s.id ORDER BY s.id;
 ----
 1	2
 2	2
@@ -262,14 +262,14 @@ SELECT s.id, count(o.object_id) FROM (VALUES (1,38.0),(2,38.0),(3,NULL),(4,0.0))
 4	0
 
 query II
-SELECT s.id, count(g.gauge_id) FROM (VALUES(1,37.5407),(2,37.5407),(3,NULL)) s(id,lat) LEFT JOIN LATERAL nws.compat.gauges_near(s.lat,-77.436,'{"state":"VA","radius_km":50}') g ON true GROUP BY s.id ORDER BY s.id;
+SELECT s.id, count(g.gauge_id) FROM (VALUES(1,37.5407),(2,37.5407),(3,NULL)) s(id,lat) LEFT JOIN LATERAL nws.main.gauges_near(s.lat,-77.436, state := 'VA', radius_km := 50) g ON true GROUP BY s.id ORDER BY s.id;
 ----
 1	2
 2	2
 3	0
 
 query T
-SELECT n.gauge_id FROM (VALUES('RMDV2')) g(id), LATERAL nws.compat.river_network(g.id,'{"direction":"downstream"}') n;
+SELECT n.gauge_id FROM (VALUES('RMDV2')) g(id), LATERAL nws.main.river_network(g.id, direction := 'downstream') n;
 ----
 RICV2
 
@@ -279,21 +279,6 @@ SELECT count(*) FROM nws.main.gauges(bbox := '-100,30,-60,50',state := 'VA');
 4
 
 statement error
-SELECT * FROM nws.compat.severe_outlook_at(38,-78,'{"unknown":1}');
-----
-Unknown options_json key
-
-statement error
-SELECT * FROM nws.compat.severe_outlook_at(38,-78,'{"include_geometry":"false"}');
-----
-Invalid options_json value
-
-statement error
-SELECT * FROM nws.compat.severe_outlook_at(38,-78,'{"page_size":1,"max_pages":1}');
+SELECT * FROM nws.main.severe_outlook_at(38,-78, page_size := 1, max_pages := 1);
 ----
 max_pages
-
-statement error
-SELECT * FROM nws.compat.climate_outlook_at(38,-78,'{"variable":"humidity"}');
-----
-Invalid options_json choice

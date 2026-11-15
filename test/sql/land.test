@@ -296,27 +296,27 @@ SELECT count(*) = 80 AND count(DISTINCT s.id) = 40 FROM (SELECT i AS id, 38+(i%2
 ----
 1
 
-# land-compat-soil_moisture_at
+# land-named-lateral-soil_moisture_at
 query I
-SELECT count(*) = 2 FROM (VALUES(38),(38),(NULL)) s(lat), LATERAL nws.compat.soil_moisture_at(s.lat,-78,'{"region":"conus"}') r;
+SELECT count(*) = 2 FROM (VALUES(38),(38),(NULL)) s(lat), LATERAL nws.main.soil_moisture_at(s.lat,-78, region := 'conus') r;
 ----
 1
 
-# land-compat-precipitation_anomaly_at
+# land-named-lateral-precipitation_anomaly_at
 query I
-SELECT count(*) = 2 FROM (VALUES(38),(38),(NULL)) s(lat), LATERAL nws.compat.precipitation_anomaly_at(s.lat,-78,'{"period":"day7","metric":"departure"}') r;
+SELECT count(*) = 2 FROM (VALUES(38),(38),(NULL)) s(lat), LATERAL nws.main.precipitation_anomaly_at(s.lat,-78, period := 'day7', metric := 'departure') r;
 ----
 1
 
-# land-compat-snow_analysis_at
+# land-named-lateral-snow_analysis_at
 query I
-SELECT count(*) = 2 FROM (VALUES(38),(38),(NULL)) s(lat), LATERAL nws.compat.snow_analysis_at(s.lat,-78,'{"variable":"water_equivalent"}') r;
+SELECT count(*) = 2 FROM (VALUES(38),(38),(NULL)) s(lat), LATERAL nws.main.snow_analysis_at(s.lat,-78, variable := 'water_equivalent') r;
 ----
 1
 
-# land-compat-storm_reports_near
+# land-named-lateral-storm_reports_near
 query I
-SELECT count(*) = 4 FROM (VALUES(38),(38),(NULL)) s(lat), LATERAL nws.compat.storm_reports_near(s.lat,-78,'{"radius_km":50,"event":"Hail","state":"VA","page_size":1}') r;
+SELECT count(*) = 4 FROM (VALUES(38),(38),(NULL)) s(lat), LATERAL nws.main.storm_reports_near(s.lat,-78, radius_km := 50, event := 'Hail', state := 'VA', page_size := 1) r;
 ----
 1
 
@@ -529,22 +529,22 @@ SELECT * FROM nws.main.snow_analysis_at(44,-78);
 <REGEX>:.*
 
 statement error
-SELECT * FROM nws.compat.soil_moisture_at(38,-78,'{"region":"invalid"}');
+SELECT * FROM nws.main.soil_moisture_at(38,-78, region := 'invalid');
 ----
 <REGEX>:.*
 
 statement error
-SELECT * FROM nws.compat.precipitation_anomaly_at(38,-78,'{"period":"hour1"}');
+SELECT * FROM nws.main.precipitation_anomaly_at(38,-78, period := 'hour1');
 ----
 <REGEX>:.*
 
 statement error
-SELECT * FROM nws.compat.snow_analysis_at(38,-78,'{"variable":"snowfall"}');
+SELECT * FROM nws.main.snow_analysis_at(38,-78, variable := 'snowfall');
 ----
 <REGEX>:.*
 
 statement error
-SELECT * FROM nws.compat.storm_reports_near(38,-78,'{"radius_km":0}');
+SELECT * FROM nws.main.storm_reports_near(38,-78, radius_km := 0);
 ----
 <REGEX>:.*
 

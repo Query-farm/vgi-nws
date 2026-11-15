@@ -1,7 +1,7 @@
 import { BBOX_OPTION, GIS_COLUMNS, GIS_OPTIONS } from "./gis.ts";
 import { mapFeatures, mapLayers } from "./map_catalog.ts";
 import { choose } from "./outlooks.ts";
-import { type Args, type Col, obj, type Page, readerWithOptions, str } from "./reader.ts";
+import { type Args, type Col, obj, type Page, reader, str } from "./reader.ts";
 
 const SUMMARY = "tropical:tropical/NHC_tropical_weather_summary/MapServer";
 export const TROPICAL_PRODUCTS: Record<string, [string, string]> = Object.fromEntries(
@@ -67,8 +67,8 @@ export async function tropicalFeatures(a: Args, cursor: string | undefined, atPo
     }),
   };
 }
-export const TROPICAL_FUNCTIONS = [false, true].flatMap((at) =>
-  readerWithOptions({
+export const TROPICAL_FUNCTIONS = [false, true].map((at) =>
+  reader({
     name: `tropical_features${at ? "_at" : ""}`,
     inputs: at ? { latitude: "number", longitude: "number" } : undefined,
     description:

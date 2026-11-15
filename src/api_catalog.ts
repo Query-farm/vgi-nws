@@ -11,7 +11,7 @@ import {
   obj,
   type Page,
   provenance,
-  readerWithOptions,
+  reader,
   str,
 } from "./reader.ts";
 
@@ -220,7 +220,7 @@ export async function apiRows(a: Args, cursor?: string): Promise<Page> {
   };
 }
 export const API_FUNCTIONS = [
-  ...readerWithOptions({
+  reader({
     name: "api_endpoints",
     category: "reference",
     description:
@@ -256,7 +256,7 @@ export const API_FUNCTIONS = [
       "SELECT operation_id, description, parameters_json FROM nws.main.api_endpoints(service := 'aviation') WHERE NOT deprecated ORDER BY operation_id",
     exampleDescription: "Discover current aviation products and required filters",
   }),
-  ...readerWithOptions({
+  reader({
     name: "api_rows",
     inputs: { service: "text", operation_id: "text", parameters_json: "text" },
     inputDocs: {
@@ -270,7 +270,6 @@ export const API_FUNCTIONS = [
     columns,
     constraints: { service: { choices: Object.keys(SOURCES) } },
     read: apiRows,
-    exampleInputs: ["'aviation'", "'metar'", '\'{"ids":"KCHO"}\''],
     example:
       "SELECT record_id, record_json FROM nws.main.api_rows('aviation','metar','{\"ids\":\"KCHO\"}') ORDER BY row_index",
     exampleDescription: "Read decoded METAR records with their full native fields and units",

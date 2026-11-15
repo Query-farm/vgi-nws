@@ -17,7 +17,7 @@ import {
   provenance,
   query,
   type Row,
-  readerWithOptions,
+  reader,
   str,
 } from "./reader.ts";
 
@@ -210,22 +210,23 @@ export async function imagePage(a: Args, cursor?: string): Promise<Page> {
   }
   return { rows, next };
 }
-export const IMAGE_FUNCTIONS = readerWithOptions({
-  name: "map_image_at",
-  inputs: { product_id: "text", latitude: "number", longitude: "number" },
-  inputDocs: {
-    product_id: "ImageServer identifier returned by map_products; NULL emits no rows.",
-    latitude: "WGS84 latitude, -90 to 90; NULL emits no rows.",
-    longitude: "WGS84 longitude, -180 to 180; NULL emits no rows.",
-  },
-  description:
-    "Sample every matching native raster in a NWS ImageServer at a point, preserving temporal slices and separate bands. Enumerates the image catalog and samples explicitly locked raster IDs in bounded pages, avoiding the service's silent mosaic limit. Optional dates filter native validity intervals. Native pixel values are not guaranteed physical measurements: some radar services contain color bands. No units, probabilities, or missing timestamps are invented. This is the currently published catalog, not a historical archive. Changes between catalog enumeration and sampling fail explicitly.",
-  options: IMAGE_OPTIONS,
-  constraints: { page_size: { ge: 1, le: 20 } },
-  columns: IMAGE_COLUMNS,
-  read: imagePage,
-  example:
-    "SELECT valid_from, raw_value, band_index FROM nws.main.map_image_at('raster:air_quality/ndgd_apm25_hr01/ImageServer',38.0293,-78.4767) ORDER BY valid_from, raster_id, band_index",
-  exampleDescription: "Read the available hourly PM2.5 raster series at Charlottesville",
-  exampleInputs: ["'raster:air_quality/ndgd_apm25_hr01/ImageServer'", "38.0293", "-78.4767"],
-});
+export const IMAGE_FUNCTIONS = [
+  reader({
+    name: "map_image_at",
+    inputs: { product_id: "text", latitude: "number", longitude: "number" },
+    inputDocs: {
+      product_id: "ImageServer identifier returned by map_products; NULL emits no rows.",
+      latitude: "WGS84 latitude, -90 to 90; NULL emits no rows.",
+      longitude: "WGS84 longitude, -180 to 180; NULL emits no rows.",
+    },
+    description:
+      "Sample every matching native raster in a NWS ImageServer at a point, preserving temporal slices and separate bands. Enumerates the image catalog and samples explicitly locked raster IDs in bounded pages, avoiding the service's silent mosaic limit. Optional dates filter native validity intervals. Native pixel values are not guaranteed physical measurements: some radar services contain color bands. No units, probabilities, or missing timestamps are invented. This is the currently published catalog, not a historical archive. Changes between catalog enumeration and sampling fail explicitly.",
+    options: IMAGE_OPTIONS,
+    constraints: { page_size: { ge: 1, le: 20 } },
+    columns: IMAGE_COLUMNS,
+    read: imagePage,
+    example:
+      "SELECT valid_from, raw_value, band_index FROM nws.main.map_image_at('raster:air_quality/ndgd_apm25_hr01/ImageServer',38.0293,-78.4767) ORDER BY valid_from, raster_id, band_index",
+    exampleDescription: "Read the available hourly PM2.5 raster series at Charlottesville",
+  }),
+];

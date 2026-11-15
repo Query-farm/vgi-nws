@@ -1,5 +1,5 @@
 import { BBOX_OPTION, GIS_COLUMNS, GIS_OPTIONS, gisPage, gisTime } from "./gis.ts";
-import { type Args, arr, type Col, num, obj, type Page, type Row, readerWithOptions, str } from "./reader.ts";
+import { type Args, arr, type Col, num, obj, type Page, type Row, reader, str } from "./reader.ts";
 import { distanceKm, radiusBounds } from "./spatial.ts";
 import { STATE_BOUNDS } from "./state_bounds.ts";
 
@@ -82,9 +82,9 @@ export async function stormReports(a: Args, cursor: string | undefined, nearby: 
   }
   return { rows, next: result.next };
 }
-export const STORM_REPORT_FUNCTIONS = [false, true].flatMap((nearby) => {
+export const STORM_REPORT_FUNCTIONS = [false, true].map((nearby) => {
   const name = nearby ? "storm_reports_near" : "storm_reports";
-  return readerWithOptions({
+  return reader({
     name,
     inputs: nearby ? { latitude: "number", longitude: "number" } : undefined,
     inputDocs: nearby

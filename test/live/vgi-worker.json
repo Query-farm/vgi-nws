@@ -458,8 +458,8 @@
       ]
     },
     {
-      "name": "phase2-stock-options-lateral",
-      "sql": "SELECT count(*) > 0 AND count(DISTINCT s.id) = 2 FROM (VALUES(1,38.0293),(2,38.0293),(3,NULL)) s(id,lat), LATERAL nws.compat.climate_outlook_at(s.lat,-78.4767,'{\"period\":\"6_10_day\",\"variable\":\"precipitation\"}') o",
+      "name": "phase2-stock-named-options",
+      "sql": "SELECT count(*) > 0 FROM nws.main.climate_outlook_at(38.0293,-78.4767, period := '6_10_day', variable := 'precipitation')",
       "rows": [
         [
           true
@@ -809,8 +809,8 @@
       ]
     },
     {
-      "name": "extensions-compat-qpe",
-      "sql": "SELECT count(*) = 2 FROM (VALUES(38.0293),(38.0293),(NULL)) s(lat), LATERAL nws.compat.precipitation_observed_at(s.lat,-78.4767,'{\"period\":\"hour24\"}') q",
+      "name": "extensions-named-qpe",
+      "sql": "SELECT count(*) = 1 FROM nws.main.precipitation_observed_at(38.0293,-78.4767, period := 'hour24')",
       "rows": [
         [
           true
@@ -818,8 +818,8 @@
       ]
     },
     {
-      "name": "extensions-compat-rating",
-      "sql": "SELECT count(*) = 4 FROM (VALUES('RMDV2'),('RMDV2'),(NULL)) s(id), LATERAL nws.compat.rating_curve(s.id,'{\"row_limit\":2}') r",
+      "name": "extensions-named-rating",
+      "sql": "SELECT count(*) = 2 FROM nws.main.rating_curve('RMDV2', row_limit := 2)",
       "rows": [
         [
           true
@@ -827,8 +827,8 @@
       ]
     },
     {
-      "name": "extensions-compat-model",
-      "sql": "SELECT count(*) > 0 AND count(DISTINCT s.n) = 2 FROM (VALUES(1,'23021904'),(2,'23021904'),(3,NULL)) s(n,id), LATERAL nws.compat.reach_streamflow(s.id,'{\"series\":\"short_range\"}') r",
+      "name": "extensions-named-model",
+      "sql": "SELECT count(*) > 0 FROM nws.main.reach_streamflow('23021904', series := 'short_range')",
       "rows": [
         [
           true
@@ -836,8 +836,8 @@
       ]
     },
     {
-      "name": "extensions-compat-winter_precipitation_at",
-      "sql": "SELECT count(*) >= 0 FROM (VALUES(40.0),(NULL)) s(lat), LATERAL nws.compat.winter_precipitation_at(s.lat,-105,'{\"hazard\":\"ice\",\"threshold_inches\":0.25}') r",
+      "name": "extensions-named-winter_precipitation_at",
+      "sql": "SELECT count(*) >= 0 FROM nws.main.winter_precipitation_at(40.0,-105, hazard := 'ice', threshold_inches := 0.25)",
       "rows": [
         [
           true
@@ -845,8 +845,8 @@
       ]
     },
     {
-      "name": "extensions-compat-winter_storm_severity_at",
-      "sql": "SELECT count(*) >= 0 FROM (VALUES(40.0),(NULL)) s(lat), LATERAL nws.compat.winter_storm_severity_at(s.lat,-105,'{\"period\":\"day1\"}') r",
+      "name": "extensions-named-winter_storm_severity_at",
+      "sql": "SELECT count(*) >= 0 FROM nws.main.winter_storm_severity_at(40.0,-105, period := 'day1')",
       "rows": [
         [
           true
@@ -1007,8 +1007,8 @@
       ]
     },
     {
-      "name": "land-compat-soil_moisture_at",
-      "sql": "SELECT count(*) >= 2 AND count(DISTINCT s.id) = 2 FROM (VALUES(1,38.0293),(2,38.0293),(3,NULL)) s(id,lat), LATERAL nws.compat.soil_moisture_at(s.lat,-78.4767,'{\"region\":\"conus\"}') r",
+      "name": "land-named-soil_moisture_at",
+      "sql": "SELECT count(*) >= 1 FROM nws.main.soil_moisture_at(38.0293,-78.4767, region := 'conus')",
       "rows": [
         [
           true
@@ -1016,8 +1016,8 @@
       ]
     },
     {
-      "name": "land-compat-precipitation_anomaly_at",
-      "sql": "SELECT count(*) >= 2 AND count(DISTINCT s.id) = 2 FROM (VALUES(1,38.0293),(2,38.0293),(3,NULL)) s(id,lat), LATERAL nws.compat.precipitation_anomaly_at(s.lat,-78.4767,'{\"period\":\"day7\",\"metric\":\"departure\"}') r",
+      "name": "land-named-precipitation_anomaly_at",
+      "sql": "SELECT count(*) >= 1 FROM nws.main.precipitation_anomaly_at(38.0293,-78.4767, period := 'day7', metric := 'departure')",
       "rows": [
         [
           true
@@ -1025,8 +1025,8 @@
       ]
     },
     {
-      "name": "land-compat-snow_analysis_at",
-      "sql": "SELECT count(*) >= 2 AND count(DISTINCT s.id) = 2 FROM (VALUES(1,38.0293),(2,38.0293),(3,NULL)) s(id,lat), LATERAL nws.compat.snow_analysis_at(s.lat,-78.4767,'{\"variable\":\"depth\"}') r",
+      "name": "land-named-snow_analysis_at",
+      "sql": "SELECT count(*) >= 1 FROM nws.main.snow_analysis_at(38.0293,-78.4767, variable := 'depth')",
       "rows": [
         [
           true
@@ -1034,8 +1034,8 @@
       ]
     },
     {
-      "name": "land-compat-storm",
-      "sql": "SELECT count(*) >= 0 AND coalesce(bool_and(distance_km BETWEEN 0 AND 100),true) FROM (VALUES(38.0293),(NULL)) s(lat), LATERAL nws.compat.storm_reports_near(s.lat,-78.4767,'{\"radius_km\":100}') r",
+      "name": "land-named-storm",
+      "sql": "SELECT count(*) >= 0 AND coalesce(bool_and(distance_km BETWEEN 0 AND 100),true) FROM nws.main.storm_reports_near(38.0293,-78.4767, radius_km := 100)",
       "rows": [
         [
           true

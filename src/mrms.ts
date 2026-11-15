@@ -3,7 +3,7 @@ import { gisTime } from "./gis.ts";
 import { gribSample } from "./grib.ts";
 import { getBytes, getText } from "./http.ts";
 import { MRMS_FIELDS, MRMS_FIELDS_SOURCE, type MrmsField } from "./mrms_fields.ts";
-import { type Args, coords, type Page, provenance, readerWithOptions } from "./reader.ts";
+import { type Args, coords, type Page, provenance, reader } from "./reader.ts";
 
 export function mrmsPath(value: unknown): string {
   if (
@@ -145,7 +145,7 @@ export async function mrmsAt(a: Args): Promise<Page> {
   };
 }
 export const MRMS_FUNCTIONS = [
-  ...readerWithOptions({
+  reader({
     name: "mrms_products",
     category: "reference",
     description:
@@ -173,7 +173,7 @@ export const MRMS_FUNCTIONS = [
       "SELECT product_id, unit, description FROM nws.main.mrms_products() WHERE kind = 'directory' ORDER BY product_id",
     exampleDescription: "Discover quantitative MRMS radar and precipitation products",
   }),
-  ...readerWithOptions({
+  reader({
     name: "mrms_at",
     inputs: { product_id: "text", latitude: "number", longitude: "number" },
     inputDocs: {
@@ -181,7 +181,6 @@ export const MRMS_FUNCTIONS = [
       latitude: "WGS84 latitude; NULL emits no rows.",
       longitude: "WGS84 longitude; NULL emits no rows.",
     },
-    exampleInputs: ["'2D/PrecipRate'", "38.0293", "-78.4767"],
     description:
       "Download and decode a native MRMS GRIB2 grid to return the nearest grid-cell value, not a rendered color. Uses native ECMWF ecCodes for regular latitude/longitude GRIB2 grids and the packing codecs enabled in that build, including PNG. Requires grib_ls and grib_get on PATH or in NWS_ECCODES_BIN. Defaults to the latest retained file and lowest available native file level; specify file_time and level to reproduce a listed file. Returns physical units and distinct missing/no-coverage/range-folded codes from NOAA's parameter table, preserving raw_value. Zero remains numeric even when a source table uses ambiguous zero codes, which are labeled. Unknown parameter codes retain raw values and NULL units. Outside the grid emits no rows. Unsupported/corrupt encodings fail explicitly. Each call reads a complete source grid: compressed downloads are bounded to 32 MiB, GRIB messages to 64 MiB, and grids to 64 million points. Native decoding is serialized per worker process with a 30-second limit per ecCodes command. Shared HTTP caching reduces repeated downloads; use GIS QPE sampling for lightweight routine rainfall queries.",
     options: {

@@ -1,5 +1,5 @@
 import { BBOX_OPTION, GIS_COLUMNS, GIS_OPTIONS, gisPage, gisTime, type Layer } from "./gis.ts";
-import { type Args, type Col, num, type ObjectData, type Row, readerWithOptions, type Spec, str } from "./reader.ts";
+import { type Args, type Col, num, type ObjectData, type Row, reader, type Spec, str } from "./reader.ts";
 
 const points = { latitude: "number", longitude: "number" } as const;
 const pointDocs = {
@@ -36,9 +36,9 @@ interface Product {
   exampleOptions?: string;
 }
 export function pair(product: Product) {
-  return [false, true].flatMap((atPoint) => {
+  return [false, true].map((atPoint) => {
     const name = `${product.name}${atPoint ? "_at" : ""}`;
-    return readerWithOptions({
+    return reader({
       name,
       inputs: atPoint ? points : undefined,
       inputDocs: atPoint ? pointDocs : undefined,

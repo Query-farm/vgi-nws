@@ -28,9 +28,17 @@ afterAll(() => {
   else process.env.NWPS_API_BASE_URL = savedWater;
 });
 test("catalog contains all 92 domain functions with example SQL", () => {
-  expect(FUNCTIONS.length).toBe(129);
+  expect(FUNCTIONS.length).toBe(92);
   expect(new Set(FUNCTIONS.map((f) => f.meta.name)).size).toBe(92);
+  expect(CATALOG.schemas.map((s) => s.path?.join("."))).toEqual(["main"]);
   for (const f of FUNCTIONS) expect(f.meta.examples?.length).toBeGreaterThan(0);
+});
+test("catalog comment is one short plain-text paragraph", () => {
+  const comment = CATALOG.comment ?? "";
+  expect(comment.length).toBeGreaterThan(0);
+  expect(comment.length).toBeLessThanOrEqual(300);
+  expect(comment).not.toMatch(/[#`*[\]\n]/);
+  expect(CATALOG.tags?.["vgi.doc_md"]).toContain("forecast_hourly");
 });
 test("composed examples lead the schema list and sit in the driving function's first five", () => {
   const schemaSql = JSON.parse(CATALOG.schemas[0]?.tags?.["vgi.example_queries"] ?? "[]").map(
@@ -38,7 +46,7 @@ test("composed examples lead the schema list and sit in the driving function's f
   );
   expect(new Set(schemaSql).size).toBe(schemaSql.length);
   for (const [name, examples] of Object.entries(COMPOSED_EXAMPLES)) {
-    const fn = FUNCTIONS.find((f) => f.meta.name === name && f.meta.tags?.["nws.compat"] !== "true");
+    const fn = FUNCTIONS.find((f) => f.meta.name === name);
     const published = JSON.parse(fn?.meta.tags?.["vgi.example_queries"] ?? "[]").map((e: { sql: string }) => e.sql);
     for (const ex of examples) {
       expect(published.slice(0, 5)).toContain(ex.sql);

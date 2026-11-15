@@ -68,8 +68,8 @@ vgi-agent-tests.yaml  # private graders for the agent test tasks
 
 1. Add a reader specification in `src/weather.ts` or `src/water.ts`, using
    `src/reader.ts` for pagination and column/LATERAL calls. GIS products
-   live in `src/outlooks.ts` and `src/winter.ts`; the `nws.compat` schema provides positional JSON
-   options for stock DuckDB 2.0.0 correlated calls. The standalone SDK
+   live in `src/outlooks.ts` and `src/winter.ts`. Options are named arguments,
+   also inside `LATERAL` calls (DuckDB 2.0.1 or later). The standalone SDK
    recipes in `examples/` cover other function shapes.
 2. Declare arguments: `params` + `argDocs` (scalars), or the ordered `parameters`
    list when a constant needs `choices`/`ge`/`le`. Table functions use `args`,

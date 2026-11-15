@@ -1,7 +1,7 @@
 import { fileCursor, listingLinks } from "./file_products.ts";
 import { gisTime } from "./gis.ts";
 import { getJson, getText } from "./http.ts";
-import { type Args, arr, json, num, obj, type Page, provenance, type Row, readerWithOptions } from "./reader.ts";
+import { type Args, arr, json, num, obj, type Page, provenance, type Row, reader } from "./reader.ts";
 
 export function spacePath(value: unknown, directory: boolean): string {
   if (
@@ -153,7 +153,7 @@ export async function spaceRows(a: Args, cursor?: string): Promise<Page> {
   };
 }
 export const SPACE_WEATHER_FUNCTIONS = [
-  ...readerWithOptions({
+  reader({
     name: "space_weather_products",
     category: "reference",
     description:
@@ -178,11 +178,10 @@ export const SPACE_WEATHER_FUNCTIONS = [
       "SELECT product_id, kind FROM nws.main.space_weather_products(folder := 'json/goes/primary') ORDER BY product_id",
     exampleDescription: "Discover current GOES space-weather feeds",
   }),
-  ...readerWithOptions({
+  reader({
     name: "space_weather_rows",
     inputs: { product_id: "text" },
     inputDocs: { product_id: "Exact JSON/text product path returned by space_weather_products; NULL emits no rows." },
-    exampleInputs: ["'products/noaa-scales.json'"],
     description:
       "Read SWPC data records or original forecast/alert bulletin text. Object arrays emit native records; header-row tables become objects without changing native string/number/null values. NOAA-scale horizon keys remain record_key. Aurora grids emit one longitude/latitude/aurora row with original model timing and format in context_json. No physical units, missing codes or risk category are invented; consult native fields and the product's documentation. Explicit native UTC time_tag and aurora timestamps are exposed when available. Pages retain a source-content fingerprint and fail if the file changes mid-read. This is current published space-weather data, not a comprehensive archive.",
     options: {

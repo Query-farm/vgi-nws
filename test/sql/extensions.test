@@ -687,59 +687,59 @@ SELECT count(*) FROM nws.main.historic_low_water(NULL);
 ----
 0
 
-# extensions-compat-winter_precipitation_at
+# extensions-named-lateral-winter_precipitation_at
 query II
-SELECT s.i, count(o.object_id) FROM (VALUES(1,38.0),(2,38.0),(3,NULL)) s(i,lat) LEFT JOIN LATERAL nws.compat.winter_precipitation_at(s.lat,-78,'{"hazard":"ice","threshold_inches":0.25,"page_size":1}') o ON true GROUP BY s.i ORDER BY s.i;
+SELECT s.i, count(o.object_id) FROM (VALUES(1,38.0),(2,38.0),(3,NULL)) s(i,lat) LEFT JOIN LATERAL nws.main.winter_precipitation_at(s.lat,-78, hazard := 'ice', threshold_inches := 0.25, page_size := 1) o ON true GROUP BY s.i ORDER BY s.i;
 ----
 1	2
 2	2
 3	0
 
-# extensions-compat-winter_storm_severity_at
+# extensions-named-lateral-winter_storm_severity_at
 query II
-SELECT s.i, count(o.object_id) FROM (VALUES(1,38.0),(2,38.0),(3,NULL)) s(i,lat) LEFT JOIN LATERAL nws.compat.winter_storm_severity_at(s.lat,-78,'{"period":"day2","component":"ice","page_size":1}') o ON true GROUP BY s.i ORDER BY s.i;
+SELECT s.i, count(o.object_id) FROM (VALUES(1,38.0),(2,38.0),(3,NULL)) s(i,lat) LEFT JOIN LATERAL nws.main.winter_storm_severity_at(s.lat,-78, period := 'day2', component := 'ice', page_size := 1) o ON true GROUP BY s.i ORDER BY s.i;
 ----
 1	2
 2	2
 3	0
 
-# extensions-compat-climate_outlook_at
+# extensions-named-lateral-climate_outlook_at
 query II
-SELECT s.i, count(o.object_id) FROM (VALUES(1,38.0),(2,38.0),(3,NULL)) s(i,lat) LEFT JOIN LATERAL nws.compat.climate_outlook_at(s.lat,-78,'{"period":"seasonal","lead":13}') o ON true GROUP BY s.i ORDER BY s.i;
+SELECT s.i, count(o.object_id) FROM (VALUES(1,38.0),(2,38.0),(3,NULL)) s(i,lat) LEFT JOIN LATERAL nws.main.climate_outlook_at(s.lat,-78, period := 'seasonal', lead := 13) o ON true GROUP BY s.i ORDER BY s.i;
 ----
 1	2
 2	2
 3	0
 
-# extensions-compat-fire_outlook_at
+# extensions-named-lateral-fire_outlook_at
 query II
-SELECT s.i, count(o.object_id) FROM (VALUES(1,38.0),(2,38.0),(3,NULL)) s(i,lat) LEFT JOIN LATERAL nws.compat.fire_outlook_at(s.lat,-78,'{"day":8,"hazard":"dry_thunderstorm"}') o ON true GROUP BY s.i ORDER BY s.i;
+SELECT s.i, count(o.object_id) FROM (VALUES(1,38.0),(2,38.0),(3,NULL)) s(i,lat) LEFT JOIN LATERAL nws.main.fire_outlook_at(s.lat,-78, day := 8, hazard := 'dry_thunderstorm') o ON true GROUP BY s.i ORDER BY s.i;
 ----
 1	2
 2	2
 3	0
 
-# extensions-compat-qpe
+# extensions-named-lateral-qpe
 query IR
-SELECT count(*), sum(o.precipitation) FROM (VALUES(38.0),(38.0),(NULL)) s(lat), LATERAL nws.compat.precipitation_observed_at(s.lat,-78,'{"period":"day7"}') o;
+SELECT count(*), sum(o.precipitation) FROM (VALUES(38.0),(38.0),(NULL)) s(lat), LATERAL nws.main.precipitation_observed_at(s.lat,-78, period := 'day7') o;
 ----
 2	2.5
 
-# extensions-compat-rating
+# extensions-named-lateral-rating
 query II
-SELECT count(*), bool_and(possibly_truncated) FROM (VALUES('RMDV2'),('RMDV2'),(NULL)) s(id), LATERAL nws.compat.rating_curve(s.id,'{"row_limit":1,"sort":"DESC"}') r;
+SELECT count(*), bool_and(possibly_truncated) FROM (VALUES('RMDV2'),('RMDV2'),(NULL)) s(id), LATERAL nws.main.rating_curve(s.id, row_limit := 1, sort := 'DESC') r;
 ----
 2	1
 
-# extensions-compat-streamflow
+# extensions-named-lateral-streamflow
 query II
-SELECT count(*), count(DISTINCT member) FROM (VALUES('23021904'),('23021904'),(NULL)) s(id), LATERAL nws.compat.reach_streamflow(s.id,'{"series":"long_range"}') r;
+SELECT count(*), count(DISTINCT member) FROM (VALUES('23021904'),('23021904'),(NULL)) s(id), LATERAL nws.main.reach_streamflow(s.id, series := 'long_range') r;
 ----
 12	3
 
 # extensions-batch-winter
 query I
-SELECT count(*) FROM range(40) t(i), LATERAL nws.compat.winter_precipitation_at(38+i*0.001,-78,'{"page_size":1}') o;
+SELECT count(*) FROM range(40) t(i), LATERAL nws.main.winter_precipitation_at(38+i*0.001,-78, page_size := 1) o;
 ----
 80
 
@@ -821,22 +821,22 @@ SELECT * FROM nws.main.reach_streamflow('23021904',series := 'bogus');
 <REGEX>:.*
 
 statement error
-SELECT * FROM nws.compat.winter_precipitation_at(38,-78,'{"hazard":"ice"}');
+SELECT * FROM nws.main.winter_precipitation_at(38,-78, hazard := 'ice');
 ----
 <REGEX>:.*
 
 statement error
-SELECT * FROM nws.compat.climate_outlook_at(38,-78,'{"period":"monthly","lead":2}');
+SELECT * FROM nws.main.climate_outlook_at(38,-78, period := 'monthly', lead := 2);
 ----
 <REGEX>:.*
 
 statement error
-SELECT * FROM nws.compat.rating_curve('RMDV2','{"row_limit":1.5}');
+SELECT * FROM nws.main.rating_curve('RMDV2', row_limit := 1.5);
 ----
 <REGEX>:.*
 
 statement error
-SELECT * FROM nws.compat.precipitation_observed_at(38,-78,'{"period":"nonsense"}');
+SELECT * FROM nws.main.precipitation_observed_at(38,-78, period := 'nonsense');
 ----
 <REGEX>:.*
 

@@ -1,5 +1,5 @@
 import { postJson } from "./http.ts";
-import { type Args, arr, json, obj, type Page, provenance, readerWithOptions, str } from "./reader.ts";
+import { type Args, arr, json, obj, type Page, provenance, reader, str } from "./reader.ts";
 
 export async function riverGlance(a: Args): Promise<Page> {
   if (typeof a.gauge_ids !== "string") throw new Error("gauge_ids must be comma-separated NWS gauge LIDs");
@@ -25,26 +25,27 @@ export async function riverGlance(a: Args): Promise<Page> {
     }),
   };
 }
-export const WATER_GLANCE_FUNCTIONS = readerWithOptions({
-  name: "river_at_a_glance",
-  category: "water",
-  inputs: { gauge_ids: "text" },
-  inputDocs: {
-    gauge_ids:
-      "Comma-separated NWS gauge LIDs, case-insensitive, with duplicates removed. NULL emits no rows. The reader enforces the documented batch-size limit.",
-  },
-  description:
-    "Read the NWPS River at a Glance view for a bounded list of gauge LIDs. Uses the documented read-only POST endpoint with a rivers array. Retains all original flood statement fields and text; a missing gauge or empty statements is not interpreted as proof of no flood risk. Use stageflow and flood_thresholds for typed measurements and levels.",
-  columns: [
-    ["gauge_id", "text", "Native gauge LID."],
-    ["name", "text", "Gauge name."],
-    ["office_id", "text", "Responsible WFO."],
-    ["rfc_id", "text", "River forecast center."],
-    ["flood_statements_json", "text", "Complete native flood statement array, retaining units and dates."],
-    ["record_json", "text", "Original gauge summary record."],
-  ],
-  read: riverGlance,
-  exampleInputs: ["'RMDV2'"],
-  example: "SELECT gauge_id, name, flood_statements_json FROM nws.main.river_at_a_glance('RMDV2') ORDER BY gauge_id",
-  exampleDescription: "Read flood statements in the River at a Glance view for Richmond-Westham",
-});
+export const WATER_GLANCE_FUNCTIONS = [
+  reader({
+    name: "river_at_a_glance",
+    category: "water",
+    inputs: { gauge_ids: "text" },
+    inputDocs: {
+      gauge_ids:
+        "Comma-separated NWS gauge LIDs, case-insensitive, with duplicates removed. NULL emits no rows. The reader enforces the documented batch-size limit.",
+    },
+    description:
+      "Read the NWPS River at a Glance view for a bounded list of gauge LIDs. Uses the documented read-only POST endpoint with a rivers array. Retains all original flood statement fields and text; a missing gauge or empty statements is not interpreted as proof of no flood risk. Use stageflow and flood_thresholds for typed measurements and levels.",
+    columns: [
+      ["gauge_id", "text", "Native gauge LID."],
+      ["name", "text", "Gauge name."],
+      ["office_id", "text", "Responsible WFO."],
+      ["rfc_id", "text", "River forecast center."],
+      ["flood_statements_json", "text", "Complete native flood statement array, retaining units and dates."],
+      ["record_json", "text", "Original gauge summary record."],
+    ],
+    read: riverGlance,
+    example: "SELECT gauge_id, name, flood_statements_json FROM nws.main.river_at_a_glance('RMDV2') ORDER BY gauge_id",
+    exampleDescription: "Read flood statements in the River at a Glance view for Richmond-Westham",
+  }),
+];

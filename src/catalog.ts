@@ -12,15 +12,7 @@ import { HAZARD_EXTENSION_FUNCTIONS } from "./hazards_extended.ts";
 import { IMAGE_FUNCTIONS } from "./image_service.ts";
 import { LAND_FUNCTIONS } from "./land.ts";
 import { MAP_CATALOG_FUNCTIONS } from "./map_catalog.ts";
-import {
-  CATALOG_DOC_MD,
-  CATALOG_NAME,
-  CATALOG_TAGS,
-  SCHEMA_CATEGORIES,
-  SCHEMA_DOC_MD,
-  SCHEMA_TAGS,
-  SOURCE_URL,
-} from "./meta.ts";
+import { CATALOG_COMMENT, CATALOG_NAME, CATALOG_TAGS, SCHEMA_DOC_MD, SCHEMA_TAGS, SOURCE_URL } from "./meta.ts";
 import { MRMS_FUNCTIONS } from "./mrms.ts";
 import { NDBC_FUNCTIONS } from "./ndbc.ts";
 import { OUTLOOK_FUNCTIONS } from "./outlooks.ts";
@@ -86,25 +78,20 @@ function stampExampleQueries(functions: VgiFunction[], composed: Record<string, 
   return [...byName.values()].flat();
 }
 
-const MAIN_FUNCTIONS = FUNCTIONS.filter((fn) => fn.meta.tags?.["nws.compat"] !== "true");
-const COMPAT_FUNCTIONS = FUNCTIONS.filter((fn) => fn.meta.tags?.["nws.compat"] === "true");
-const ALL_EXAMPLES = stampExampleQueries(MAIN_FUNCTIONS, COMPOSED_EXAMPLES);
+const ALL_EXAMPLES = stampExampleQueries(FUNCTIONS, COMPOSED_EXAMPLES);
 const COMPOSED = Object.values(COMPOSED_EXAMPLES).flat();
 // Composed examples lead the schema list, followed by the first single-function examples.
 const SCHEMA_EXAMPLES = [...COMPOSED, ...ALL_EXAMPLES.filter((ex) => !COMPOSED.includes(ex)).slice(0, 12)];
-const COMPAT_EXAMPLES = stampExampleQueries(COMPAT_FUNCTIONS);
-const COMPAT_DOC =
-  "Positional JSON options for correlated SQL calls on stock DuckDB 2.0.0, whose binder cannot accept named options in a LATERAL call. These readers mirror the corresponding main-schema functions, with a final options_json positional argument. JSON keys and defaults match the main-schema named options. NULL inputs emit no rows; invalid JSON, unknown keys, and wrong value types raise errors.";
 
 export const CATALOG: CatalogDescriptor = {
   name: CATALOG_NAME,
-  comment: CATALOG_DOC_MD,
+  comment: CATALOG_COMMENT,
   sourceUrl: SOURCE_URL,
   tags: {
     ...CATALOG_TAGS,
     "vgi.agent_test_tasks": JSON.stringify([
       ...FUNCTIONS.map((fn) => ({
-        name: `${fn.meta.tags?.["nws.compat"] === "true" ? "compat_" : ""}${fn.meta.name}`,
+        name: fn.meta.name,
         prompt: `Using the nws worker, ${fn.meta.examples?.[0]?.description || fn.meta.description}.`,
       })),
       ...COMPOSED_TASKS,
@@ -114,21 +101,8 @@ export const CATALOG: CatalogDescriptor = {
     {
       path: ["main"],
       comment: SCHEMA_DOC_MD,
-      functions: MAIN_FUNCTIONS,
+      functions: FUNCTIONS,
       tags: { ...SCHEMA_TAGS, "vgi.example_queries": JSON.stringify(SCHEMA_EXAMPLES) },
-    },
-    {
-      path: ["compat"],
-      comment: COMPAT_DOC,
-      functions: COMPAT_FUNCTIONS,
-      tags: {
-        ...SCHEMA_TAGS,
-        "vgi.title": "SQL compatibility",
-        "vgi.categories": JSON.stringify(SCHEMA_CATEGORIES),
-        "vgi.doc_llm": COMPAT_DOC,
-        "vgi.doc_md": `## Correlated calls with options\n\n${COMPAT_DOC}\n\nUse the main schema for ordinary literal calls and for correlated calls with defaults. This schema offers positional configuration for customized correlated reads on stock DuckDB 2.0.0.`,
-        "vgi.example_queries": JSON.stringify(COMPAT_EXAMPLES.slice(0, 12)),
-      },
     },
   ],
 };

@@ -1,7 +1,7 @@
 /** RFC QPE raster sampling. Never interpret a rendered class/color as rainfall. */
 import { choose } from "./outlooks.ts";
 import { sampleRasters } from "./raster.ts";
-import { type Args, type Page, readerWithOptions } from "./reader.ts";
+import { type Args, type Page, reader } from "./reader.ts";
 
 export const QPE_PERIODS: Record<string, string> = {
   since_12z: "Since 12Z",
@@ -44,40 +44,42 @@ export async function observedPrecipitation(a: Args): Promise<Page> {
   return { rows: samples.map((r) => ({ ...r, period, precipitation: pixelValue(r.raw_value), unit: "inches" })) };
 }
 
-export const PRECIPITATION_FUNCTIONS = readerWithOptions({
-  name: "precipitation_observed_at",
-  description:
-    "Sample the latest RFC quantitative precipitation estimate raster at a WGS84 point. Values are estimated observed precipitation in inches, not forecasts or rain-gauge measurements. Period selects the published rolling/calendar accumulation. Native NoData is NULL, zero is retained, and no raster coverage returns no rows. Each overlapping raster remains a separate row: never sum these rows or overlapping periods. issued_at is the source issuance, not an asserted observation interval boundary. Raw pixels are used, never map color/class codes.",
-  inputs: { latitude: "number", longitude: "number" },
-  inputDocs: {
-    latitude: "WGS84 latitude, -90 to 90; NULL produces no rows.",
-    longitude: "WGS84 longitude, -180 to 180, west negative; NULL produces no rows.",
-  },
-  options: {
-    period: {
-      default: "hour24",
-      doc: "Latest RFC accumulation window. hour24 is rolling 24 hours; today is Today's Analysis. Additional rolling and calendar choices are listed in the constraint.",
+export const PRECIPITATION_FUNCTIONS = [
+  reader({
+    name: "precipitation_observed_at",
+    description:
+      "Sample the latest RFC quantitative precipitation estimate raster at a WGS84 point. Values are estimated observed precipitation in inches, not forecasts or rain-gauge measurements. Period selects the published rolling/calendar accumulation. Native NoData is NULL, zero is retained, and no raster coverage returns no rows. Each overlapping raster remains a separate row: never sum these rows or overlapping periods. issued_at is the source issuance, not an asserted observation interval boundary. Raw pixels are used, never map color/class codes.",
+    inputs: { latitude: "number", longitude: "number" },
+    inputDocs: {
+      latitude: "WGS84 latitude, -90 to 90; NULL produces no rows.",
+      longitude: "WGS84 longitude, -180 to 180, west negative; NULL produces no rows.",
     },
-  },
-  constraints: { period: { choices: Object.keys(QPE_PERIODS) } },
-  columns: [
-    ["latitude", "number", "Requested WGS84 latitude."],
-    ["longitude", "number", "Requested WGS84 longitude."],
-    ["period", "text", "Requested accumulation selector."],
-    ["precipitation", "number", "Raw estimated precipitation; NULL for NoData. Never a rendered class index."],
-    ["unit", "text", "Native rainfall estimate units: inches."],
-    ["layer_name", "text", "Published accumulation layer name."],
-    ["raster_id", "number", "Current raster object ID, not stable across publications."],
-    ["raster_name", "text", "Source raster dataset name."],
-    ["issued_at", "time", "Source issuance timestamp; not an invented validity boundary."],
-    ["source_file_at", "time", "UTC source file time."],
-    ["ingested_at", "time", "UTC GIS ingestion time."],
-    ["attributes_json", "text", "Original identify attributes, including raw pixel and class values."],
-    ["footprint_json", "text", "Source raster metadata with original publication fields."],
-    ["metadata_url", "text", "Canonical footprint metadata request URL."],
-  ],
-  read: observedPrecipitation,
-  example:
-    "SELECT period, precipitation, unit, issued_at FROM nws.main.precipitation_observed_at(38.0293, -78.4767) ORDER BY raster_id",
-  exampleDescription: "Read the latest estimated 24-hour precipitation at Charlottesville",
-});
+    options: {
+      period: {
+        default: "hour24",
+        doc: "Latest RFC accumulation window. hour24 is rolling 24 hours; today is Today's Analysis. Additional rolling and calendar choices are listed in the constraint.",
+      },
+    },
+    constraints: { period: { choices: Object.keys(QPE_PERIODS) } },
+    columns: [
+      ["latitude", "number", "Requested WGS84 latitude."],
+      ["longitude", "number", "Requested WGS84 longitude."],
+      ["period", "text", "Requested accumulation selector."],
+      ["precipitation", "number", "Raw estimated precipitation; NULL for NoData. Never a rendered class index."],
+      ["unit", "text", "Native rainfall estimate units: inches."],
+      ["layer_name", "text", "Published accumulation layer name."],
+      ["raster_id", "number", "Current raster object ID, not stable across publications."],
+      ["raster_name", "text", "Source raster dataset name."],
+      ["issued_at", "time", "Source issuance timestamp; not an invented validity boundary."],
+      ["source_file_at", "time", "UTC source file time."],
+      ["ingested_at", "time", "UTC GIS ingestion time."],
+      ["attributes_json", "text", "Original identify attributes, including raw pixel and class values."],
+      ["footprint_json", "text", "Source raster metadata with original publication fields."],
+      ["metadata_url", "text", "Canonical footprint metadata request URL."],
+    ],
+    read: observedPrecipitation,
+    example:
+      "SELECT period, precipitation, unit, issued_at FROM nws.main.precipitation_observed_at(38.0293, -78.4767) ORDER BY raster_id",
+    exampleDescription: "Read the latest estimated 24-hour precipitation at Charlottesville",
+  }),
+];

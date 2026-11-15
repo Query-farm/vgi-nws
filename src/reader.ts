@@ -92,12 +92,10 @@ export interface Spec {
   options?: Record<string, { default: Value; doc: string }>;
   inputDocs?: Record<string, string>;
   constraints?: Record<string, ArgumentConstraints>;
-  prepareArgs?: (args: Args) => Args;
   columns: Col[];
   read: (args: Args, cursor?: string) => Promise<Page>;
   example: string;
   exampleDescription: string;
-  exampleInputs?: string[];
 }
 export function provenance(doc: Document): Row {
   return { source_url: doc.source_url, fetched_at: doc.fetched_at };
@@ -185,8 +183,7 @@ export function reader(spec: Spec) {
         state.index++;
         continue;
       }
-      const merged = { ...args, ...input };
-      const callArgs = spec.prepareArgs ? spec.prepareArgs(merged) : merged;
+      const callArgs = { ...args, ...input };
       const max = Number(callArgs.max_pages);
       if (!Number.isInteger(max) || max < 1 || max > 1000)
         throw new Error("max_pages must be an integer between 1 and 1000");
@@ -258,61 +255,4 @@ export function reader(spec: Spec) {
       out.emit(batchFromColumns(columns(result.rows, params.outputSchema), params.outputSchema));
     },
   });
-}
-
-/** Stock DuckDB 2.0.0 cannot bind named options in correlated calls (duckdb#27833).
- * A positional JSON overload preserves the same names and full per-site options.
- */
-export function readerWithOptions(spec: Spec) {
-  if (!spec.inputs) return [reader(spec)];
-  const defaults: Args = {
-    ...Object.fromEntries(Object.entries(spec.options || {}).map(([key, value]) => [key, value.default])),
-    max_pages: 100,
-  };
-  const allowed = new Set(Object.keys(defaults));
-  const config = JSON.stringify(Object.fromEntries(Object.entries(defaults).slice(0, 1)));
-  const signature = `${(
-    spec.exampleInputs ||
-      Object.keys(spec.inputs).map((name) =>
-        name.includes("latitude") ? "38.0293" : name.includes("longitude") ? "-78.4767" : "'RMDV2'",
-      )
-  ).join(", ")}, '${config.replaceAll("'", "''")}'`;
-  const positional: Spec = {
-    ...spec,
-    description: `${spec.description} This compatibility form accepts options_json as a final positional argument for correlated calls on stock DuckDB 2.0.0. JSON keys match the named options on nws.main.${spec.name}.`,
-    inputs: { ...spec.inputs, options_json: "text" },
-    inputDocs: {
-      ...spec.inputDocs,
-      options_json:
-        "JSON configuration matching the named options documented on the corresponding main-schema function. Unknown keys and incorrect value types raise errors. NULL produces no rows.",
-    },
-    // These options come from JSON on this overload, not from named parameters.
-    options: {},
-    constraints: Object.fromEntries(
-      Object.entries(spec.constraints || {}).filter(([key]) => Object.hasOwn(spec.inputs || {}, key)),
-    ),
-    prepareArgs: (args) => {
-      if (typeof args.options_json !== "string" || args.options_json.length > 4096)
-        throw new Error("options_json must be a JSON object of at most 4096 characters");
-      const options = obj(JSON.parse(args.options_json));
-      for (const [key, value] of Object.entries(options)) {
-        if (!allowed.has(key)) throw new Error(`Unknown options_json key: ${key}`);
-        if (
-          value === null ||
-          typeof value !== typeof defaults[key] ||
-          (typeof value === "number" && !Number.isFinite(value))
-        )
-          throw new Error(`Invalid options_json value for ${key}`);
-        const constraint = spec.constraints?.[key];
-        if (constraint?.choices && !constraint.choices.includes(value as string))
-          throw new Error(`Invalid options_json choice for ${key}`);
-      }
-      return { ...defaults, ...args, ...options } as Args;
-    },
-    example: `SELECT ${spec.columns[0]?.[0]} FROM nws.compat.${spec.name}(${signature}) ORDER BY ${spec.columns[0]?.[0]}`,
-    exampleDescription: `Use positional JSON options with ${spec.name} on stock DuckDB`,
-  };
-  const compat = reader(positional);
-  compat.meta.tags = { ...compat.meta.tags, "nws.compat": "true" };
-  return [reader(spec), compat];
 }

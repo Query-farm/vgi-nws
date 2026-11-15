@@ -1,7 +1,7 @@
 import { BBOX_OPTION, GIS_COLUMNS, GIS_OPTIONS, gisPage, gisTime } from "./gis.ts";
 import { choose, pair, periodTimes } from "./outlooks.ts";
 import { RASTER_COLUMNS, sampleRasters } from "./raster.ts";
-import { type Args, type Col, num, type Page, readerWithOptions, str } from "./reader.ts";
+import { type Args, type Col, num, type Page, reader, str } from "./reader.ts";
 import { STATE_BOUNDS } from "./state_bounds.ts";
 
 export function wpcHour(value: unknown): number | null {
@@ -32,7 +32,7 @@ export async function flashFloodGuidance(a: Args): Promise<Page> {
     }),
   };
 }
-const flashFlood = readerWithOptions({
+const flashFlood = reader({
   name: "flash_flood_guidance_at",
   inputs: { latitude: "number", longitude: "number" },
   inputDocs: {
@@ -336,7 +336,7 @@ export async function longRangeFlood(a: Args, cursor?: string): Promise<Page> {
       ),
   };
 }
-const longRange = readerWithOptions({
+const longRange = reader({
   name: "long_range_flood_outlook",
   category: "water",
   description:
@@ -374,11 +374,11 @@ const longRange = readerWithOptions({
   exampleDescription: "Inspect long-range flood probabilities for Virginia gauges without losing censored values",
 });
 export const HAZARD_EXTENSION_FUNCTIONS = [
-  ...flashFlood,
+  flashFlood,
   ...discussions,
   ...hazards,
   ...winter,
   ...flood,
   ...beach,
-  ...longRange,
+  longRange,
 ];

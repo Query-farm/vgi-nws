@@ -1,6 +1,6 @@
 import { getJson } from "./http.ts";
 import { choose } from "./outlooks.ts";
-import { type Args, arr, id, json, num, obj, provenance, query, reader, readerWithOptions, str } from "./reader.ts";
+import { type Args, arr, id, json, num, obj, provenance, query, reader, str } from "./reader.ts";
 import { statusTime } from "./water_discovery.ts";
 
 const inputs = { gauge_id: "text" } as const;
@@ -14,7 +14,7 @@ const reachDocs = {
 };
 const reachPath = (a: Args) => `/reaches/${id(a.reach_id, /^[1-9]\d*$/)}`;
 
-const ratings = readerWithOptions({
+const ratings = reader({
   name: "rating_curve",
   category: "water",
   inputs,
@@ -146,12 +146,11 @@ export function streamflowRows(body: unknown, reachId: string, series: string) {
     });
   });
 }
-const streamflow = readerWithOptions({
+const streamflow = reader({
   name: "reach_streamflow",
   category: "water",
   inputs: reachInputs,
   inputDocs: reachDocs,
-  exampleInputs: ["'23021904'"],
   description:
     "Read National Water Model streamflow for a reach: analysis_assimilation, short_range, medium_range, long_range, or medium_range_blend. These are model outputs, including the assimilated analysis, not direct gauge measurements. Preserve member and reference_at: ensemble means and members are separate series and must not be summed. Empty upstream products return no rows. Units are retained verbatim.",
   options: {
@@ -271,4 +270,4 @@ const lowHistory = reader({
     "SELECT occurred_at, stage, stage_unit, flow, flow_unit, statement FROM nws.main.historic_low_water('RMDV2') ORDER BY occurred_at",
   exampleDescription: "Review published historical low-water events and their units",
 });
-export const WATER_EXTENDED_FUNCTIONS = [...ratings, reach, ...streamflow, lowThreshold, lowImpacts, lowHistory];
+export const WATER_EXTENDED_FUNCTIONS = [ratings, reach, streamflow, lowThreshold, lowImpacts, lowHistory];

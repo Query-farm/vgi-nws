@@ -2,7 +2,7 @@ import { checkedBody } from "./gis.ts";
 import { getJson } from "./http.ts";
 import { IMAGE_COLUMNS, IMAGE_OPTIONS, imagePage } from "./image_service.ts";
 import { choose } from "./outlooks.ts";
-import { type Args, type Page, readerWithOptions, str } from "./reader.ts";
+import { type Args, type Page, reader, str } from "./reader.ts";
 
 interface AirProduct {
   service: string;
@@ -135,45 +135,47 @@ export async function airQuality(a: Args, cursor?: string): Promise<Page> {
     }),
   };
 }
-export const AIR_QUALITY_FUNCTIONS = readerWithOptions({
-  name: "air_quality_at",
-  inputs: { latitude: "number", longitude: "number" },
-  inputDocs: {
-    latitude: "WGS84 latitude, -90 to 90; NULL emits no rows.",
-    longitude: "WGS84 longitude, -180 to 180; NULL emits no rows.",
-  },
-  description:
-    "Read NWS air-quality forecast rasters at a point, covering all published PM2.5, ozone, smoke and dust service variants. Native values and complete currently published time slices are preserved. PM2.5 and surface dust use micrograms/m³ and ozone uses ppb according to service descriptions. Smoke and column-integral descriptions contain ambiguous units, so unit remains NULL and source_description/interpretation_note retain that uncertainty. No AQI, health category, or unit conversion is inferred. Product averaging periods and daily maxima are separate choices; native validity times remain authoritative. The hr01 bias-corrected PM2.5 service has conflicting legacy averaging prose, explicitly noted in output.",
-  options: {
-    product: {
-      default: "pm25_1h",
-      doc: "Air-quality product selector; PM2.5/ozone averages and daily maxima, surface/column smoke, or surface/column dust.",
+export const AIR_QUALITY_FUNCTIONS = [
+  reader({
+    name: "air_quality_at",
+    inputs: { latitude: "number", longitude: "number" },
+    inputDocs: {
+      latitude: "WGS84 latitude, -90 to 90; NULL emits no rows.",
+      longitude: "WGS84 longitude, -180 to 180; NULL emits no rows.",
     },
-    bias_corrected: {
-      default: false,
-      doc: "Select the separately published bias-corrected PM2.5 or ozone product; unsupported for smoke/dust.",
+    description:
+      "Read NWS air-quality forecast rasters at a point, covering all published PM2.5, ozone, smoke and dust service variants. Native values and complete currently published time slices are preserved. PM2.5 and surface dust use micrograms/m³ and ozone uses ppb according to service descriptions. Smoke and column-integral descriptions contain ambiguous units, so unit remains NULL and source_description/interpretation_note retain that uncertainty. No AQI, health category, or unit conversion is inferred. Product averaging periods and daily maxima are separate choices; native validity times remain authoritative. The hr01 bias-corrected PM2.5 service has conflicting legacy averaging prose, explicitly noted in output.",
+    options: {
+      product: {
+        default: "pm25_1h",
+        doc: "Air-quality product selector; PM2.5/ozone averages and daily maxima, surface/column smoke, or surface/column dust.",
+      },
+      bias_corrected: {
+        default: false,
+        doc: "Select the separately published bias-corrected PM2.5 or ozone product; unsupported for smoke/dust.",
+      },
+      ...IMAGE_OPTIONS,
     },
-    ...IMAGE_OPTIONS,
-  },
-  constraints: { product: { choices: Object.keys(AIR_PRODUCTS) }, page_size: { ge: 1, le: 20 } },
-  columns: [
-    ["product", "text", "Requested air-quality variant."],
-    ["pollutant", "text", "PM2.5, ozone, smoke or dust."],
-    ["statistic", "text", "Mean, daily maximum, surface concentration or column integral."],
-    [
-      "averaging_hours",
-      "number",
-      "Averaging period identified by the product selector; NULL where unspecified. Read interpretation_note for source inconsistencies.",
+    constraints: { product: { choices: Object.keys(AIR_PRODUCTS) }, page_size: { ge: 1, le: 20 } },
+    columns: [
+      ["product", "text", "Requested air-quality variant."],
+      ["pollutant", "text", "PM2.5, ozone, smoke or dust."],
+      ["statistic", "text", "Mean, daily maximum, surface concentration or column integral."],
+      [
+        "averaging_hours",
+        "number",
+        "Averaging period identified by the product selector; NULL where unspecified. Read interpretation_note for source inconsistencies.",
+      ],
+      ["bias_corrected", "bool", "Whether the bias-corrected source product was requested."],
+      ["value", "number", "Native concentration/integral pixel, without conversion or AQI calculation."],
+      ["unit", "text", "Source-described ug m-3 or ppb; NULL for ambiguous smoke/column units."],
+      ["source_description", "text", "Original service description, including source unit/averaging claims."],
+      ["interpretation_note", "text", "Known source interpretation caveats; NULL if none identified."],
+      ...IMAGE_COLUMNS,
     ],
-    ["bias_corrected", "bool", "Whether the bias-corrected source product was requested."],
-    ["value", "number", "Native concentration/integral pixel, without conversion or AQI calculation."],
-    ["unit", "text", "Source-described ug m-3 or ppb; NULL for ambiguous smoke/column units."],
-    ["source_description", "text", "Original service description, including source unit/averaging claims."],
-    ["interpretation_note", "text", "Known source interpretation caveats; NULL if none identified."],
-    ...IMAGE_COLUMNS,
-  ],
-  read: airQuality,
-  example:
-    "SELECT pollutant, value, unit, valid_from, issued_at FROM nws.main.air_quality_at(38.0293,-78.4767) ORDER BY valid_from, raster_id",
-  exampleDescription: "Inspect the complete available PM2.5 forecast at Charlottesville",
-});
+    read: airQuality,
+    example:
+      "SELECT pollutant, value, unit, valid_from, issued_at FROM nws.main.air_quality_at(38.0293,-78.4767) ORDER BY valid_from, raster_id",
+    exampleDescription: "Inspect the complete available PM2.5 forecast at Charlottesville",
+  }),
+];

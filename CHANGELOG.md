@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.5.0 — 2026-11-14
+
+### Breaking
+
+- Removed the `nws.compat` compatibility interface (37 functions taking a final positional `options_json` argument); use named arguments in LATERAL calls, supported from DuckDB 2.0.1. For example, `LATERAL nws.main.climate_outlook_at(s.lat, s.lon, period := '8_14_day')`. On DuckDB 2.0.0, correlated calls still work with default options.
+
+### Changed
+
+- The catalog comment is now a one-sentence plain-text description. The full guide remains in the catalog's `vgi.doc_md` and `vgi.doc_llm` tags.
+
+Validation: 64 Bun tests; Haybarn 2.0.0rc11 SQL tests over stdio (1,101), launch (1,101) and HTTP (1,070); 388 stock DuckDB 2.0.0 assertions; metadata 100/100 at L2.
+
 ## 0.4.0 — 2026-11-13
 
 Initial public release of the TypeScript National Weather Service VGI worker.
