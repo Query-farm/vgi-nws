@@ -13,7 +13,7 @@
 import { field, type VgiDataType, type VgiField } from "@query-farm/vgi";
 
 export const CATALOG_NAME = "nws";
-export const VERSION = "0.5.1";
+export const VERSION = "0.5.2";
 
 export const SOURCE_URL = "https://www.weather.gov/documentation/services-web-api";
 export const SCHEMA_CATEGORIES = [
@@ -68,7 +68,14 @@ export const CATALOG_DOC_LLM =
 export const CATALOG_DOC_MD =
   "# NWS and NWPS for DuckDB\n\n" +
   CATALOG_DOC_LLM +
-  "\n\nSet NWS_USER_AGENT to an identifying application/contact string. See [NWS documentation](https://www.weather.gov/documentation/services-web-api) and [NWPS documentation](https://api.water.noaa.gov/nwps/v1/docs/).";
+  "\n\nSet NWS_USER_AGENT to an identifying application/contact string. See [NWS documentation](https://www.weather.gov/documentation/services-web-api) and [NWPS documentation](https://api.water.noaa.gov/nwps/v1/docs/).\n\n## Sources and references\n\n" +
+  "- [NWS API Web Service](https://www.weather.gov/documentation/services-web-api): forecasts, alerts, observations, zones and bulletins (api.weather.gov).\n" +
+  "- [National Water Prediction Service API](https://api.water.noaa.gov/nwps/v1/docs/): river gauges, stage/flow forecasts, flood thresholds and National Water Model reaches.\n" +
+  "- [NOAA/NWS GIS map services](https://mapservices.weather.noaa.gov/vector/rest/services): the ArcGIS REST services behind the outlook, map and raster readers.\n" +
+  "- [Space Weather Prediction Center](https://www.swpc.noaa.gov/), [National Data Buoy Center](https://www.ndbc.noaa.gov/), [AviationWeather.gov Data API](https://aviationweather.gov/data/api/) and the [MRMS product server](https://mrms.ncep.noaa.gov/): the remaining upstreams read by the space weather, buoy, aviation and MRMS functions.";
+/** Short plain-text schema COMMENT; SCHEMA_DOC_MD carries the longer narrative. */
+export const SCHEMA_COMMENT =
+  "National Weather Service and National Water Prediction Service readers: forecasts, alerts, observations, bulletins, GIS outlooks, river gauges and related NOAA products.";
 export const SCHEMA_DOC_LLM =
   "The main schema exposes weather, spatial outlook, and river readers plus the offline parse_valid_time interval helper. Start with point to discover a forecast office and grid, or use a station ID, office ID, or NWPS gauge ID directly. Positional inputs accept correlated LATERAL joins. Use land _at readers for modeled soil saturation, rainfall anomalies and analyzed snowpack, and storm_reports_near for radius searches of recent local reports. Use GIS outlook _at readers for point intersections, gauges_near for geographic river discovery, and alerts_at for zone-aware point alerts; use latest_product for complete bulletin text. Each network reader includes source_url and fetched_at; grid and river units remain explicit.";
 export const SCHEMA_DOC_MD = `## Weather, water, and reference functions\n\n${SCHEMA_DOC_LLM}\n\nWeather readers preserve upstream missing values, timestamps, alert zones, and forecast intervals. River readers expose native units and gauge datums. Use parse_valid_time for an offline interval example.`;

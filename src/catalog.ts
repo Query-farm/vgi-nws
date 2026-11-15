@@ -12,7 +12,7 @@ import { HAZARD_EXTENSION_FUNCTIONS } from "./hazards_extended.ts";
 import { IMAGE_FUNCTIONS } from "./image_service.ts";
 import { LAND_FUNCTIONS } from "./land.ts";
 import { MAP_CATALOG_FUNCTIONS } from "./map_catalog.ts";
-import { CATALOG_COMMENT, CATALOG_NAME, CATALOG_TAGS, SCHEMA_DOC_MD, SCHEMA_TAGS, SOURCE_URL } from "./meta.ts";
+import { CATALOG_COMMENT, CATALOG_NAME, CATALOG_TAGS, SCHEMA_COMMENT, SCHEMA_TAGS, SOURCE_URL } from "./meta.ts";
 import { MRMS_FUNCTIONS } from "./mrms.ts";
 import { NDBC_FUNCTIONS } from "./ndbc.ts";
 import { OUTLOOK_FUNCTIONS } from "./outlooks.ts";
@@ -100,7 +100,7 @@ export const CATALOG: CatalogDescriptor = {
   schemas: [
     {
       path: ["main"],
-      comment: SCHEMA_DOC_MD,
+      comment: SCHEMA_COMMENT,
       functions: FUNCTIONS,
       tags: { ...SCHEMA_TAGS, "vgi.example_queries": JSON.stringify(SCHEMA_EXAMPLES) },
     },

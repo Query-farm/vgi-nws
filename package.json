@@ -1,5 +1,5 @@
 {
-  "version": "0.5.1",
+  "version": "0.5.2",
   "private": true,
   "type": "module",
   "description": "National Weather Service and National Water Prediction Service APIs as TypeScript VGI SQL functions.",

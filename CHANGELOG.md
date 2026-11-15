@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.5.2 — 2026-11-14
+
+### Changed
+
+- Docs link to upstream sources: the catalog `vgi.doc_md` gains a Sources and references section linking the NWS API, the NWPS API, the NOAA/NWS GIS map services, SWPC, NDBC, the AviationWeather.gov Data API and the MRMS product server (VGI183).
+- The `main` schema comment is now a short plain-text line instead of repeating the schema `vgi.doc_md` (VGI102).
+
 ## 0.5.1 — 2026-11-14
 
 ### Changed
