@@ -33,7 +33,7 @@ INSTALL vgi FROM query_farm;
 LOAD vgi FROM query_farm;
 
 ATTACH 'nws' (TYPE vgi,
-  LOCATION 'github-auto://Query-farm/vgi-nws@v0.5.2');
+  LOCATION 'github-auto://Query-farm/vgi-nws@v0.5.3');
 
 SELECT event, headline, expires
 FROM nws.main.alerts(area := 'VA')
@@ -412,7 +412,7 @@ Authoritative references: [NWS web API documentation](https://www.weather.gov/do
 
 | Variable | Default and purpose |
 | --- | --- |
-| `NWS_USER_AGENT` | `vgi-nws/0.5.2 (https://query.farm)`; set an identifying application/contact string |
+| `NWS_USER_AGENT` | `vgi-nws/0.5.3 (https://query.farm)`; set an identifying application/contact string |
 | `NWS_API_BASE_URL` | `https://api.weather.gov`; trusted server-level override for tests or a proxy |
 | `NWPS_API_BASE_URL` | `https://api.water.noaa.gov/nwps/v1`; trusted server-level override for tests or a proxy |
 | `NWS_RASTER_BASE_URL` | `https://mapservices.weather.noaa.gov/raster/rest/services`; trusted RFC raster root override for tests or a proxy |

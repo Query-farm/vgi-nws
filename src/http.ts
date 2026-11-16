@@ -145,7 +145,7 @@ async function request(
             : format === "json"
               ? "application/geo+json, application/json"
               : "text/plain, application/xml, application/ssml+xml, application/vnd.wmo.iwxxm+xml, text/html",
-        "User-Agent": process.env.NWS_USER_AGENT || "vgi-nws/0.5.2 (https://query.farm)",
+        "User-Agent": process.env.NWS_USER_AGENT || "vgi-nws/0.5.3 (https://query.farm)",
       };
       if (old?.etag) headers["If-None-Match"] = old.etag;
       if (old?.modified) headers["If-Modified-Since"] = old.modified;
