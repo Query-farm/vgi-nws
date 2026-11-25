@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.0 (2026-11-25)
+
+- VGI protocol 3.4: bump @query-farm/vgi to 0.52.3 and @query-farm/vgi-rpc to 0.30.3. **Requires the
+  3.4 vgi extension**: DuckDB 2.0 (`INSTALL vgi FROM query_farm`) or Haybarn 2.0.1+; Haybarn 2.0.0
+  still serves the 3.3 extension, which cannot attach this worker.
+- The Docker image supports Orchard hosted mode (`VGI_ORCHARD_HOSTED=1`): HTTP only, Orchard Pass
+  authentication, large values through the Orchard blob vendor; the HEALTHCHECK uses `HEAD /health`.
+- CI and `make` run the SQL tests on haybarn-unittest 2.0.1rc3.
+
 ## 0.5.3 (2026-11-16)
 
 - Bump @query-farm/vgi to 0.50.1.
@@ -30,7 +39,7 @@
 
 - The catalog comment is now a one-sentence plain-text description. The full guide remains in the catalog's `vgi.doc_md` and `vgi.doc_llm` tags.
 
-Validation: 64 Bun tests; Haybarn 2.0.0rc11 SQL tests over stdio (1,101), launch (1,101) and HTTP (1,070); 388 stock DuckDB 2.0.0 assertions; metadata 100/100 at L2.
+Validation: 64 Bun tests; Haybarn 2.0.1rc3 SQL tests over stdio (1,101), launch (1,101) and HTTP (1,070); 388 stock DuckDB 2.0.0 assertions; metadata 100/100 at L2.
 
 ## 0.4.0 — 2026-11-13
 
@@ -48,4 +57,4 @@ MRMS decoding requires `grib_ls` and `grib_get` from an ecCodes build with PNG s
 
 Validation: 62 Bun tests; Haybarn SQL tests over stdio, launch and HTTP; 407 stock DuckDB 2.0.0 assertions; metadata assurance L2 at 100/100; Docker decoding checks and live MRMS SQL queries.
 
-Targets: `@query-farm/vgi` 0.50.0, `@query-farm/vgi-rpc` 0.29.7, VGI protocol 3.3, Haybarn 2.0.0rc11, and stock DuckDB 2.0.0.
+Targets: `@query-farm/vgi` 0.50.0, `@query-farm/vgi-rpc` 0.29.7, VGI protocol 3.3, Haybarn 2.0.1rc3, and stock DuckDB 2.0.0.

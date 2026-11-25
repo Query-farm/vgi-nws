@@ -1,5 +1,5 @@
 -- Reproduced with fixture data on DuckDB 2.0.0 + query_farm VGI e75482339d
--- and Haybarn 2.0.0rc11. ATTACH the worker as nws before running.
+-- and Haybarn 2.0.1rc3. ATTACH the worker as nws before running.
 -- Direct computed text arguments unexpectedly produce 0 rows; expected 40.
 -- The worker receives valid IDs and emits model rows, but the lateral join loses them.
 -- The same issue occurs with the existing stageflow reader.

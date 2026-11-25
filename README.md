@@ -33,7 +33,7 @@ INSTALL vgi FROM query_farm;
 LOAD vgi FROM query_farm;
 
 ATTACH 'nws' (TYPE vgi,
-  LOCATION 'github-auto://Query-farm/vgi-nws@v0.5.3');
+  LOCATION 'github-auto://Query-farm/vgi-nws@v0.6.0');
 
 SELECT event, headline, expires
 FROM nws.main.alerts(area := 'VA')
@@ -582,7 +582,7 @@ make test-live   # explicit opt-in: real NWS and NWPS, stock DuckDB 2.0.0
 make lint-ai     # optional L3 agent tasks (requires the claude CLI)
 ```
 
-The SQLLogicTest transport harness uses **Haybarn 2.0.0rc11**. It is distinct from
+The SQLLogicTest transport harness uses **Haybarn 2.0.1rc3**. It is distinct from
 the stock **DuckDB 2.0.0** verifier, which installs the signed VGI extension from
 the `query_farm` extension repository. Fixture queries cover every function,
 multiple pages, NULLs, duplicate sites, lateral fan-out, continuation over HTTP,
@@ -696,7 +696,7 @@ layers can legitimately be empty. A tropical forecast cone represents track
 uncertainty; its boundary is not an impact boundary.
 
 The ecCodes integration was verified with `make check`: 62 Bun tests, Haybarn
-2.0.0rc11 SQLLogicTest assertions over stdio (1,107), launch (1,107), and HTTP
+2.0.1rc3 SQLLogicTest assertions over stdio (1,107), launch (1,107), and HTTP
 (1,076), metadata assurance L2 at 100/100, and 407 stock DuckDB 2.0.0 assertions.
 The SDK remains `@query-farm/vgi` 0.50.0 with RPC 0.29.7. Docker was built and
 its ecCodes 2.41.0 decoded PNG, bitmap, forecast and interval fixtures; local

@@ -5983,8 +5983,8 @@
       ]
     }
   ],
-  "extension_version": "e75482339d",
+  "extension_version": "ebf28ead27",
   "extension_repository": "query_farm",
-  "platform": "osx_arm64",
-  "elapsed_seconds": 10.026
+  "platform": "linux_arm64",
+  "elapsed_seconds": 62.378
 }
